@@ -3,4 +3,4 @@ title: "default title"
 foo: "foo version 3"
 spring:
   datasource:
-    username: "userna2222me"
+    username: "username"
