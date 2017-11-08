@@ -11,6 +11,8 @@
     <modules>
         <module>ranran-config-server</module>
         <module>ranran-config-client</module>
+        <module>ranran-eureka-server</module>
+        <module>ranran-admin-server</module>
     </modules>
 
     <parent>
