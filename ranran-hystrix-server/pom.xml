@@ -5,19 +5,17 @@
         <groupId>com.ranran</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ranran-config-server</artifactId>
+    <artifactId>ranran-hystrix-server</artifactId>
     <packaging>jar</packaging>
 
-    <name>ranran-config-server</name>
+    <name>ranran-hystrix-server</name>
     <url>http://maven.apache.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    
 
     <dependencies>
         <dependency>
@@ -26,24 +24,23 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
-        <!--配置中心服务端-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-config-server</artifactId>
-        </dependency>
-        <!--服务中心客户端-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka</artifactId>
-        </dependency>
-        <!--熔断器监控-->
+        <!--熔断核心hystrix-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-hystrix</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-hystrix-dashboard</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!--服务中心客户端-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
     </dependencies>
 
@@ -67,5 +64,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

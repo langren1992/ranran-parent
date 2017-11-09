@@ -13,14 +13,14 @@
         <module>ranran-config-client</module>
         <module>ranran-eureka-server</module>
         <module>ranran-admin-server</module>
+        <module>ranran-hystrix-server</module>
     </modules>
 
     <parent>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-parent</artifactId>
-        <version>Angel.SR3</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.2.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
-
 
 </project>
