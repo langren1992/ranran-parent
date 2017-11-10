@@ -15,3 +15,4 @@
 3. 出现`:ping`及相关结果，可以添加到`熔断监控中心`
 ## 配置使用客户中心
 1. `resources`下的配置文件需是优先级高的`bootstrap.properties`（参考：https://springcloud.cc/spring-cloud-dalston.html 上下文引导）
+2. 启用类上添加 `@RefreshScope`刷新作用域的值
