@@ -1,6 +1,0 @@
-demo:
-title: "default title"
-foo: "foo version 3"
-spring:
-  datasource:
-    username: "ranran"
