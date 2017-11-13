@@ -22,41 +22,41 @@ import java.sql.SQLException;
 public class DruidDataSourceConfiguration {
 
     @Value("${spring.datasource.url}")
-    private String dbUrl;
+    String dbUrl;
     @Value("${spring.datasource.username}")
-    private String username;
+    String username;
     @Value("${spring.datasource.password}")
-    private String password;
-    @Value("${spring.datasource.driver-class-name}")
-    private String driverClassName;
+    String password;
+    @Value("${spring.datasource.driverClassName}")
+    String driverClassName;
     @Value("${spring.datasource.initialSize}")
-    private int initialSize;
+    int initialSize;
     @Value("${spring.datasource.minIdle}")
-    private int minIdle;
+    int minIdle;
     @Value("${spring.datasource.maxActive}")
-    private int maxActive;
+    int maxActive;
     @Value("${spring.datasource.maxWait}")
-    private int maxWait;
+    int maxWait;
     @Value("${spring.datasource.timeBetweenEvictionRunsMillis}")
-    private int timeBetweenEvictionRunsMillis;
+    int timeBetweenEvictionRunsMillis;
     @Value("${spring.datasource.minEvictableIdleTimeMillis}")
-    private int minEvictableIdleTimeMillis;
+    int minEvictableIdleTimeMillis;
     @Value("${spring.datasource.validationQuery}")
-    private String validationQuery;
+    String validationQuery;
     @Value("${spring.datasource.testWhileIdle}")
-    private boolean testWhileIdle;
+    boolean testWhileIdle;
     @Value("${spring.datasource.testOnBorrow}")
-    private boolean testOnBorrow;
+    boolean testOnBorrow;
     @Value("${spring.datasource.testOnReturn}")
-    private boolean testOnReturn;
+    boolean testOnReturn;
     @Value("${spring.datasource.poolPreparedStatements}")
-    private boolean poolPreparedStatements;
+    boolean poolPreparedStatements;
     @Value("${spring.datasource.maxPoolPreparedStatementPerConnectionSize}")
-    private int maxPoolPreparedStatementPerConnectionSize;
+    int maxPoolPreparedStatementPerConnectionSize;
     @Value("${spring.datasource.filters}")
-    private String filters;
+    String filters;
     @Value("{spring.datasource.connectionProperties}")
-    private String connectionProperties;
+    String connectionProperties;
 
     @Bean(name="datasource") //声明其为Bean实例
     @Primary //在同样的DataSource中，首先使用被标注的DataSource
