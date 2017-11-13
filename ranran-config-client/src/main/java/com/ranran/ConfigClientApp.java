@@ -26,7 +26,7 @@ public class ConfigClientApp {
         SpringApplication.run(ConfigClientApp.class, args);
     }
 
-    @Value("${spring.datasource.username}")
+    @Value("${spring}")
     String foo;
 
     @RequestMapping(value = "/hi")

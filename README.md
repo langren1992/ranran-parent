@@ -17,3 +17,4 @@
 ## 配置使用客户中心
 1. `resources`下的配置文件需是优先级高的`bootstrap.properties`（参考：https://springcloud.cc/spring-cloud-dalston.html 上下文引导）
 2. 启用类上添加 `@RefreshScope`刷新作用域的值
+3. 配置文件的名称在使用自定义时，不允许和官方名称相同`spring.rabbitmq.host`，修改为`rabbitmq.host`

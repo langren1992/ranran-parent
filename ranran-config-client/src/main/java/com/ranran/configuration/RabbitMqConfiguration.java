@@ -26,10 +26,10 @@ public class RabbitMqConfiguration {
     @Bean(name="rabbitConnectionFactory")
     @Primary
     public ConnectionFactory connectionFactory(
-            @Value("${spring.rabbitmq.host}") String host,
-            @Value("${spring.rabbitmq.port}") int port,
-            @Value("${spring.rabbitmq.username}") String username,
-            @Value("${spring.rabbitmq.password}") String password
+            @Value("${rabbitmq.host}") String host,
+            @Value("${rabbitmq.port}") int port,
+            @Value("${rabbitmq.username}") String username,
+            @Value("${rabbitmq.password}") String password
     ){
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
         connectionFactory.setHost(host);
