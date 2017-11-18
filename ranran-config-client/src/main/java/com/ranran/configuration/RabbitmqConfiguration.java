@@ -1,17 +1,23 @@
 package com.ranran.configuration;
 
 
+import com.rabbitmq.client.Channel;
+import org.springframework.amqp.core.AcknowledgeMode;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.autoconfigure.amqp.SimpleRabbitListenerContainerFactoryConfigurer;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Scope;
 
 /**
  * RabbitMq远程配置
@@ -21,7 +27,7 @@ import org.springframework.context.annotation.Primary;
  **/
 @Configuration
 @RefreshScope
-public class RabbitMqConfiguration {
+public class RabbitmqConfiguration {
 
     @Bean(name="rabbitConnectionFactory")
     @Primary
@@ -36,10 +42,14 @@ public class RabbitMqConfiguration {
         connectionFactory.setPort(port);
         connectionFactory.setUsername(username);
         connectionFactory.setPassword(password);
+        connectionFactory.setVirtualHost("/");
+        connectionFactory.setPublisherConfirms(true);   //必须要设置
+        connectionFactory.setPublisherReturns(true);    //回复确认设置
         return connectionFactory;
     }
 
-    @Bean(name="firstRabbitTemplate")
+    @Bean(name="rabbitTemplate")
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     @Primary
     public RabbitTemplate rabbitTemplate(
             @Qualifier("rabbitConnectionFactory") ConnectionFactory connectionFactory
@@ -48,13 +58,15 @@ public class RabbitMqConfiguration {
         return rabbitTemplate;
     }
 
-    @Bean(name="firstFactory")
+    @Bean(name="rabbitListenerContainerFactory")
     public SimpleRabbitListenerContainerFactory factory(
-            SimpleRabbitListenerContainerFactoryConfigurer configurer,
             @Qualifier("rabbitConnectionFactory") ConnectionFactory connectionFactory
     ) {
         SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory = new SimpleRabbitListenerContainerFactory();
-        configurer.configure(simpleRabbitListenerContainerFactory, connectionFactory);
+        simpleRabbitListenerContainerFactory.setConnectionFactory(connectionFactory);
+        simpleRabbitListenerContainerFactory.setConcurrentConsumers(5);
+        simpleRabbitListenerContainerFactory.setMaxConcurrentConsumers(10);
         return simpleRabbitListenerContainerFactory;
     }
+
 }
