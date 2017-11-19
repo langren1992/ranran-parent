@@ -1,4 +1,4 @@
-package com.ranran.rabbitmq;
+package com.ranran.uums.mq;
 /**
  * 发送者常量
  *

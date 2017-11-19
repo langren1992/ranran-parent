@@ -1,12 +1,10 @@
 package com.ranran.uums.mq;
 
 import com.ranran.rabbitmq.AbstractDirectSender;
-import com.ranran.rabbitmq.SenderConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.support.CorrelationData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
