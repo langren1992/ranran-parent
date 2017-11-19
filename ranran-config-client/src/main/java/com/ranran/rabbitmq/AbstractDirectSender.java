@@ -9,7 +9,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
  **/
 public abstract class AbstractDirectSender extends AbstractSender{
 
-    AbstractDirectSender(RabbitTemplate rabbitTemplate) {
+    public AbstractDirectSender(RabbitTemplate rabbitTemplate) {
         super(rabbitTemplate);
     }
 

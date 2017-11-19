@@ -5,9 +5,9 @@ package com.ranran.controller;/**
  * @create 2017-11-16 21:26
  **/
 
-import com.ranran.rabbitmq.QueueSender;
-import com.ranran.rabbitmq.Receiver;
-import com.ranran.rabbitmq.Sender;
+import com.ranran.uums.mq.QueueSender;
+import com.ranran.uums.mq.Receiver;
+import com.ranran.uums.mq.Sender;
 import com.ranran.rabbitmq.SenderException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

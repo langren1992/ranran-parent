@@ -1,5 +1,7 @@
-package com.ranran.rabbitmq;
+package com.ranran.uums.mq;
 
+import com.ranran.rabbitmq.AbstractDirectSender;
+import com.ranran.rabbitmq.SenderConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Binding;
@@ -13,9 +15,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-
-import java.util.UUID;
-
 /**
  * 发送者
  *
@@ -23,7 +22,7 @@ import java.util.UUID;
  * @create 2017-11-14 22:50
  **/
 @Component
-public  class Sender extends AbstractDirectSender{
+public  class Sender extends AbstractDirectSender {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Receiver.class);
 
@@ -64,18 +63,5 @@ public  class Sender extends AbstractDirectSender{
     public Binding binding(@Qualifier("exchange") DirectExchange directExchange,@Qualifier("queue") Queue queue) {
         return BindingBuilder.bind(queue).to(directExchange).withQueueName();
     }
-
-    /**
-     * 回调
-     */
-    @Override
-    public void confirm(CorrelationData correlationData, boolean ack, String cause) {
-        if (ack) {
-            LOGGER.info("Sender send {} message success!",correlationData.getId());
-        } else {
-            LOGGER.error("Sender send {} message fail, cause by : {}",correlationData.getId(),cause);
-        }
-    }
-
 
 }

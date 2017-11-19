@@ -1,4 +1,4 @@
-package com.ranran.rabbitmq;
+package com.ranran.uums.mq;
 
 /**
  * 接收者
@@ -18,14 +18,14 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 @Component
-@RabbitListener(queues = "ranran")
-public class Receiver {
+@RabbitListener(queues = "queue.sender")
+public class QueueReceiver {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Receiver.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(QueueReceiver.class);
 
     @RabbitHandler
-    public void process(@Payload String message, @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag, Channel channel) {
-        LOGGER.info("process1 Successfully receive {}'s messages. the message is {}","ranran",message);
+    public void receiveMessage(@Payload String message, @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag, Channel channel){
+        LOGGER.info(Thread.currentThread().getName()+" Successfully receive {}'s messages. the message is {}","queue.sender",message);
     }
 
 
