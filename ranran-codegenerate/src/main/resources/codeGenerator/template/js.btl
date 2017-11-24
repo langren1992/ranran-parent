@@ -1,0 +1,10 @@
+package ${package}.mapper;
+import org.beetl.sql.core.mapper.BaseMapper;
+import ${package}.model.${tableInfo.className}Model;
+/*
+ *
+ * gen by beetlsql mapper ${date(),"yyyy-MM-dd"}
+ */
+public interface ${tableInfo.className}Mapper extends BaseMapper<${tableInfo.className}Model> {
+	
+}

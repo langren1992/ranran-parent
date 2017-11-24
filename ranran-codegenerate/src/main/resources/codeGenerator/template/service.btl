@@ -1,0 +1,45 @@
+package ${package}.service;
+
+import com.monkey.core.ServiceException;
+import ${package}.model.${tableInfo.className};
+
+import java.util.List;
+
+/**
+* Created by zengrui on ${date(),"yyyy-MM-dd HH:mm:ss"}.
+*/
+public interface ${tableInfo.className}Service {
+
+    public ${tableInfo.className} selectOne(${tableInfo.className} ${firstLowCase(tableInfo.className)});
+
+    public List<${tableInfo.className}> select(${tableInfo.className} ${firstLowCase(tableInfo.className)});
+
+    /**
+     * 插入空
+     * */
+    public int insert(${tableInfo.className} ${firstLowCase(tableInfo.className)});
+
+    /**
+     * 插入不为空的
+     * */
+    public int insertSelective(${tableInfo.className} ${firstLowCase(tableInfo.className)});
+
+    public int insertBatch(List<${tableInfo.className}> ${firstLowCase(tableInfo.className)}s);
+
+    public int updateByPrimaryKey(${tableInfo.className} ${firstLowCase(tableInfo.className)}) throws ServiceException;
+
+
+    public int updateByPrimaryKeySelective(${tableInfo.className} ${firstLowCase(tableInfo.className)}) throws ServiceException;
+
+
+    public int updateBatch(List<${tableInfo.className}> ${firstLowCase(tableInfo.className)}s);
+
+    public int deleteByPrimaryKey(Object object);
+
+
+    public int deleteBatchByIds(List<${tableInfo.className}> ${firstLowCase(tableInfo.className)}s);
+
+    public List<${tableInfo.className}> selectByCondition(Object object);
+
+    public int saveBatch(List<${tableInfo.className}> ${firstLowCase(tableInfo.className)}s);
+}

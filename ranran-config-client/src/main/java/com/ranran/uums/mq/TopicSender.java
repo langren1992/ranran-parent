@@ -5,13 +5,12 @@ package com.ranran.uums.mq;/**
  * @create 2017-11-19 11:20
  **/
 
-import com.ranran.rabbitmq.AbstractTopicSender;
+import com.ranran.core.rabbitmq.AbstractTopicSender;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.support.CorrelationData;
 
 /**
  * 主题模式测试

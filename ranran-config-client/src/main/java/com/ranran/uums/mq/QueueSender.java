@@ -1,6 +1,6 @@
 package com.ranran.uums.mq;
 
-import com.ranran.rabbitmq.AbstractDirectSender;
+import com.ranran.core.rabbitmq.AbstractDirectSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;

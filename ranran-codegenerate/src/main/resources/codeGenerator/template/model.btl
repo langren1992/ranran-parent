@@ -1,0 +1,49 @@
+package ${package}.model;
+import com.monkey.core.BaseModel;
+
+import java.io.Serializable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.sql.Timestamp;
+import java.util.*;
+/*
+ * ${tableInfo.tableComment}
+ * gen model ${date(),"yyyy-MM-dd"}
+ */
+public class ${tableInfo.className} extends BaseModel implements Serializable{
+	<% for(column in  tableInfo.idColumns) {%>
+	<% 	if(!isEmpty(column.columnComment)){%>
+	//${column.columnComment}
+	<%}%>
+	@Id
+	private ${column.propertyType} ${column.propertyName};
+	<% } %>
+	<% for(column in  tableInfo.columns) {%>
+    <% 	if(!isEmpty(column.columnComment)){%>
+    //${column.columnComment}
+    <%}%>
+    private ${column.propertyType} ${column.propertyName};
+    <% } %>
+
+	public ${tableInfo.className}() {
+	}
+
+    <% for(column in tableInfo.idColumns) {%>
+    public ${column.propertyType} get${firstUpCase(column.propertyName)}(){
+        return  ${column.propertyName};
+    }
+    public void set${firstUpCase(column.propertyName)}(${column.propertyType} ${column.propertyName} ){
+        this.${column.propertyName} = ${column.propertyName};
+    }
+
+    <% } %>
+    <% for(column in tableInfo.columns) {%>
+    public ${column.propertyType} get${firstUpCase(column.propertyName)}(){
+        return  ${column.propertyName};
+    }
+    public void set${firstUpCase(column.propertyName)}(${column.propertyType} ${column.propertyName} ){
+        this.${column.propertyName} = ${column.propertyName};
+    }
+
+    <% } %>
+}

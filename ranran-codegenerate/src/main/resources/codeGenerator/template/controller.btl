@@ -1,0 +1,100 @@
+package ${package}.controller;
+
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.monkey.core.ResultBody;
+import com.monkey.shiro.util.StringUtils;
+import com.monkey.core.BaseController;
+import ${package}.model.${tableInfo.className};
+import ${package}.service.${tableInfo.className}Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import tk.mybatis.mapper.entity.Example;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+* Created by zengrui on ${date(),"yyyy-MM-dd HH:mm:ss"}.
+*/
+@Controller
+public class ${tableInfo.className}Controller extends BaseController{
+
+    @Autowired
+    private ${tableInfo.className}Service ${firstLowCase(tableInfo.className)}Service;
+
+    /**
+     * 跳转主页面
+     *
+     * @return String
+     */
+    @RequestMapping(value = "/${firstLowCase(tableInfo.className)}.html")
+    public String login() {
+        return "system/${firstLowCase(tableInfo.className)}";
+    }
+
+    /**
+     * 根据条件查询功能和排序功能
+     *
+     * @param ${firstLowCase(tableInfo.className)}
+     * @return PageInfo
+     */
+    @RequestMapping("/${firstLowCase(tableInfo.className)}/selectByCondition.html")
+    @ResponseBody
+    public PageInfo selectByCondition(${tableInfo.className} ${firstLowCase(tableInfo.className)}){
+        PageInfo pageInfo = new PageInfo();
+        PageHelper.startPage(${firstLowCase(tableInfo.className)}.getPage(),${firstLowCase(tableInfo.className)}.getRows());
+        Example example = new Example(${tableInfo.className}.class);
+        if(StringUtils.isNotEmpty(${firstLowCase(tableInfo.className)}.getOrder()) && StringUtils.isNotEmpty(${firstLowCase(tableInfo.className)}.getSort())) {
+            if("DESC".equalsIgnoreCase(${firstLowCase(tableInfo.className)}.getOrder())){
+                example.orderBy(${firstLowCase(tableInfo.className)}.getSort()).desc();
+            }else {
+                example.orderBy(${firstLowCase(tableInfo.className)}.getSort()).asc();
+            }
+        }
+        List<${tableInfo.className}> ${firstLowCase(tableInfo.className)}s = ${firstLowCase(tableInfo.className)}Service.selectByCondition(example);
+        pageInfo.setList(${firstLowCase(tableInfo.className)}s);
+        pageInfo.setTotal(((Page<${tableInfo.className}>) ${firstLowCase(tableInfo.className)}s).getTotal());
+        return pageInfo;
+    }
+
+    /**
+     * 批量新增或者更新操作
+     *
+     * @param ${firstLowCase(tableInfo.className)}s
+     * @return ResultBody
+     */
+    @RequestMapping("/${firstLowCase(tableInfo.className)}/saveBatch.html")
+    @ResponseBody
+    public ResultBody saveBatch(@RequestBody List<${tableInfo.className}> ${firstLowCase(tableInfo.className)}s){
+        return super.saveResult(${firstLowCase(tableInfo.className)}Service.saveBatch(${firstLowCase(tableInfo.className)}s));
+    }
+
+    /**
+     * 启用或者停用操作
+     *
+     * @param ${firstLowCase(tableInfo.className)}s
+     * @return ResultBody
+     */
+    @RequestMapping("/${firstLowCase(tableInfo.className)}/updateBatch.html")
+    @ResponseBody
+    public ResultBody updateBatchByEnOrDis(@RequestBody List<${tableInfo.className}> ${firstLowCase(tableInfo.className)}s){
+        return super.optResult(${firstLowCase(tableInfo.className)}Service.updateBatch(${firstLowCase(tableInfo.className)}s));
+    }
+
+    /**
+     * 启用或者停用操作
+     *
+     * @param ${firstLowCase(tableInfo.className)}s
+     * @return ResultBody
+     */
+    @RequestMapping("/${firstLowCase(tableInfo.className)}/deleteBatch.html")
+    @ResponseBody
+    public ResultBody deleteBatch(List<${tableInfo.className}> ${firstLowCase(tableInfo.className)}s){
+        return super.deleteResult(${firstLowCase(tableInfo.className)}Service.deleteBatchByIds(${firstLowCase(tableInfo.className)}s));
+    }
+}

@@ -1,0 +1,10 @@
+package ${package}.mapper;
+import com.monkey.mybatismapper.MonkeyMapper;
+import ${package}.model.${tableInfo.className};
+/*
+ * ${tableInfo.tableComment}
+ * gen mapper ${date(),"yyyy-MM-dd HH:mm:ss"}
+ */
+public interface ${tableInfo.className}Mapper extends MonkeyMapper<${tableInfo.className}> {
+	
+}

@@ -1,0 +1,132 @@
+package ${package}.service.impl;
+
+import com.monkey.core.IdWorkerGen;
+import com.monkey.core.ServiceException;
+import com.monkey.shiro.util.StringUtils;
+import ${package}.mapper.${tableInfo.className}Mapper;
+import ${package}.${model}.model.${tableInfo.className};
+import ${package}.${model}.service.${tableInfo.className}Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+* Created by zengrui on ${date(),"yyyy-MM-dd HH:mm:ss"}.
+*/
+@Service
+public class ${tableInfo.className}ServiceImpl implements ${tableInfo.className}Service {
+
+    @Autowired
+    private ${tableInfo.className}Mapper ${firstLowCase(tableInfo.className)}Mapper;
+
+    /**
+     * @descripte
+     * @param ${firstLowCase(tableInfo.className)}
+     * @return ${tableInfo.className}
+     */
+    @Override
+    public ${tableInfo.className} selectOne(${tableInfo.className} ${firstLowCase(tableInfo.className)}){
+        return ${firstLowCase(tableInfo.className)}Mapper.selectOne(${firstLowCase(tableInfo.className)});
+    }
+
+    @Override
+    public List<${tableInfo.className}> select(${tableInfo.className} ${firstLowCase(tableInfo.className)}){
+        return ${firstLowCase(tableInfo.className)}Mapper.select(${firstLowCase(tableInfo.className)});
+    }
+
+    /**
+     * 插入空
+     * */
+    @Override
+    public int insert(${tableInfo.className} ${firstLowCase(tableInfo.className)}){
+        return ${firstLowCase(tableInfo.className)}Mapper.insert(${firstLowCase(tableInfo.className)});
+    }
+
+    /**
+     * 插入不为空的
+     * */
+    @Override
+        public int insertSelective(${tableInfo.className} ${firstLowCase(tableInfo.className)}){
+        return ${firstLowCase(tableInfo.className)}Mapper.insertSelective(${firstLowCase(tableInfo.className)});
+    }
+
+    /**
+     *
+     * @param ${firstLowCase(tableInfo.className)}s
+     * @return
+     */
+    @Override
+    public int insertBatch(List<${tableInfo.className}> ${firstLowCase(tableInfo.className)}s){
+        return ${firstLowCase(tableInfo.className)}Mapper.insertBatch(${firstLowCase(tableInfo.className)}s);
+    }
+
+    @Override
+    public int updateByPrimaryKey(${tableInfo.className} ${firstLowCase(tableInfo.className)}) throws ServiceException {
+        <% for(column in tableInfo.idColumns) {%>
+        if (StringUtils.isNotEmpty(${firstLowCase(tableInfo.className)}.get${firstUpCase(column.propertyName)}())){
+        <% } %>
+            return ${firstLowCase(tableInfo.className)}Mapper.updateByPrimaryKey(${firstLowCase(tableInfo.className)});
+        }
+        throw new ServiceException(${tableInfo.className}ServiceImpl.class.toString()+"出现异常，异常编号"+001);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(${tableInfo.className} ${firstLowCase(tableInfo.className)}) throws ServiceException {
+        <% for(column in tableInfo.idColumns) {%>
+        if (StringUtils.isNotEmpty(${firstLowCase(tableInfo.className)}.get${firstUpCase(column.propertyName)}())){
+        <% } %>
+            return ${firstLowCase(tableInfo.className)}Mapper.updateByPrimaryKeySelective(${firstLowCase(tableInfo.className)});
+        }
+        throw new ServiceException(${tableInfo.className}ServiceImpl.class.toString()+"出现异常，异常编号"+002);
+    }
+
+    @Override
+    public int updateBatch(List<${tableInfo.className}> ${firstLowCase(tableInfo.className)}s){
+        return ${firstLowCase(tableInfo.className)}Mapper.updateBatch(${firstLowCase(tableInfo.className)}s);
+    }
+
+
+    @Override
+    public int deleteByPrimaryKey(Object object){
+        return  ${firstLowCase(tableInfo.className)}Mapper.deleteByPrimaryKey(object);
+    }
+
+    @Override
+    public int deleteBatchByIds(List<${tableInfo.className}> ${firstLowCase(tableInfo.className)}s){
+        return  ${firstLowCase(tableInfo.className)}Mapper.deleteBatchByIds(${firstLowCase(tableInfo.className)}s);
+    }
+
+    @Override
+    public List<${tableInfo.className}> selectByCondition(Object object){
+        return ${firstLowCase(tableInfo.className)}Mapper.selectByExample(object);
+    }
+
+    @Override
+    public int saveBatch(List<${tableInfo.className}> ${firstLowCase(tableInfo.className)}s) {
+        List<${tableInfo.className}> ${firstLowCase(tableInfo.className)}sInert = new ArrayList<${tableInfo.className}>();
+        List<${tableInfo.className}> ${firstLowCase(tableInfo.className)}sUpdate = new ArrayList<${tableInfo.className}>();
+        for (${tableInfo.className} ${firstLowCase(tableInfo.className)}: ${firstLowCase(tableInfo.className)}s) {
+            /**
+            * 没有主键是新增
+            */
+            <% for(column in tableInfo.idColumns) {%>
+            if (StringUtils.isEmpty(${firstLowCase(tableInfo.className)}.get${firstUpCase(column.propertyName)}())){
+                ${firstLowCase(tableInfo.className)}.set${firstUpCase(column.propertyName)}(IdWorkerGen.nextID());
+            <% } %>
+                ${firstLowCase(tableInfo.className)}sInert.add(${firstLowCase(tableInfo.className)});
+            }else{
+                ${firstLowCase(tableInfo.className)}sUpdate.add(${firstLowCase(tableInfo.className)});
+            }
+        }
+        int i = 0;
+        if (${firstLowCase(tableInfo.className)}sInert.size() >= 1){
+            i = ${firstLowCase(tableInfo.className)}Mapper.insertBatch(${firstLowCase(tableInfo.className)}sInert);
+        }
+        if (${firstLowCase(tableInfo.className)}sUpdate.size() >=1){
+            i = i + ${firstLowCase(tableInfo.className)}Mapper.updateBatch(${firstLowCase(tableInfo.className)}sUpdate);
+        }
+        return i;
+    }
+}

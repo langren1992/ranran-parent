@@ -14,6 +14,7 @@
         <module>ranran-eureka-server</module>
         <module>ranran-admin-server</module>
         <module>ranran-hystrix-server</module>
+        <module>ranran-codegenerate</module>
     </modules>
 
     <parent>
