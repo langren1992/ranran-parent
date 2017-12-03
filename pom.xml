@@ -15,6 +15,7 @@
         <module>ranran-admin-server</module>
         <module>ranran-hystrix-server</module>
         <module>ranran-codegenerate</module>
+        <module>ranran-jdbc</module>
     </modules>
 
     <parent>

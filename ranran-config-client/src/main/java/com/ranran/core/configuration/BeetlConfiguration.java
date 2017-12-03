@@ -5,6 +5,7 @@ import org.beetl.ext.spring.BeetlGroupUtilConfiguration;
 import org.beetl.ext.spring.BeetlSpringViewResolver;
 import org.beetl.sql.core.ClasspathLoader;
 import org.beetl.sql.core.Interceptor;
+import org.beetl.sql.core.JPA2NameConversion;
 import org.beetl.sql.core.UnderlinedNameConversion;
 import org.beetl.sql.core.db.MySqlStyle;
 import org.beetl.sql.ext.DebugInterceptor;
@@ -12,8 +13,6 @@ import org.beetl.sql.ext.spring4.BeetlSqlDataSource;
 import org.beetl.sql.ext.spring4.BeetlSqlScannerConfigurer;
 import org.beetl.sql.ext.spring4.SqlManagerFactoryBean;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -30,7 +29,6 @@ import java.io.IOException;
  * @create 2017-11-21 16:07
  **/
 @Configuration
-//@RefreshScope
 public class BeetlConfiguration {
 
     @Bean(initMethod = "init", name = "beetlConfig")
@@ -42,7 +40,6 @@ public class BeetlConfiguration {
             String root =  patternResolver.getResource("classpath:templates").getFile().toString();
             WebAppResourceLoader webAppResourceLoader = new WebAppResourceLoader(root);
             beetlGroupUtilConfiguration.setResourceLoader(webAppResourceLoader);
-
 //            beetlGroupUtilConfiguration.setConfigFileResource(patternResolver.getResource("classpath:beetl.properties"));
             return beetlGroupUtilConfiguration;
         } catch (IOException e) {
@@ -64,7 +61,7 @@ public class BeetlConfiguration {
     public BeetlSqlScannerConfigurer getBeetlSqlScannerConfigurer() {
         BeetlSqlScannerConfigurer conf = new BeetlSqlScannerConfigurer();
         conf.setBasePackage("com.ranran");
-        conf.setDaoSuffix("Dao");
+        conf.setDaoSuffix("Mapper");
         conf.setSqlManagerFactoryBeanName("sqlManagerFactoryBean");
         return conf;
     }
@@ -73,13 +70,12 @@ public class BeetlConfiguration {
     @Primary
     public SqlManagerFactoryBean getSqlManagerFactoryBean(@Qualifier("dataSource") DataSource datasource) {
         SqlManagerFactoryBean factory = new SqlManagerFactoryBean();
-
         BeetlSqlDataSource  source = new BeetlSqlDataSource();
         source.setMasterSource(datasource);
         factory.setCs(source);
         factory.setDbStyle(new MySqlStyle());
         factory.setInterceptors(new Interceptor[]{new DebugInterceptor()});
-        factory.setNc(new UnderlinedNameConversion());
+        factory.setNc(new JPA2NameConversion());
         factory.setSqlLoader(new ClasspathLoader("/sql"));
         return factory;
     }

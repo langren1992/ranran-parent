@@ -15,7 +15,6 @@ import redis.clients.jedis.JedisPoolConfig;
  * @create 2017-11-14 0:19
  **/
 @Configuration
-@RefreshScope
 public class RedisConfiguration {
 
     @Bean

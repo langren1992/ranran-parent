@@ -1,46 +1,58 @@
-package ${package}.model;
-import com.monkey.core.BaseModel;
+package ${package}.${model}.model;
+import org.beetl.sql.core.annotatoin.AssignID;
 
 import java.io.Serializable;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.util.*;
+import javax.persistence.Table;
+import javax.persistence.Column;
 /*
- * ${tableInfo.tableComment}
+ * ${tableInfo.comment}
  * gen model ${date(),"yyyy-MM-dd"}
  */
-public class ${tableInfo.className} extends BaseModel implements Serializable{
+@Table(name = "${tableInfo.name}")
+public class ${className} implements Serializable{
 	<% for(column in  tableInfo.idColumns) {%>
-	<% 	if(!isEmpty(column.columnComment)){%>
-	//${column.columnComment}
+	<% 	if(!isEmpty(column.comment)){%>
+	//${column.comment}
 	<%}%>
-	@Id
+    @AssignID("simple")
+    @Column(name ="${column.name}")
 	private ${column.propertyType} ${column.propertyName};
 	<% } %>
 	<% for(column in  tableInfo.columns) {%>
-    <% 	if(!isEmpty(column.columnComment)){%>
-    //${column.columnComment}
+    <% 	if(!isEmpty(column.comment)){%>
+    //${column.comment}
     <%}%>
+    @Column(name ="${column.name}")
     private ${column.propertyType} ${column.propertyName};
     <% } %>
 
-	public ${tableInfo.className}() {
-	}
-
     <% for(column in tableInfo.idColumns) {%>
+    /**
+     * 获取 ${column.propertyName} ${column.comment}
+     */
     public ${column.propertyType} get${firstUpCase(column.propertyName)}(){
         return  ${column.propertyName};
     }
+    /**
+     * 设置 ${column.propertyName} ${column.comment}
+     */
     public void set${firstUpCase(column.propertyName)}(${column.propertyType} ${column.propertyName} ){
         this.${column.propertyName} = ${column.propertyName};
     }
 
     <% } %>
     <% for(column in tableInfo.columns) {%>
+    /**
+     * 获取 ${column.propertyName} ${column.comment}
+     */
     public ${column.propertyType} get${firstUpCase(column.propertyName)}(){
         return  ${column.propertyName};
     }
+    /**
+     * 设置 ${column.propertyName} ${column.comment}
+     */
     public void set${firstUpCase(column.propertyName)}(${column.propertyType} ${column.propertyName} ){
         this.${column.propertyName} = ${column.propertyName};
     }

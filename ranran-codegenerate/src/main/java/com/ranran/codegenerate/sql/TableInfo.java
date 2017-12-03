@@ -17,6 +17,8 @@ public class TableInfo {
 
     private String className;
 
+    private String ids;
+
 
     public TableInfo(String name, String className, String comment) {
         this.name = name;
@@ -68,4 +70,11 @@ public class TableInfo {
         this.columns = columns;
     }
 
+    public String getIds() {
+        return ids;
+    }
+
+    public void setIds(String ids) {
+        this.ids = ids;
+    }
 }

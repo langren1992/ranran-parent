@@ -29,7 +29,7 @@ public class MapperTemplate extends TemplateInfo {
 
     @Override
     public String getTemplateName() {
-        return "js.btl";
+        return "mapper.btl";
     }
 
 }

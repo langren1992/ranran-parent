@@ -21,7 +21,6 @@ import org.springframework.context.annotation.Scope;
  * @create 2017-11-14 0:19
  **/
 @Configuration
-@RefreshScope
 public class RabbitmqConfiguration {
 
     @Bean(name="rabbitConnectionFactory")

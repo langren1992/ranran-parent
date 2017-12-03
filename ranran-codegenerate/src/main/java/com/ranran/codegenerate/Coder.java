@@ -26,20 +26,24 @@ import java.util.Map;
  **/
 public class Coder {
 
-    public void generate(GenerateInfo generateInfo) throws IOException, SQLException {
+    public void generate(GenerateInfo generateInfo,String fileName) throws IOException, SQLException {
         List<TemplateInfo> templateInfoList = new ArrayList<TemplateInfo>();
         templateInfoList.add(new ServiceTemplate());
         templateInfoList.add(new ServiceImplTemplate());
         templateInfoList.add(new JsTemplate());
         templateInfoList.add(new ViewTemplate());
-        this.generate(generateInfo, templateInfoList);
+        this.generate(generateInfo, templateInfoList,fileName);
+    }
+
+    public void generate(GenerateInfo generateInfo,List<TemplateInfo> templateInfos,String fileName) throws IOException, SQLException {
+        this.generate(new MysqlDataMeta(),generateInfo, templateInfos,fileName);
     }
 
     public void generate(GenerateInfo generateInfo,List<TemplateInfo> templateInfos) throws IOException, SQLException {
-        this.generate(new MysqlDataMeta(),generateInfo, templateInfos);
+        this.generate(new MysqlDataMeta(),generateInfo, templateInfos,null);
     }
 
-    public void generate(DbMata dbMata,GenerateInfo generateInfo,List<TemplateInfo> templateInfos) throws SQLException, IOException {
+    public void generate(DbMata dbMata,GenerateInfo generateInfo,List<TemplateInfo> templateInfos,String fileName) throws SQLException, IOException {
         List<TableInfo> tableInfos= dbMata.getTableInfo(generateInfo.getTablePattern());
         TableInfo tableInfoTmp = null;
         TemplateInfo templateInfoTmp = null;
@@ -47,13 +51,19 @@ public class Coder {
         String packagePath = generateInfo.getPackageUrl().replaceAll("\\.","/");
         String modelName = generateInfo.getModelName();
         String  filePath = "";
+        String className = "";
         for (int i = 0,size = tableInfos.size(); i < size; i++) {
             tableInfoTmp = tableInfos.get(i);
-            String className = tableInfoTmp.getClassName();
+            if ("".equals(fileName) || null == fileName){
+                className = tableInfoTmp.getClassName();
+            }else {
+                className = fileName;
+            }
             Map<String,Object> root = new HashMap<String,Object>();
             root.put("package",generateInfo.getPackageUrl());
             root.put("model",generateInfo.getModelName());
             root.put("tableInfo",tableInfoTmp);
+            root.put("className",className);
             for (int j = 0,templateSize = templateInfos.size(); j < templateSize; j++) {
                 templateInfoTmp = templateInfos.get(j);
                 templateInfoTmp.setClassName(className);

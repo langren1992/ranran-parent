@@ -5,6 +5,7 @@ import com.ranran.codegenerate.StringUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class MysqlDataMeta extends DbMata{
         List<String> stringList = null;
         List<ColumnInfo> idColumnInfo = null;
         List<ColumnInfo> columnInfos = null;
+        List<String> ids = new ArrayList<String>();
         for (int i = 0,size = tableInfoList.size(); i < size; i++) {
             stringList = new LinkedList<String>();
             idColumnInfo = new LinkedList<ColumnInfo>();
@@ -50,6 +52,7 @@ public class MysqlDataMeta extends DbMata{
                 if(stringList.contains(columnName)){
                     columnInfo = transToColumnInfo(nameChanger,tableRest);
                     columnInfo.setPrimaryKey(true);
+                    ids.add(columnInfo.getPropertyName());
                     idColumnInfo.add(columnInfo);
                 }else{
                     columnInfo = transToColumnInfo(nameChanger,tableRest);
@@ -59,6 +62,7 @@ public class MysqlDataMeta extends DbMata{
             }
             tableInfoList.get(i).setIdColumns(idColumnInfo);
             tableInfoList.get(i).setColumns(columnInfos);
+            tableInfoList.get(i).setIds(ids.toString().substring(1,ids.toString().length()-1));
         }
         this.closeResultSet(tableRest);
         return tableInfoList;

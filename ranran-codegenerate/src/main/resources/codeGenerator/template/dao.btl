@@ -1,10 +1,10 @@
-package ${package}.mapper;
-import com.monkey.mybatismapper.MonkeyMapper;
-import ${package}.model.${tableInfo.className};
+package ${package}.${model}.Mapper;
+import ${package}.${model}.model.${className};
+import org.beetl.sql.core.mapper.BaseMapper;
 /*
- * ${tableInfo.tableComment}
- * gen mapper ${date(),"yyyy-MM-dd HH:mm:ss"}
- */
-public interface ${tableInfo.className}Dao extends MonkeyMapper<${tableInfo.className}> {
-	
+* ${tableInfo.comment}
+* gen mapper ${date(),"yyyy-MM-dd HH:mm:ss"}
+*/
+public interface ${className}Mapper extends BaseMapper<${className}> {
+
 }
