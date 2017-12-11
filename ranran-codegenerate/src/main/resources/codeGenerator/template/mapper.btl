@@ -1,10 +1,10 @@
 package ${package}.${model}.mapper;
 import ${package}.${model}.model.${className};
-import org.beetl.sql.core.mapper.BaseMapper;
+import com.ranran.core.jdbc.mapper.RanRanMapper;
 /*
 * ${tableInfo.comment}
 * gen mapper ${date(),"yyyy-MM-dd HH:mm:ss"}
 */
-public interface ${className}Mapper extends BaseMapper<${className}> {
+public interface ${className}Mapper extends RanRanMapper<${className}> {
 
 }

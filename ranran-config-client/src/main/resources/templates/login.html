@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" type="text/css" href="./static/easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./static/easyui/themes/icon.css">
+    <script type="text/javascript" src="./static/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="./static/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./static/js/login.js"></script>
+</head>
+<body bgcolor="#67a8ce">
+    <div id="login_win" >
+        <div style="height: 80px;background-color: #67a8ce">
+            <span style="font-size: 16pt;color: #00bbee">EASYUI</span>
+        </div>
+        <form id="login_form" method="post">
+            <div id = "show_msg" style="height: 20px;color:red;text-align: center;font-weight:bold;font-size: 16px;"></div>
+            <table style="width: 100%;text-align: center;padding-top: 5px" cellspacing="10">
+                <tr>
+                    <td><input id="username" name="userName" class="easyui-textbox" data-options="required:true,iconCls:'icon-user',prompt:'用户名',height:28,width:278"></td>
+                </tr>
+                <tr>
+                    <td><input id="password" name="userPassword" class="easyui-passwordbox" data-options="required:true,prompt:'密码',height:28,width:278"></td>
+                </tr>
+                <tr style="text-align: left;">
+                    <td>
+                        <input id="rememberMe" class="easyui-switchbutton" data-options="onText:'记住密码',offText:'不记密码',width:100" checked>
+                        <!--<div style="float: right"><a>忘记密码？</a><a href="#">立即注册</a></div>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td><a id="login_btn" href="#" class="easyui-linkbutton" data-options="width:278">登录</a></td>
+                </tr>
+                <tr style="text-align: left">
+                    <td>
+                        使用社交账号登录：
+                        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-sina'"></a>
+                        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-github'"></a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>资源</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" type="text/css" href="./static/easyui/themes/metro/easyui.css">
+	<link rel="stylesheet" type="text/css" href="./static/easyui/themes/icon.css">
+	<script type="text/javascript" src="./static/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="./static/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="./static/js/common.js"></script>
+    <script type="text/javascript" src="./static/js/system/tsResource.js"></script>
+
+</head>
+<body>
+	<div class="easyui-layout" data-options="fit: true">
+
+		<div data-options="region: 'west', title: '菜单资源', split: true,collapsible:false" style="width: 250px;">
+			<ul id="res_menu"></ul>
+		</div>
+		<div data-options="region: 'center', split: true">
+			<div class="easyui-layout" data-options="fit: true">
+				<div data-options="region: 'north',title: '菜单维护',collapsible:false" style="overflow:hidden;height: 31%" >
+					<div id="dlg-toolbar">
+						<table style="width:100%;padding-top: 3px;">
+							<tr>
+								<td>
+									<shiro:hasPermission name="SYS001002001"><a id="btn_add" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false">新增</a></shiro:hasPermission>
+									<!--<a id="btn_edite" href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="false">编辑</a>-->
+									<shiro:hasPermission name="SYS001002002"><a id="btn_save" href="#" class="easyui-linkbutton" iconCls="icon-save" plain="false">保存</a></shiro:hasPermission>
+									<shiro:hasPermission name="SYS001002003"><a id="btn_delete" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="false">删除</a></shiro:hasPermission>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<form id="form_menu" method="post" style="padding:5px;">
+						<table>
+							<tr style="text-align: right">
+								<td style="width:25%;display: none"><input id="form_resId" class="easyui-numberbox" label ="上级编码：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="resId"  id="form_resId"   readonly/></td>
+								<td style="width:25%"><input class="easyui-textbox" label ="上级编码：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="resParentNo"  id="form_resParentNo"   readonly/></td>
+								<td style="width:25%"><input class="easyui-textbox" label ="上级名称：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="resParentName" id="form_resParentName"  readonly/></td>
+								<td style="width:25%"><input id="form_resNo" required=true class="easyui-textbox" label ="资源编码：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="resNo" id="form_resNo"   readonly/></td>
+								<td style="width:25%"><input id="form_resName" required=true class="easyui-textbox" label ="资源名称：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="resName" id="form_resName"  /></td>
+							</tr>
+							<tr style="text-align: right">
+								<!-- <td style="width:25%"><input class="easyui-textbox" label ="资源图标：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="resIconcls" id="form_resIconcls"  /></td> -->
+								<td colspan=3><input class="easyui-textbox" label ="资源路径：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" style="" name="resUrl"  id="form_resUrl"   /></td>
+								<td style="width:25%"><input class="easyui-combobox" label ="是否可见：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="resStatus" id="form_resStatus"  /></td>
+							</tr>
+							<tr style="text-align: right">
+								<td colspan=4><input class="easyui-textbox" label ="资源描述：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" multiline="true" name="resDescribe"  id="form_resDescribe"   /></td>
+								<td style="display: none"><input id="form_createTime" class="easyui-datebox" label ="创建时间：" labelWidth="65" labelAlign="right"  style="width: 100%;"  name="createTime" /></td>
+								<td style="display: none"><input class="easyui-textbox" label ="创建人：" labelWidth="65" labelAlign="right" style="width: 100%;" name="creator"/></td>
+								<td style="display: none"><input id="form_resType" class="easyui-textbox" label ="资源类型：" labelWidth="65" labelAlign="right" value="1"  style="width: 100%;"  name="resType" /></td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<div data-options="region: 'center',title: '按钮明细'" >
+					<table id="res_btn"></table>
+					<div id="tb">
+						<table cellpadding="5"  style="width:100%">
+							<tr>
+								<td>
+									<shiro:hasPermission name="SYS001002004"><a id="btn_addBtn" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false">添加</a></shiro:hasPermission>
+									<shiro:hasPermission name="SYS001002005"><a id="btn_removeBtn" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="false">移除</a></shiro:hasPermission>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

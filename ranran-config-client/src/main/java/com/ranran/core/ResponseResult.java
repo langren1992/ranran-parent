@@ -24,9 +24,19 @@ public class ResponseResult {
     private String message;
 
     /**
-     * 响应成功
+     * 响应数据
      */
     private Object resultData;
+
+    /**
+     * 配合easyui属性，数据列表total
+     */
+    private Long total;
+
+    /**
+     * 配合easyui属性，数据列表rows
+     */
+    public Object[] rows;
 
     public Boolean getSuccess() {
         return success;
@@ -50,5 +60,22 @@ public class ResponseResult {
 
     public void setResultData(Object resultData) {
         this.resultData = resultData;
+    }
+
+
+    public Long getTotal() {
+        return total;
+    }
+
+    public void setTotal(Long total) {
+        this.total = total;
+    }
+
+    public Object[] getRows() {
+        return rows;
+    }
+
+    public void setRows(Object[] rows) {
+        this.rows = rows;
     }
 }

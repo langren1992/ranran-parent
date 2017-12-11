@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="${package}.mapper.${tableInfo.className}Mapper">
-    <resultMap id="${tableInfo.className}Map" type="${package}.model.${tableInfo.className}">
+<mapper namespace="${package}.${model}.mapper.${tableInfo.className}Mapper">
+    <resultMap id="${tableInfo.className}Map" type="${package}.${model}.model.${tableInfo.className}">
         <!--
           WARNING - @mbggenerated
         -->
     <% for(column in  tableInfo.idColumns) {%>
-        <id column="${column.columnName}" jdbcType="${column.columnType}" property="${column.propertyName}" />
+        <% if (column.type == 'INT'){%>
+        <result column="${column.name}" jdbcType="INTEGER" property="${column.propertyName}" />
+        <% } else if (column.type == 'DATETIME')  { %>
+        <result column="${column.name}" jdbcType="${column.type}" property="${column.propertyName}" />
+        <% } else {%>
+        <result column="${column.name}" jdbcType="${column.type}" property="${column.propertyName}" />
+        <% } %>
     <% } %>
     <% for(column in  tableInfo.columns) {%>
-        <result column="${column.columnName}" jdbcType="${column.columnType}" property="${column.propertyName}" />
+        <% if (column.type == 'INT'){%>
+        <result column="${column.name}" jdbcType="INTEGER" property="${column.propertyName}" />
+        <% } else if (column.type == 'DATETIME')  { %>
+        <result column="${column.name}" jdbcType="${column.type}" property="${column.propertyName}" />
+        <% } else {%>
+        <result column="${column.name}" jdbcType="${column.type}" property="${column.propertyName}" />
+        <% } %>
     <% } %>
     </resultMap>
 

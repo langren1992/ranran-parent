@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ranran.uums.base.mapper.LoginMapper">
+
+    <resultMap id="tsResourceResultMap" type="com.ranran.uums.system.model.TsResource">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <id column="RES_ID" jdbcType="VARCHAR" property="resId" />
+        <result column="RES_NO" jdbcType="VARCHAR" property="resNo" />
+        <result column="RES_NAME" jdbcType="VARCHAR" property="resName" />
+        <result column="RES_PARENT_NO" jdbcType="VARCHAR" property="resParentNo" />
+        <result column="RES_PARENT_NAME" jdbcType="VARCHAR" property="resParentName" />
+        <result column="RES_URL" jdbcType="VARCHAR" property="resUrl" />
+        <result column="RES_TYPE" jdbcType="INTEGER" property="resType" />
+        <result column="RES_STATUS" jdbcType="INTEGER" property="resStatus" />
+        <result column="RES_PERMISSION" jdbcType="VARCHAR" property="resPermission" />
+        <result column="RES_ICONCLS" jdbcType="VARCHAR" property="resIconcls" />
+        <result column="RES_DESCRIBE" jdbcType="VARCHAR" property="resDescribe" />
+        <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="MODIFIER" jdbcType="VARCHAR" property="modifier" />
+        <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
+        <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+        <result column="REC_VER" jdbcType="INTEGER" property="recVer" />
+    </resultMap>
+
+    <sql id="tsResourceResultColumn">
+        RES_ID,
+        RES_NO,
+        RES_NAME,
+        RES_PARENT_NO,
+        RES_PARENT_NAME,
+        RES_URL,
+        RES_TYPE,
+        RES_STATUS,
+        RES_PERMISSION,
+        RES_ICONCLS,
+        RES_DESCRIBE,
+        CREATOR,
+        CREATE_TIME,
+        MODIFIER,
+        MODIFY_TIME,
+        ORG_ID,
+        REC_VER
+    </sql>
+
+    <!--根据公号直接查询资源-->
+    <select id="selectUserForResource" resultMap="tsResourceResultMap" parameterType="string">
+        SELECT
+        <include refid="tsResourceResultColumn"></include>
+        FROM TS_RESOURCE WHERE RES_NO IN (
+            SELECT RR_RESOURCE_NO FROM RA_ROLE_RESOURCE WHERE RR_ROLE_NO IN (
+                SELECT UR_ROLE_NO FROM ra_user_role WHERE UR_USER_NO = #{userNo}
+            )
+        ) AND RES_TYPE = 1 AND RES_STATUS = 1
+    </select>
+
+
+</mapper>

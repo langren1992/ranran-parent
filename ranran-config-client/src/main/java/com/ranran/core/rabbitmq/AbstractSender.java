@@ -1,7 +1,7 @@
 package com.ranran.core.rabbitmq;
 
 
-import com.ranran.uums.mq.Receiver;
+import com.ranran.study.mq.Receiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;

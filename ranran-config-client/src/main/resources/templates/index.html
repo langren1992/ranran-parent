@@ -2,9 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>RANRAN-首页</title>
+    <link rel="stylesheet" type="text/css" href="./static/easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./static/easyui/themes/icon.css">
+    <script type="text/javascript" src="./static/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="./static/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./static/js/index.js"></script>
 </head>
-<body>
+<body class="easyui-layout">
+    <div data-options="region:'north',border:false" style="height:42px;">
+        <div class="easyui-panel" style="padding:5px;" >
+            <div style="float: right">
+                <a id="message" href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-message'"><span style="background-color: orangered;color:white">111</span></a>
+                <a id="user" href="#" class="easyui-menubutton" data-options="menu:'#changePwd',iconCls:'icon-user'">000030</a>
+                <a id="logout" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-redo',plain:true">退出</a>
+            </div>
+            <div style="float: left">
+                <span style="font-size: 16pt;color: #00bbee">EASYUI</span>
+            </div>
+        </div>
+        <div id="changePwd">
+            <div data-options="iconCls:'icon-password',">密码修改</div>
+        </div>
+    </div>
+    <div data-options="region:'west',title:'导航菜单',split:true" style="width:18%;" >
+        <div id="navMenu" class="easyui-accordion" data-options="fit:true">
+        </div>
+    </div>
+    <!--region:'center' 不能添加 fit:true 会改变界面排版-->
+    <div data-options="region:'center',border:false">
+        <div id="indexTab" class="easyui-tabs" data-options="fit:true">
+            <div title="主页">
+                <iframe src="./indexMain.html" style="width: 100%;height: 100%;"></iframe>
+            </div>
+        </div>
+    </div>
+    <div data-options="region:'south'" style="height:30px;">
 
+    </div>
+
+    <div id="tabMenu" class="easyui-menu" style="width: 120px;">
+        <div id="close" name="1">关闭</div>
+        <div id="closeAll" name="2">全部关闭</div>
+        <div id="closeOther" name="3">除此之外全部关闭</div>
+        <div class="menu-sep"></div>
+        <div id="closeRight" name="4">当前页右侧全部关闭</div>
+        <div id="closeLeft" name="5">当前页左侧全部关闭</div>
+    </div>
 </body>
 </html>

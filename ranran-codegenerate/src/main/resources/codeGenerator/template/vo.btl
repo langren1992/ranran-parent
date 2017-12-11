@@ -1,0 +1,34 @@
+package ${package}.${model}.vo;
+import org.beetl.sql.core.annotatoin.AssignID;
+
+import java.sql.Timestamp;
+import java.util.*;
+import javax.persistence.Table;
+import javax.persistence.Column;
+/*
+ * ${tableInfo.comment}
+ * gen model ${date(),"yyyy-MM-dd"}
+ */
+public class ${className}Vo{
+	<% for(column in  tableInfo.idColumns) {%>
+	<% 	if(!isEmpty(column.comment)){%>
+	//${column.comment}
+	<%}%>
+	private ${column.propertyType} ${column.propertyName};
+	<% } %>
+
+    <% for(column in tableInfo.idColumns) {%>
+    /**
+     * 获取 ${column.propertyName} ${column.comment}
+     */
+    public ${column.propertyType} get${firstUpCase(column.propertyName)}(){
+        return  ${column.propertyName};
+    }
+    /**
+     * 设置 ${column.propertyName} ${column.comment}
+     */
+    public void set${firstUpCase(column.propertyName)}(${column.propertyType} ${column.propertyName} ){
+        this.${column.propertyName} = ${column.propertyName};
+    }
+    <% } %>
+}

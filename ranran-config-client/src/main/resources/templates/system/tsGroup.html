@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" type="text/css" href="./static/easyui/themes/metro/easyui.css">
+	<link rel="stylesheet" type="text/css" href="./static/easyui/themes/icon.css">
+	<script type="text/javascript" src="./static/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="./static/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./static/js/system/tsGroup.js"></script>
+	<title>角色组</title>
+</head>
+<body>
+<div class="easyui-layout" data-options="fit: true">
+	<div data-options="region: 'center', title: '角色信息'" style="width: 50%">
+		<table id="group_list"></table>
+		<div id="group_list_tool" style="padding-left:5px;padding-right:5px;">
+			<div>
+				<table style="width:100%">
+					<tr>
+						<td style="text-align: left">
+							<a id="btn_add" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false">新增</a>
+							<a id="btn_save" href="#" class="easyui-linkbutton" iconCls="icon-save" plain="false">保存</a>
+							<a id ="btn_enable" href="#" class="easyui-linkbutton" iconCls="icon-ok" plain="false">启用</a>
+							<a id ="btn_disable" href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="false">停用</a>
+							<a id="btn_remove" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="false">删除</a>
+						</td>
+						<td style="text-align: right">
+							<a id="btn_search" href="#" class="easyui-linkbutton" iconCls="icon-search" plain="false">查询</a>
+							<a id="btn_reset" href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="false">重置</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<form id="form_condi" method="POST">
+				<table style="width:100%">
+					<tr>
+						<td style="width: 33%"><input id="form_groupNo" class="easyui-textbox" label ="编码：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="groupNo"  /></td>
+						<td style="width: 33%"><input id="form_groupName" class="easyui-textbox" label ="名称：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="groupName" /></td>
+						<td style="width: 33%"><input id="form_groupStatus" class="easyui-combobox" label ="状态：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="groupStatus"  /></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+	<div data-options="region: 'east', split: true,collapsible:false" style="width: 50%;">
+		<div class="easyui-tabs" data-options="fit:true">
+			<div title="角色信息">
+				<div class="easyui-layout" data-options="fit: true">
+					<div data-options="region: 'north'" style="height: 13%;overflow:hidden">
+						<div style="padding-left:5px;padding-right:5px;" >
+							<div>
+								<table style="width:100%">
+									<tr>
+										<td style="text-align: left">
+											<a id="btn_save_groupRes" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false">保存</a>
+										</td>
+									</tr>
+								</table>
+							</div>
+							<form id="form_groupRes">
+								<table  style="width:100%">
+									<tr>
+										<td style="width: 33%"><input id="form_groupNo_res" class="easyui-textbox" label ="编码：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="groupNo"  readonly/></td>
+										<td style="width: 33%"><input id="form_groupName_res" class="easyui-textbox" label ="名称：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="groupName" readonly/></td>
+										<td style="width: 33%"><input id="form_groupState_res" class="easyui-combobox" label ="状态：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="groupStatus"  readonly/></td>
+									</tr>
+								</table>
+							</form>
+						</div>
+					</div>
+					<div data-options="region: 'center', title: '角色资源'">
+						<table id="group_role_list"></table>
+					</div>
+				</div>
+			</div>
+			<div title="用户信息">
+
+			</div>
+		</div>
+
+	</div>
+</div>
+
+</body>
+</html>

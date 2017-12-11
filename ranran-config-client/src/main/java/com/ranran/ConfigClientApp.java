@@ -1,5 +1,6 @@
 package com.ranran;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RefreshScope           //自动刷新作用域的值
 @EnableCircuitBreaker   //激化熔断器监控
 @ComponentScan(basePackages = "com.ranran")
+@MapperScan(basePackages = "com.ranran.uums.**.mapper")
 public class ConfigClientApp {
 
     public static void main( String[] args ) {

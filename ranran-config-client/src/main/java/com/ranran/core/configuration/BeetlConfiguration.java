@@ -1,5 +1,6 @@
 package com.ranran.core.configuration;
 
+import com.ranran.core.shiro.util.ShiroExt;
 import org.beetl.core.resource.WebAppResourceLoader;
 import org.beetl.ext.spring.BeetlGroupUtilConfiguration;
 import org.beetl.ext.spring.BeetlSpringViewResolver;
@@ -23,6 +24,8 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author 曾睿
@@ -40,7 +43,10 @@ public class BeetlConfiguration {
             String root =  patternResolver.getResource("classpath:templates").getFile().toString();
             WebAppResourceLoader webAppResourceLoader = new WebAppResourceLoader(root);
             beetlGroupUtilConfiguration.setResourceLoader(webAppResourceLoader);
-//            beetlGroupUtilConfiguration.setConfigFileResource(patternResolver.getResource("classpath:beetl.properties"));
+            //手动注入自定义方法
+            Map<String, Object> functionPackages = new HashMap<String, Object>();
+            functionPackages.put("so", new ShiroExt());
+            beetlGroupUtilConfiguration.setFunctionPackages(functionPackages);
             return beetlGroupUtilConfiguration;
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -57,34 +63,34 @@ public class BeetlConfiguration {
         return beetlSpringViewResolver;
     }
 
-    @Bean(name = "beetlSqlScannerConfigurer")
-    public BeetlSqlScannerConfigurer getBeetlSqlScannerConfigurer() {
-        BeetlSqlScannerConfigurer conf = new BeetlSqlScannerConfigurer();
-        conf.setBasePackage("com.ranran");
-        conf.setDaoSuffix("Mapper");
-        conf.setSqlManagerFactoryBeanName("sqlManagerFactoryBean");
-        return conf;
-    }
+//    @Bean(name = "beetlSqlScannerConfigurer")
+//    public BeetlSqlScannerConfigurer getBeetlSqlScannerConfigurer() {
+//        BeetlSqlScannerConfigurer conf = new BeetlSqlScannerConfigurer();
+//        conf.setBasePackage("com.ranran");
+//        conf.setDaoSuffix("Mapper");
+//        conf.setSqlManagerFactoryBeanName("sqlManagerFactoryBean");
+//        return conf;
+//    }
 
-    @Bean(name = "sqlManagerFactoryBean")
-    @Primary
-    public SqlManagerFactoryBean getSqlManagerFactoryBean(@Qualifier("dataSource") DataSource datasource) {
-        SqlManagerFactoryBean factory = new SqlManagerFactoryBean();
-        BeetlSqlDataSource  source = new BeetlSqlDataSource();
-        source.setMasterSource(datasource);
-        factory.setCs(source);
-        factory.setDbStyle(new MySqlStyle());
-        factory.setInterceptors(new Interceptor[]{new DebugInterceptor()});
-        factory.setNc(new JPA2NameConversion());
-        factory.setSqlLoader(new ClasspathLoader("/sql"));
-        return factory;
-    }
+//    @Bean(name = "sqlManagerFactoryBean")
+//    @Primary
+//    public SqlManagerFactoryBean getSqlManagerFactoryBean(@Qualifier("dataSource") DataSource datasource) {
+//        SqlManagerFactoryBean factory = new SqlManagerFactoryBean();
+//        BeetlSqlDataSource  source = new BeetlSqlDataSource();
+//        source.setMasterSource(datasource);
+//        factory.setCs(source);
+//        factory.setDbStyle(new MySqlStyle());
+//        factory.setInterceptors(new Interceptor[]{new DebugInterceptor()});
+//        factory.setNc(new JPA2NameConversion());
+//        factory.setSqlLoader(new ClasspathLoader("/sql"));
+//        return factory;
+//    }
 
-    @Bean(name="txManager")
-    public DataSourceTransactionManager getDataSourceTransactionManager(@Qualifier("dataSource") DataSource datasource) {
-        DataSourceTransactionManager dsm = new DataSourceTransactionManager();
-        dsm.setDataSource(datasource);
-        return dsm;
-    }
+//    @Bean(name="txManager")
+//    public DataSourceTransactionManager getDataSourceTransactionManager(@Qualifier("dataSource") DataSource datasource) {
+//        DataSourceTransactionManager dsm = new DataSourceTransactionManager();
+//        dsm.setDataSource(datasource);
+//        return dsm;
+//    }
 
 }

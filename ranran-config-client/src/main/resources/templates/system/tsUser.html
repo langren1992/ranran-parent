@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>公司管理</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="./static/easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./static/easyui/themes/icon.css">
+    <script type="text/javascript" src="./static/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="./static/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./static/js/system/tsUser.js"></script>
+
+</head>
+<body>
+    <div class="easyui-layout" data-options="fit: true">
+        <div data-options="region: 'west', title: '公司管理', iconCls: 'icon-standard-application-view-tile', split: true,collapsible:false" style="width: 250px;">
+            <ul id="res_menu"></ul>
+        </div>
+        <div data-options="region: 'center', split: true">
+            <div class="easyui-layout" data-options="fit: true">
+                <div data-options="region: 'north',title: '公司维护',collapsible:false" style="overflow:hidden;height: 50%" >
+                    <table id="user_list"></table>
+                    <div id="user_list_tool">
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <a id="btn_add" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false">新增</a>
+                                    <a id="btn_save" href="#" class="easyui-linkbutton" iconCls="icon-save" plain="false">保存</a>
+                                    <a id="btn_delete" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="false">删除</a>
+                                    <a id="" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="false">修改密码</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div data-options="region: 'center',title: '用户组角色'" style="height: 50%">
+                    <table id="user_group"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

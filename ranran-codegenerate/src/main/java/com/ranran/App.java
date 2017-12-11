@@ -25,20 +25,22 @@ public class App {
     public static void main( String[] args ) throws SQLException, IOException {
         GenerateInfo generateInfo = new GenerateInfo();
         generateInfo.setProjectUrl("E:/workspace/server/ranran-parent/ranran-config-client");
-        generateInfo.setPackageUrl("com.ranran.uums.operate");
+        generateInfo.setPackageUrl("com.ranran.uums");
         generateInfo.setModelName("system");
-        generateInfo.setTablePattern("ts_role");
+        generateInfo.setTablePattern("Ts%");
         List<TemplateInfo> templateInfoList = new ArrayList<TemplateInfo>();
-        templateInfoList.add(new ServiceTemplate());
-        templateInfoList.add(new ServiceImplTemplate());
-        templateInfoList.add(new ServiceBaseTemplate());
-        templateInfoList.add(new JsTemplate());
-        templateInfoList.add(new ViewTemplate());
-        templateInfoList.add(new MapperTemplate());
-        templateInfoList.add(new MdTemplate());
-        templateInfoList.add(new ModelTemplate());
+//        templateInfoList.add(new ServiceTemplate());
+//        templateInfoList.add(new ServiceImplTemplate());
+//        templateInfoList.add(new ServiceBaseTemplate());
+//        templateInfoList.add(new JsTemplate());
+//        templateInfoList.add(new ViewTemplate());
+//        templateInfoList.add(new VoTemplate());
+//        templateInfoList.add(new MapperTemplate());
+//        templateInfoList.add(new MdTemplate());
+//        templateInfoList.add(new ModelTemplate());
+        templateInfoList.add(new MapperXmlTemplate());
         Coder coder = new Coder();
-        coder.generate(generateInfo,templateInfoList,"TsRoleUpdateEnable");
+        coder.generate(generateInfo,templateInfoList);
 //        整个库生成
 //        List<String> ids = new ArrayList<String>();
 //        ids.add("a");

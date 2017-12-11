@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="./static/easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./static/easyui/themes/icon.css">
+    <script type="text/javascript" src="./static/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="./static/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./static/js/system/tsRole.js"></script>
+    <title>角色明细</title>
+</head>
+<body>
+    <div class="easyui-layout" data-options="fit: true">
+        <div data-options="region: 'center', title: '角色信息'" style="width: 40%">
+            <table id="role_list"></table>
+            <div id="role_list_tool" style="padding-left:5px;padding-right:5px;">
+                <div>
+                    <table style="width:100%">
+                        <tr>
+                            <td style="text-align: left">
+                                <a id="btn_add" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false">新增</a>
+                                <a id="btn_save" href="#" class="easyui-linkbutton" iconCls="icon-save" plain="false">保存</a>
+                                <a id ="btn_enable" href="#" class="easyui-linkbutton" iconCls="icon-ok" plain="false">启用</a>
+                                <a id ="btn_disable" href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="false">停用</a>
+                                <a id="btn_remove" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="false">删除</a>
+                            </td>
+                            <td style="text-align: right">
+                                <a id="btn_search" href="#" class="easyui-linkbutton" iconCls="icon-search" plain="false">查询</a>
+                                <a id="btn_reset" href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="false">重置</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <form id="form_condi" method="POST">
+                    <table style="width:100%">
+                        <tr>
+                            <td style="width: 33%"><input id="form_roleNo" class="easyui-textbox" label ="编码：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="roleNo"  /></td>
+                            <td style="width: 33%"><input id="form_roleName" class="easyui-textbox" label ="名称：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="roleName" /></td>
+                            <td style="width: 33%"><input id="form_roleStatus" class="easyui-combobox" label ="状态：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="roleStatus"  /></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div data-options="region: 'east', split: true,title:'角色资源',collapsible:false" style="width: 60%;">
+            <div class="easyui-layout" data-options="fit: true">
+                <div data-options="region: 'north'" style="height: 5%;overflow:hidden">
+                    <div style="padding-left:5px;padding-right:5px;" >
+                        <form id="form_roleRes">
+                            <table  style="width:100%">
+                                <tr>
+                                    <td style="width: 33%"><input id="form_roleNo_res" class="easyui-textbox" label ="编码：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="roleNo"  readonly/></td>
+                                    <td style="width: 33%"><input id="form_roleName_res" class="easyui-textbox" label ="名称：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="roleName" readonly/></td>
+                                    <td style="width: 33%"><input id="form_roleState_res" class="easyui-combobox" label ="状态：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="roleStatus"  readonly/></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+                <div data-options="region: 'center'">
+                    <div id="tt" class="easyui-tabs" data-options="fit:true">
+                        <div title="资源信息" >
+                            <table style="width:100%">
+                                <tr>
+                                    <td style="text-align: left">
+                                        <a id="btn_save_RoleRes" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false">保存</a>
+                                    </td>
+                                </tr>
+                            </table>
+                            <ul id="roleRes_list"></ul>
+                        </div>
+                        <div title="人员信息">
+                            <div class="easyui-layout" data-options="fit: true">
+                                <div data-options="region: 'west'" style="width: 45%;">
+                                    <table id="role_user_list"></table>
+                                </div>
+                                <div data-options="region: 'center'" style="width: 10%;">
+                                    <table id="role_user_list_tool" style="width:100%;height: 100%;text-align: center;">
+                                        <tr>
+                                            <td >
+                                                <div><a id="btn_add_user" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false">新增</a></div>
+                                                <div style="padding-top: 80px;"><a id="btn_add_user" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="false">删除</a></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                                <div data-options="region: 'east'" style="width: 45%;">
+                                    <table id="role_non_user_list"></table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="add_user_dialog" title="添加用户" data-options="iconCls:'icon-save'">
+        <div class="easyui-layout" data-options="fit: true">
+            <div data-options="region: 'north'" style="height: 8%;overflow:hidden">
+                <div style="padding-left:5px;padding-right:5px;" >
+                    <form id="form_roleRes">
+                        <table  style="width:100%">
+                            <tr>
+                                <td style="width: 33%"><input id="form_roleNo_res" class="easyui-textbox" label ="编码：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="roleNo"  readonly/></td>
+                                <td style="width: 33%"><input id="form_roleName_res" class="easyui-textbox" label ="名称：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="roleName" readonly/></td>
+                                <td style="width: 33%"><input id="form_roleState_res" class="easyui-combobox" label ="状态：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="roleStatus"  readonly/></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+            <div data-options="region: 'center'">
+                aaa
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

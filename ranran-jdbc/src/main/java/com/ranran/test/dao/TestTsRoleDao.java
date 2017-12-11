@@ -1,9 +1,8 @@
 package com.ranran.test.dao;
 
 import com.ranran.test.model.TestTsRole;
-import org.apache.ibatis.annotations.Mapper;
 
-@Mapper
+//@Mapper
 public interface TestTsRoleDao {
 
 

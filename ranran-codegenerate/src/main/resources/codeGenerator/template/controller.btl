@@ -5,7 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.monkey.core.ResultBody;
 import com.monkey.shiro.util.StringUtils;
-import com.monkey.core.BaseController;
+import com.monkey.core.RestBaseController;
 import ${package}.model.${tableInfo.className};
 import ${package}.service.${tableInfo.className}Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.List;
 * Created by zengrui on ${date(),"yyyy-MM-dd HH:mm:ss"}.
 */
 @Controller
-public class ${tableInfo.className}Controller extends BaseController{
+public class ${tableInfo.className}Controller extends RestBaseController{
 
     @Autowired
     private ${tableInfo.className}Service ${firstLowCase(tableInfo.className)}Service;
