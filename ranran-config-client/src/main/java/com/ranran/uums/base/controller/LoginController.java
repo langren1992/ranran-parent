@@ -12,10 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -80,10 +77,10 @@ public class LoginController {
             e.printStackTrace();
         }
         if (!"".equals(errorMsg)&& null!= errorMsg){
-            responseResult.setSuccess(false);
-            responseResult.setMessage(errorMsg);
+            responseResult.success = false;
+            responseResult.message = errorMsg;
         }else {
-            responseResult.setSuccess(true);
+            responseResult.success = true;
         }
         return responseResult;
     }
@@ -97,12 +94,12 @@ public class LoginController {
         ResponseResult responseResult = new ResponseResult();
         List<TsResource> menus = loginService.loadResourceMenu(tsUser);
         try {
-            responseResult.setSuccess(true);
-            responseResult.setResultData(menus);
+            responseResult.success = true;
+            responseResult.data = menus;
         } catch (Exception e){
             LOGGER.error("operate/system/tsResource/menu fail cause by : {}",e.getMessage());
-            responseResult.setSuccess(false);
-            responseResult.setMessage(e.getMessage());
+            responseResult.success = false;
+            responseResult.message = e.getMessage();
         }
         return responseResult;
     }
@@ -112,5 +109,15 @@ public class LoginController {
         //使用权限管理工具进行用户的退出，跳出登录，给出提示信息
         SecurityUtils.getSubject().logout();
         return "redirect:/login";
+    }
+
+    /**
+     * 页面跳转执行
+     * @param viewPath
+     * @return
+     */
+    @RequestMapping(value = "/toView.html")
+    public String showView(@RequestParam String viewPath) {
+        return viewPath+".html";
     }
 }

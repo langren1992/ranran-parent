@@ -67,7 +67,8 @@ public class TsUserServiceImpl implements TsUserService {
         if (StringUtils.isNotEmpty(tsUser.getUserId())){
             return tsUserMapper.updateByPrimaryKey(tsUser);
         }
-        throw new ServiceException(TsUserServiceImpl.class.toString()+"出现异常，异常编号"+001);
+//        throw new ServiceException(TsUserServiceImpl.class.toString()+"出现异常，异常编号"+001);
+        return 0;
     }
 
     @Override
@@ -75,7 +76,8 @@ public class TsUserServiceImpl implements TsUserService {
         if (StringUtils.isNotEmpty(tsUser.getUserId())){
             return tsUserMapper.updateByPrimaryKeySelective(tsUser);
         }
-        throw new ServiceException(TsUserServiceImpl.class.toString()+"出现异常，异常编号"+002);
+//        throw new ServiceException(TsUserServiceImpl.class.toString()+"出现异常，异常编号"+002);
+        return 0;
     }
 
     @Override

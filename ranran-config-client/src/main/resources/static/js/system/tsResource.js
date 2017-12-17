@@ -114,8 +114,8 @@ function initComponent(){
          * datagrid中的loadFilter属性会影响loadData使用效果，每次远程赋值和本地赋值都会走loadFilter，需要从服务端进行修改
          * */
         // loadFilter:function (data) {
-        //     data.total = data.resultData.length;
-        //     data.rows =  data.resultData;
+        //     data.total = data.data.length;
+        //     data.rows =  data.data;
         //     return data;
         // },
         onClickCell: onClickCell
@@ -141,7 +141,7 @@ function initComponent(){
 
         },
         loadFilter:function(rows){
-            return convert(rows.resultData);
+            return convert(rows.data);
         }
     });
 
@@ -232,7 +232,7 @@ function btnSaveOpt() {
             type: "POST",
             url: "./res/updateRes.html",
             data: json,
-            contentType:"application/json",
+            contentType:"application/json;charset=utf-8",
             dataType: "json",
             success: function(data){
                 //保存完成后直接刷新 列标识

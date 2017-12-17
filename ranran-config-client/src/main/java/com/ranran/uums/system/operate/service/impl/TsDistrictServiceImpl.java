@@ -66,7 +66,8 @@ public class TsDistrictServiceImpl implements TsDistrictService {
         if (StringUtils.isNotEmpty(tsDistrict.getDistId())){
             return tsDistrictMapper.updateByPrimaryKey(tsDistrict);
         }
-        throw new ServiceException(TsDistrictServiceImpl.class.toString()+"出现异常，异常编号"+001);
+//        throw new ServiceException(TsDistrictServiceImpl.class.toString()+"出现异常，异常编号"+001);
+        return 0;
     }
 
     @Override
@@ -74,7 +75,8 @@ public class TsDistrictServiceImpl implements TsDistrictService {
         if (StringUtils.isNotEmpty(tsDistrict.getDistId())){
             return tsDistrictMapper.updateByPrimaryKeySelective(tsDistrict);
         }
-        throw new ServiceException(TsDistrictServiceImpl.class.toString()+"出现异常，异常编号"+002);
+//        throw new ServiceException(TsDistrictServiceImpl.class.toString()+"出现异常，异常编号"+002);
+        return 0;
     }
 
     @Override

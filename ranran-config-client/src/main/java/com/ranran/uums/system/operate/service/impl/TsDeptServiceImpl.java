@@ -68,7 +68,8 @@ public class TsDeptServiceImpl implements TsDeptService {
         if (StringUtils.isNotEmpty(tsDept.getDeptId())){
             return tsDeptMapper.updateByPrimaryKey(tsDept);
         }
-        throw new ServiceException(TsDeptServiceImpl.class.toString()+"出现异常，异常编号"+001);
+//        throw new ServiceException(TsDeptServiceImpl.class.toString()+"出现异常，异常编号"+001);
+        return 0;
     }
 
     @Override
@@ -76,7 +77,8 @@ public class TsDeptServiceImpl implements TsDeptService {
         if (StringUtils.isNotEmpty(tsDept.getDeptId())){
             return tsDeptMapper.updateByPrimaryKeySelective(tsDept);
         }
-        throw new ServiceException(TsDeptServiceImpl.class.toString()+"出现异常，异常编号"+002);
+//        throw new ServiceException(TsDeptServiceImpl.class.toString()+"出现异常，异常编号"+002);
+        return 0;
     }
 
     @Override

@@ -1,7 +1,8 @@
 package com.ranran.uums.system.operate.service.impl;
 
-import com.ranran.core.exception.ServiceException;
-import com.ranran.core.shiro.util.StringUtils;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ranran.uums.system.mapper.RaRoleResourceMapper;
 import com.ranran.uums.system.mapper.TsResourceMapper;
 import com.ranran.uums.system.mapper.TsRoleMapper;
@@ -9,13 +10,13 @@ import com.ranran.uums.system.model.RaRoleResource;
 import com.ranran.uums.system.model.TsResource;
 import com.ranran.uums.system.model.TsRole;
 import com.ranran.uums.system.operate.service.TsRoleService;
-import org.apache.shiro.SecurityUtils;
+import com.ranran.uums.system.operate.vo.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by zengrui on 2017/7/17.
@@ -33,181 +34,150 @@ public class TsRoleServiceImpl implements TsRoleService {
     private RaRoleResourceMapper raRoleResourceMapper;
 
     /**
-     * @descripte
-     * @param tsRole
-     * @return TsRole
-     */
-    @Override
-    public TsRole selectOne(TsRole tsRole){
-        return tsRoleMapper.selectOne(tsRole);
-    }
-
-    @Override
-    public List<TsRole> select(TsRole tsRole){
-        return tsRoleMapper.select(tsRole);
-    }
-
-    /**
-     * 插入空
-     * */
-    @Override
-    public int insert(TsRole tsRole){
-        return tsRoleMapper.insert(tsRole);
-    }
-
-    /**
-     * 插入不为空的
-     * */
-    @Override
-    public int insertSelective(TsRole tsRole){
-        return tsRoleMapper.insertSelective(tsRole);
-    }
-
-    /**
+     * 根据查询查询
      *
-     * @param tsRoles
+     * @param tsRoleConditionVo
      * @return
      */
     @Override
-    public int insertBatch(List<TsRole> tsRoles){
-        return tsRoleMapper.insertBatch(tsRoles);
-    }
-
-    @Override
-    public int updateByPrimaryKey(TsRole tsRole) throws ServiceException {
-        if (StringUtils.isNotEmpty(tsRole.getRoleId())){
-            fullUpdateDefaultInfo(tsRole);
-            return tsRoleMapper.updateByPrimaryKey(tsRole);
-        }
-        throw new ServiceException(TsRoleServiceImpl.class.toString()+"出现异常，异常编号"+001);
-
-    }
-
-    @Override
-    public int updateByPrimaryKeySelective(TsRole tsRole) throws ServiceException {
-        if (StringUtils.isNotEmpty(tsRole.getRoleId())){
-            fullUpdateDefaultInfo(tsRole);
-            return tsRoleMapper.updateByPrimaryKeySelective(tsRole);
-        }
-        throw new ServiceException(TsRoleServiceImpl.class.toString()+"出现异常，异常编号"+001);
-    }
-
-    @Override
-    public int updateBatch(List<TsRole> tsRoles){
-        TsRole tsRole = null;
-        for (int i = 0,size = tsRoles.size(); i < size; i++) {
-            tsRole = tsRoles.get(i);
-            fullUpdateDefaultInfo(tsRole);
-        }
-        return tsRoleMapper.updateBatch(tsRoles);
-    }
-
-
-    @Override
-    public int deleteByPrimaryKey(Object object){
-        return  tsRoleMapper.deleteByPrimaryKey(object);
-    }
-
-    @Override
-    public int deleteBatchByIds(List<TsRole> tsRoles){
-        return  tsRoleMapper.deleteBatchByIds(tsRoles);
-    }
-
-    @Override
-    public List<TsRole> selectByCondition(Object object){
-        return tsRoleMapper.selectByExample(object);
-    }
-
-    @Override
-    public int saveBatch(List<TsRole> tsRoles) {
-        List<TsRole> tsRolesInert = new ArrayList<TsRole>();
-        List<TsRole> tsRolesUpdate = new ArrayList<TsRole>();
-        for (TsRole tsRole: tsRoles) {
-            /**
-             * 没有主键是新增
-             */
-            if (StringUtils.isEmpty(tsRole.getRoleId())){
-                fullInertDefaultInfo(tsRole);
-                tsRolesInert.add(tsRole);
-            }else{
-                fullUpdateDefaultInfo(tsRole);
-                tsRolesUpdate.add(tsRole);
+    public PageInfo pageRoleCondition(TsRoleConditionVo tsRoleConditionVo) {
+        PageInfo pageInfo = new PageInfo();
+        PageHelper.startPage(tsRoleConditionVo.getPage(),tsRoleConditionVo.getRows());
+        Example example = new Example(TsRole.class);
+        if(com.ranran.core.util.StringUtils.isNotEmpty(tsRoleConditionVo.getOrder()) && com.ranran.core.util.StringUtils.isNotEmpty(tsRoleConditionVo.getSort())) {
+            if("DESC".equalsIgnoreCase(tsRoleConditionVo.getOrder())){
+                example.orderBy(tsRoleConditionVo.getSort()).desc();
+            }else {
+                example.orderBy(tsRoleConditionVo.getSort()).asc();
             }
+        }else {
+            example.orderBy("modifyTime").desc();
         }
-        int i = 0;
-        if (tsRolesInert.size() >= 1){
-            i = tsRoleMapper.insertBatch(tsRolesInert);
+        Example.Criteria criteria = example.createCriteria();
+        if(com.ranran.core.util.StringUtils.isNotEmpty(tsRoleConditionVo.getRoleNo())){
+            criteria.andEqualTo("roleNo",tsRoleConditionVo.getRoleNo());
         }
-        if (tsRolesUpdate.size() >=1){
-            i = i + tsRoleMapper.updateBatch(tsRolesUpdate);
+        if(com.ranran.core.util.StringUtils.isNotEmpty(tsRoleConditionVo.getRoleName())){
+            criteria.andEqualTo("roleName",tsRoleConditionVo.getRoleName());
         }
-        return i;
-    }
-
-    /**
-     * 添加插入实体时其他信息
-     * @param tsRole
-     * @return
-     */
-    private void fullInertDefaultInfo(TsRole tsRole) {
-//        tsRole.setRoleId(IdWorkerGen.nextID());
-        tsRole.setRecVer(1);
-        tsRole.setCreator((String) SecurityUtils.getSubject().getPrincipal());
-        tsRole.setCreateTime(new Date());
-        tsRole.setModifier((String) SecurityUtils.getSubject().getPrincipal());
-        tsRole.setModifyTime(new Date());
-    }
-
-    /**
-     * 添加插入实体时其他信息
-     * @param tsRole
-     * @return
-     */
-    private void fullUpdateDefaultInfo(TsRole tsRole) {
-        tsRole.setRecVer(tsRole.getRecVer()+1);
-        tsRole.setModifier((String) SecurityUtils.getSubject().getPrincipal());
-        tsRole.setModifyTime(new Date());
+        if(com.ranran.core.util.StringUtils.isNotEmpty(tsRoleConditionVo.getRoleStatus())){
+            criteria.andEqualTo("roleStatus",tsRoleConditionVo.getRoleStatus());
+        }
+        List<TsRole> tsRoles = tsRoleMapper.selectByExample(example);
+        pageInfo.setList(tsRoles);
+        pageInfo.setTotal(((Page<TsRole>) tsRoles).getTotal());
+        return pageInfo;
     }
 
     /**
      * 查询所有关联上的资源信息
-     * @param tsRole
+     * @param tsRoleResourceVo
      * @return
      */
     @Override
-    public List selectRoleResource(TsRole tsRole) {
+    public List<TsRoleResourceVo> selectRoleResource(TsRoleResourceVo tsRoleResourceVo) {
         RaRoleResource raRoleResource = new RaRoleResource();
-        raRoleResource.setRrRoleNo(tsRole.getRoleNo());
+        raRoleResource.setRrRoleNo(tsRoleResourceVo.getRoleNo());
+        //需要标记的菜单
         List<RaRoleResource> raRoleResourceList = raRoleResourceMapper.select(raRoleResource);
-        /*查询所有需要的资源信息*/
-        List<TsResource> tsResourcesList = tsResourceMapper.select(null);
-        for (int i = 0; i < raRoleResourceList.size(); i++){
-            for (int j = 0; j < tsResourcesList.size(); j++){
-                if (tsResourcesList.get(j).getResNo().equals(raRoleResourceList.get(i).getRrResourceNo())){
-//                    tsResourcesList.get(j).setChecked(raRoleResourceList.get(i).getChecked());
-//                    tsResourcesList.get(j).setCheckState(raRoleResourceList.get(i).getCheckState());
-                }
-            }
+        TsResource tsResource = new TsResource();
+        tsResource.setResType(1);
+        //查询所有菜单
+        List<TsResource> tsResourcesList = tsResourceMapper.select(tsResource);
+        //标记后的所有菜单
+        List<TsRoleResourceVo> tsRoleResourceTreeVoList = new ArrayList<TsRoleResourceVo>();
+        //取出所有需要标记的资源编码
+        Map<String,RaRoleResource> allResNo = new HashMap<String, RaRoleResource>();
+        //取出所有父及编码
+        Map<String,RaRoleResource> parentResNoMap = new HashMap<String, RaRoleResource>();
+        for (int j = 0; j < raRoleResourceList.size(); j++){
+            allResNo.put(raRoleResourceList.get(j).getRrResourceNo(),raRoleResourceList.get(j));
         }
-        return tsResourcesList;
+        for (int i = 0; i < tsResourcesList.size(); i++){
+            parentResNoMap.put(tsResourcesList.get(i).getResParentNo(),null);
+        }
+        TsRoleResourceVo tsRoleResourceTreeVo = null;
+        for (int i = 0; i < tsResourcesList.size(); i++){
+            tsRoleResourceTreeVo = new TsRoleResourceVo();
+            BeanUtils.copyProperties(tsResourcesList.get(i),tsRoleResourceTreeVo);
+            //包含则表示需要标记
+            if (allResNo.containsKey(tsRoleResourceTreeVo.getResNo()) && !parentResNoMap.containsKey(tsRoleResourceTreeVo.getResNo())){
+                tsRoleResourceTreeVo.setChecked(allResNo.get(tsRoleResourceTreeVo.getResNo()).getChecked());
+                tsRoleResourceTreeVo.setCheckState(allResNo.get(tsRoleResourceTreeVo.getResNo()).getCheckState());
+            }
+            tsRoleResourceTreeVoList.add(tsRoleResourceTreeVo);
+        }
+        return tsRoleResourceTreeVoList;
     }
 
     /**
-     * 查询所有满足条件的资源信息
+     * 查询资源权限信息
+     *
+     * @param tsRoleResPermiVo
      * @return
      */
     @Override
-    public List selectResource() {
-        return tsResourceMapper.select(null);
+    public List<TsRoleResPermiVo> selectRoleResPermi(TsRoleResPermiVo tsRoleResPermiVo) {
+        TsResource tsResource = new TsResource();
+        //查询按钮
+        tsResource.setResType(2);
+        tsResource.setResParentNo(tsRoleResPermiVo.getResNo());
+        //查询选择资源下的按钮
+        List<TsResource> tsResourcesList = tsResourceMapper.select(tsResource);
+        RaRoleResource raRoleResource = new RaRoleResource();
+        raRoleResource.setRrRoleNo(tsRoleResPermiVo.getRoleNo());
+        //查询角色下的所有资源信息
+        List<RaRoleResource> raRoleResourceList = raRoleResourceMapper.select(raRoleResource);
+        Map<String,RaRoleResource> selectResMap = new HashMap<String, RaRoleResource>();
+        for (RaRoleResource raRoleResourceTmp: raRoleResourceList) {
+            selectResMap.put(raRoleResourceTmp.getRrResourceNo(),null);
+        }
+        TsRoleResPermiVo tsRoleResPermiTmp = null;
+        List<TsRoleResPermiVo> tsRoleResPermiList = new ArrayList<TsRoleResPermiVo>();
+        for (TsResource tsResourceTmp: tsResourcesList) {
+            tsRoleResPermiTmp = new TsRoleResPermiVo();
+            BeanUtils.copyProperties(tsResourceTmp,tsRoleResPermiTmp);
+            //控制需要勾选的数据
+            if (selectResMap.containsKey(tsResourceTmp.getResNo())){
+                tsRoleResPermiTmp.setChecked(true);
+            }
+            tsRoleResPermiList.add(tsRoleResPermiTmp);
+        }
+        return tsRoleResPermiList;
     }
 
     /**
-     * 查询角色下的用户信息
-     * @param tsRole
+     * 查询角色角色用户信息
+     *
+     * @param tsRoleUserVo
      * @return
      */
     @Override
-    public List selectRoleUser(TsRole tsRole) {
-        return tsRoleMapper.selectRoleUser(tsRole);
+    public List<TsRole> selectRoleUser(TsRoleUserVo tsRoleUserVo) {
+        return null;
     }
+
+    /**
+     * 查询不属于角色的用户信息
+     *
+     * @param tsRoleNotUserVo
+     * @return
+     */
+    @Override
+    public List<TsRole> selectRoleNotUser(TsRoleNotUserVo tsRoleNotUserVo) {
+        return null;
+    }
+
+    /**
+     * 批量更新角色信息
+     *
+     * @param tsRoleBatchVo
+     * @return
+     */
+    @Override
+    public Integer updateRoleBatch(TsRoleBatchVo tsRoleBatchVo) {
+        return null;
+    }
+
+
 }

@@ -22,22 +22,7 @@ public class TsResourceRestControllerLocal extends RestBaseController implements
     private TsResourceService tsResourceService;
 
     public ResponseResult updateResData(HttpServletRequest request){
-        String reqData = null;
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(),"utf-8")) ;
-            if(br!= null){
-                String out = null;
-                StringBuilder sb = new StringBuilder();
-                while((out = br.readLine()) != null){
-                    sb.append(out);
-                }
-                br.close();
-
-                reqData = sb.toString();
-            }
-        } catch (Exception e) {
-            new ControllerException(new ErrorCode(1,"/res/updateRes.html json trans error"));
-        }
+        String reqData = this.wrapperJson(request, new ErrorCode(1,"/res/updateRes.html json trans error"));
         TsResourceVo tsResourceVo = JSONObject.parseObject(reqData, TsResourceVo.class);
         return this.saveResult(tsResourceService.updateResData(tsResourceVo));
     }

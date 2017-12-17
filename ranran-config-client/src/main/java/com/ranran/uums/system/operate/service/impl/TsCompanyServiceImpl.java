@@ -71,7 +71,9 @@ public class TsCompanyServiceImpl implements TsCompanyService {
         if (StringUtils.isNotEmpty(tsCompany.getOrgId())){
             return tsCompanyMapper.updateByPrimaryKey(tsCompany);
         }
-        throw new ServiceException(TsCompanyServiceImpl.class.toString()+"出现异常，异常编号"+001);
+//        throw new ServiceException(TsCompanyServiceImpl.class.toString()+"出现异常，异常编号"+001);
+        return 0;
+
     }
 
     @Override
@@ -79,7 +81,7 @@ public class TsCompanyServiceImpl implements TsCompanyService {
         if (StringUtils.isNotEmpty(tsCompany.getOrgId())){
             return tsCompanyMapper.updateByPrimaryKeySelective(tsCompany);
         }
-        throw new ServiceException(TsCompanyServiceImpl.class.toString()+"出现异常，异常编号"+002);
+        throw new ServiceException(new Error("999"));
     }
 
     @Override

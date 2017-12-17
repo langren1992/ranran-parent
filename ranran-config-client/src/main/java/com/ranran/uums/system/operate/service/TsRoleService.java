@@ -1,7 +1,10 @@
 package com.ranran.uums.system.operate.service;
 
+import com.github.pagehelper.PageInfo;
 import com.ranran.core.exception.ServiceException;
+import com.ranran.uums.system.model.TsResource;
 import com.ranran.uums.system.model.TsRole;
+import com.ranran.uums.system.operate.vo.*;
 
 import java.util.List;
 
@@ -10,42 +13,46 @@ import java.util.List;
  */
 public interface TsRoleService {
 
-    public TsRole selectOne(TsRole tsRole);
-
-    public List<TsRole> select(TsRole tsRole);
+    /**
+     * 根据查询查询
+     *
+     * @param tsRoleConditionVo
+     * @return
+     */
+    public PageInfo pageRoleCondition(TsRoleConditionVo tsRoleConditionVo);
 
     /**
-     * 插入空
-     * */
-    public int insert(TsRole tsRole);
+     * 查询角色资源
+     * @param tsRoleResourceVo
+     * @return
+     */
+    public List<TsRoleResourceVo> selectRoleResource(TsRoleResourceVo tsRoleResourceVo);
 
     /**
-     * 插入不为空的
-     * */
-    public int insertSelective(TsRole tsRole);
+     * 查询资源权限信息
+     * @param tsRoleResPermiVo
+     * @return
+     */
+    public List<TsRoleResPermiVo> selectRoleResPermi(TsRoleResPermiVo tsRoleResPermiVo);
 
-    public int insertBatch(List<TsRole> tsRoles);
+    /**
+     * 查询角色角色用户信息
+     * @param tsRoleUserVo
+     * @return
+     */
+    public List<TsRole> selectRoleUser(TsRoleUserVo tsRoleUserVo);
 
-    public int updateByPrimaryKey(TsRole tsRole) throws ServiceException;
+    /**
+     * 查询不属于角色的用户信息
+     * @param tsRoleNotUserVo
+     * @return
+     */
+    public List<TsRole> selectRoleNotUser(TsRoleNotUserVo tsRoleNotUserVo);
 
-
-    public int updateByPrimaryKeySelective(TsRole tsRole) throws ServiceException;
-
-
-    public int updateBatch(List<TsRole> tsRoles);
-
-    public int deleteByPrimaryKey(Object object);
-
-
-    public int deleteBatchByIds(List<TsRole> tsRoles);
-
-    public List<TsRole> selectByCondition(Object object);
-
-    public int saveBatch(List<TsRole> tsRoles);
-
-    public List selectRoleResource(TsRole tsRole);
-
-    public List selectResource();
-
-    public List selectRoleUser(TsRole tsRole);
+    /**
+     * 批量更新角色信息
+     * @param tsRoleBatchVo
+     * @return
+     */
+    public Integer updateRoleBatch(TsRoleBatchVo tsRoleBatchVo);
 }

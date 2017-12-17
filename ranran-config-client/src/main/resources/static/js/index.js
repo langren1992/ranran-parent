@@ -209,7 +209,7 @@ function fillTreeMenuData() {
      * 获取菜单树数据
      */
     $.get("./menu.html", null, function(data) {
-        data = convert(data.resultData);
+        data = convert(data.data);
         if(data) {
             var selected ;
             for (var i = 0,length = data.length;i < length;i++){

@@ -28,3 +28,10 @@
 2. 启用类上添加 `@RefreshScope`刷新作用域的值
 3. 配置文件的名称在使用自定义时，不允许和官方名称相同`spring.rabbitmq.host`，修改为`rabbitmq.host`
 
+2017年12月13日
+==
+1.easyui中datagrid Content-Type:application/x-www-form-urlencoded; charset=UTF-8的时候 HttpServletRequest从getParameter中获取参数,当contentType : 'application/json;charset=utf-8', // 设置请求头信息从HttpServletRequest从getInputStream中获取参数；
+
+2017年12月17日
+===
+1.所有访问路径名和方法名相同，命名规范是动作+对象；
