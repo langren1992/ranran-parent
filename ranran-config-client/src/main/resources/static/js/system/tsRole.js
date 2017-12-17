@@ -1,9 +1,39 @@
+/************************************所有组件ID定义************************************************/
+var add_user_dialog = '#add_user_dialog';
+var form_roleStatus = '#form_roleStatus';
+var form_roleState_res = '#form_roleState_res';
+var role_list = '#role_list';
+var role_list_tool = '#role_list_tool';
+var roleRes_list = '#roleRes_list';
+var roleRole_list_tool = '#roleRole_list_tool';
+var roleRes_btn_list = '#roleRes_btn_list';
+var form_roleRes = '#form_roleRes';
+var role_user_list = '#role_user_list';
+var role_non_user_list = '#role_non_user_list';
+var form_condi = '#form_condi';
+var form_roleNo_res = '#form_roleNo_res';
+/*******************************所有访问路径定义****************************************/
+//角色列表访问路径
+var role_list_url = './tsRole/selectByCondition.html';
+//角色资源树访问路径
+var roleRes_list_url = './tsRole/selectRoleResource.html';
+//角色资源权限（按钮）列表访问路径
+var roleRes_btn_list_url = './tsRole/selectRoleResPermi.html';
+/**********************************所有按钮定义*********************************************************/
+
+var  btn_add = '#btn_add';
+var  btn_save = '#btn_save';
+var  btn_enable = '#btn_enable';
+var  btn_disable = '#btn_disable';
+var  btn_remove = '#btn_remove';
+var  btn_search = '#btn_search';
+var  btn_reset = '#btn_reset';
+var  btn_save_RoleRes = '#btn_save_RoleRes';
+var  btn_add_user = '#btn_add_user';
 
 var editRow = undefined;
-
 function initComponent(){
-
-    $('#add_user_dialog').dialog({
+    $(add_user_dialog).dialog({
         title: '添加用户',
         width: 800,
         height: 450,
@@ -13,7 +43,7 @@ function initComponent(){
         modal: true
     });
 
-    $("#form_roleStatus").combobox({
+    $(form_roleStatus).combobox({
         //自适应数据高度属性
         panelHeight:"auto",
         //值
@@ -29,7 +59,7 @@ function initComponent(){
         }]
     });
 
-    $("#form_roleState_res").combobox({
+    $(form_roleState_res).combobox({
         //自适应数据高度属性
         panelHeight:"auto",
         //值
@@ -45,15 +75,14 @@ function initComponent(){
         }]
     });
 
-    $("#role_list").datagrid({
+    $(role_list).datagrid({
         fit:true,
-        idField: 'ID',
+        idField: 'roleNo',
         rownumbers: true,
         pagination: true,
-        toolbar:'#role_list_tool',
+        toolbar:role_list_tool,
         singleSelect:true,
         frozenColumns: [[
-            // { field: 'ck', checkbox: true },
             { field: 'roleNo', title: '角色编码', sortable: true, width:120,sortName:"role_no",editor:{type:'textbox',options:{required:true}}}
         ]],
         columns: [[
@@ -72,38 +101,38 @@ function initComponent(){
             { field: 'roleDescribe', title: '描述', sortable: true,width:200,editor:'textbox' }
 
         ]],
-        pageSize:30,
-        pageList:[30,90,210,390,750],
+        pageSize:50,
+        pageList:[50,100,500],
         onAfterEdit: function (rowIndex, rowData, changes) {
             //endEdit该方法触发此事件
             editRow = undefined;
         },
         onBeginEdit:function (i, row) {
             if(row.roleId != "" && row.roleId != undefined){
-                var eg =$('#role_list').datagrid('getEditor',{index:i,field:'roleNo'});
+                var eg =$(role_list).datagrid('getEditor',{index:i,field:'roleNo'});
                 $(eg.target).textbox({"readonly":true});
             }
         },
         onClickRow: function (rowIndex, rowData) {
             //双击开启编辑行
             if (editRow != undefined) {
-                $('#role_list').datagrid("endEdit", editRow);
+                $(role_list).datagrid("endEdit", editRow);
             }
             if (editRow == undefined) {
-                $('#role_list').datagrid("beginEdit", rowIndex);
+                $(role_list).datagrid("beginEdit", rowIndex);
                 editRow = rowIndex;
             }
-            $("#form_roleRes").form("load",rowData);
+            $(form_roleRes).form("load",rowData);
             /**
              * 查询选择角色资源信息
              * */
-            $("#roleRes_list").tree({
+            $(roleRes_list).tree({
                 queryParams:{
                     roleNo:rowData.roleNo
                 }
             });
-            $("#roleRes_btn_list").datagrid('loadData',{total:0,rows:[]});
-            // $("#role_user_list").datagrid({
+            $(roleRes_btn_list).datagrid('loadData',{total:0,rows:[]});
+            // $(role_user_list).datagrid({
             //     url:"./tsRole/selectRoleUser.html",
             //     queryParams:{
             //         roleNo:rowData.roleNo
@@ -113,7 +142,7 @@ function initComponent(){
         loader : function(param, success, error) {
             $.ajax({
                 type : 'POST',
-                url : './tsRole/selectByCondition.html',
+                url : role_list_url,
                 dataType : 'json',
                 contentType : 'application/json;charset=utf-8', // 设置请求头信息
                 data : JSON.stringify(param),
@@ -130,7 +159,7 @@ function initComponent(){
     /**
      * 获取角色资源列表
      */
-    $("#roleRes_list").tree({
+    $(roleRes_list).tree({
         fit:true,
         checkbox:true,
         columns: [[
@@ -143,19 +172,19 @@ function initComponent(){
             { field: 'resParentName', title: '父名称', width: 120, sortable: true,hidden:true},
             { field: 'resType', title: '类型', width: 120,hidden:true}
         ]],
-        toolbar:'#roleRes_list_tool',
+        toolbar:roleRole_list_tool,
         loadFilter:function(rows){
             if(rows.data != undefined)
                 return converts(rows.data);
         },
         onClick: function (node) {
-            var roleDg = $("#role_list");
+            var roleDg = $(role_list);
             var role = roleDg.datagrid('getSelected');
             var roleNo = '';
             if (role != null){
                 roleNo = role.roleNo;
             }
-            $('#roleRes_btn_list').datagrid({
+            $(roleRes_btn_list).datagrid({
                 queryParams:{
                     roleNo:roleNo,
                     resNo:node.resNo
@@ -168,7 +197,7 @@ function initComponent(){
         loader:function (param, success, error) {
             $.ajax({
                 type : 'POST',
-                url : './tsRole/selectRoleResource.html',
+                url : roleRes_list_url,
                 dataType : 'json',
                 contentType : 'application/json;charset=utf-8', // 设置请求头信息
                 data : JSON.stringify(param),
@@ -182,12 +211,11 @@ function initComponent(){
     /**
      * 获取资源权限
      */
-    $('#roleRes_btn_list').datagrid({
+    $(roleRes_btn_list).datagrid({
         fit:true,
         idField: 'resNo',
         columns: [[
             { field:'ck',checkbox:true },
-            { field: 'resId', title: '资源ID',hidden:true},
             { field: 'resNo', title: '资源编码', sortable: true },
             { field: 'resName', title: '资源名称', sortable: true},
             { field: 'resPermission', title: '权限项'},
@@ -201,7 +229,7 @@ function initComponent(){
         loader:function (param, success, error) {
             $.ajax({
                 type : 'POST',
-                url : './tsRole/selectRoleResPermi.html',
+                url : roleRes_btn_list_url,
                 dataType : 'json',
                 contentType : 'application/json;charset=utf-8', // 设置请求头信息
                 data : JSON.stringify(param),
@@ -213,7 +241,7 @@ function initComponent(){
     });
 
     //角色用户清单
-    $("#role_user_list").datagrid({
+    $(role_user_list).datagrid({
         fit:true,
         idField: 'userId',
         title:"已有用户",
@@ -233,7 +261,7 @@ function initComponent(){
     });
 
     //角色用户清单
-    $("#role_non_user_list").datagrid({
+    $(role_non_user_list).datagrid({
         fit:true,
         idField: 'userId',
         title:"其他用户",
@@ -338,18 +366,18 @@ function btnAddOpt() {
     //添加列表的操作按钮添加，修改，删除等
     //添加时先判断是否有开启编辑的行，如果有则把开户编辑的那行结束编辑
     if (editRow != undefined) {
-        $('#role_list').datagrid("endEdit", editRow);
+        $(role_list).datagrid("endEdit", editRow);
     }
     //添加时如果没有正在编辑的行，则在datagrid的第一行插入一行
     if (editRow == undefined) {
-        $('#role_list').datagrid("insertRow", {
+        $(role_list).datagrid("insertRow", {
             index: 0, // index start with 0
             row: {
                 roleStatus:0
             }
         });
         //将新插入的那一行开户编辑状态
-        $('#role_list').datagrid("beginEdit", 0);
+        $(role_list).datagrid("beginEdit", 0);
         //给当前编辑的行赋值
         editRow = 0;
     }
@@ -357,8 +385,8 @@ function btnAddOpt() {
 
 
 function btnSaveOpt() {
-    $('#role_list').datagrid("endEdit",editRow);
-    var arr = $('#role_list').datagrid('getChanges','inserted').concat($('#role_list').datagrid('getChanges','updated'));
+    $(role_list).datagrid("endEdit",editRow);
+    var arr = $(role_list).datagrid('getChanges','inserted').concat($(role_list).datagrid('getChanges','updated'));
     var flag = true;
     for (var i = 0,size = arr.length; i < size;i++){
         if(arr[i].roleNo == '' || arr[i].roleNo == undefined){
@@ -391,7 +419,7 @@ function btnSaveOpt() {
 };
 
 function btnEnableOpt() {
-    var tsRole=$('#role_list').datagrid("getSelected");
+    var tsRole=$(role_list).datagrid("getSelected");
     if(tsRole.roleStatus != 1){
         //状态修改为启用
         tsRole.roleStatus = 1;
@@ -422,7 +450,7 @@ function btnEnableOpt() {
 };
 
 function btnDisableOpt() {
-    var tsRole=$('#role_list').datagrid("getSelected");
+    var tsRole=$(role_list).datagrid("getSelected");
     //状态修改为启用
     tsRole.roleStatus = 0;
     var tsRoles = new Array(tsRole);
@@ -450,7 +478,7 @@ function btnDisableOpt() {
 };
 
 function btnRemoveOpt() {
-    var tsRole=$('#role_list').datagrid("getSelected");
+    var tsRole=$(role_list).datagrid("getSelected");
     //状态修改为启用
     tsRole.roleStatus = 0;
     var tsRoles = new Array(tsRole);
@@ -481,7 +509,7 @@ function btnSearchOpt() {
      * easyui中datagrid Content-Type:application/x-www-form-urlencoded; charset=UTF-8的时候 HttpServletRequest从getParameter中获取参数,
      * 当contentType : 'application/json;charset=utf-8', // 设置请求头信息从HttpServletRequest从getInputStream中获取参数；
      * */
-    $("#role_list").datagrid({
+    $(role_list).datagrid({
         loader : function(param, success, error) {
             $.ajax({
                 type : 'POST',
@@ -498,13 +526,12 @@ function btnSearchOpt() {
 };
 
 function btnResetOpt() {
-    $('#form_condi').form('reset');
-    $('#roleRes_btn_list').datagrid('loadData',{total:1,rows:[{resNo:1,resName:2,checked:true}]});
+    $(form_condi).form('reset');
 };
 
 function btnSaveRoleResOpt() {
-    if($("#form_roleNo_res").textbox("getValue") != ""){
-        var roleResHas = $('#roleRes_list').tree("getChecked",["checked","indeterminate"]);
+    if($(form_roleNo_res).textbox("getValue") != ""){
+        var roleResHas = $(roleRes_list).tree("getChecked",["checked","indeterminate"]);
         var roleResNull = [];
         for (var i = 0; i < roleResHas.length; i++){
             roleResNull.push({
@@ -515,7 +542,7 @@ function btnSaveRoleResOpt() {
                 checkState:roleResHas[i].checkState
             });
         }
-        var json = '{'+$("#form_roleRes input").map(function(){
+        var json = '{'+$(form_roleRes+" input").map(function(){
                 if($(this).attr("name")!= undefined)
                     return '"'+$(this).attr("name")+'":"'+$(this).val()+'"';
             }).get().join(", ")+',"roleResList":'+JSON.stringify(roleResNull)+'}';
@@ -527,8 +554,8 @@ function btnSaveRoleResOpt() {
             contentType:"application/json",
             dataType: "json",
             success: function(data){
-                $("#form_roleRes").form("clear");
-                $("#roleRes_list").tree({url: "./res/resList"});
+                $(form_roleRes).form("clear");
+                $(roleRes_list).tree({url: "./res/resList"});
                 if(data.success){
                     parent.$.messager.alert("提示信息",data.message);
                 }
@@ -538,33 +565,33 @@ function btnSaveRoleResOpt() {
 };
 
 function btnBindFun() {
-    $('#btn_add').bind('click', function(){
+    $(btn_add).bind('click', function(){
         btnAddOpt();
     });
-    $('#btn_save').bind('click', function(){
-        btnSaveOpt("btnSearch");
+    $(btn_save).bind('click', function(){
+        btnSaveOpt();
     });
-    $('#btn_enable').bind('click', function(){
-        btnEnableOpt("btnAddRole");
+    $(btn_enable).bind('click', function(){
+        btnEnableOpt();
     });
-    $('#btn_disable').bind('click', function(){
-        btnDisableOpt("btnAddRole");
+    $(btn_disable).bind('click', function(){
+        btnDisableOpt();
     });
-    $('#btn_remove').bind('click', function(){
-        btnRemoveOpt("btnAddRole");
+    $(btn_remove).bind('click', function(){
+        btnRemoveOpt();
     });
-    $('#btn_search').bind('click', function(){
+    $(btn_search).bind('click', function(){
         btnSearchOpt();
     });
-    $('#btn_reset').bind('click', function(){
-        btnResetOpt("btnAddRole");
+    $(btn_reset).bind('click', function(){
+        btnResetOpt();
     });
-    $('#btn_save_RoleRes').bind('click', function(){
-        btnSaveRoleResOpt("btnAddRole");
+    $(btn_save_RoleRes).bind('click', function(){
+        btnSaveRoleResOpt();
     });
-    $('#btn_add_user').bind('click',function(){
-        parent.$('#index_body').layout('collapse','west');
-        $('#add_user_dialog').dialog('open');
+    $(btn_add_user).bind('click',function(){
+        // parent.$('#index_body').layout('collapse','west');
+        $(add_user_dialog).dialog('open');
     });
 }
 
