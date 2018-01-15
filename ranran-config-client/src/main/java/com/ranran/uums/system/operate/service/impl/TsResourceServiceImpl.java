@@ -1,7 +1,6 @@
 package com.ranran.uums.system.operate.service.impl;
 
 
-import com.ranran.core.IdWorker;
 import com.ranran.uums.system.mapper.TsResourceMapper;
 import com.ranran.uums.system.model.TsResource;
 import com.ranran.uums.system.operate.service.TsResourceService;
@@ -37,7 +36,6 @@ public class TsResourceServiceImpl implements TsResourceService {
         String resParentNo = "";
         //新增
         if (tsResource.getResId() == null){
-            tsResource.setResId(IdWorker.next());
             i += tsResourceMapper.insert(tsResource);
         //更新
         }else{
@@ -50,7 +48,6 @@ public class TsResourceServiceImpl implements TsResourceService {
         List<TsResource> insertBtnList = new ArrayList<TsResource>();
         for (TsResource resBtn:resBtnList) {
             if(null == resBtn.getResId()){
-                resBtn.setResId(IdWorker.next());
                 resBtn.setResParentNo(resParentNo);
                 insertBtnList.add(resBtn);
             }else{
@@ -61,7 +58,7 @@ public class TsResourceServiceImpl implements TsResourceService {
             i += tsResourceMapper.insertBatch(insertBtnList);
         }
         if (updateBtnList.size()>0){
-            i += tsResourceMapper.updateBatch(insertBtnList);
+            i += tsResourceMapper.updateBatch(updateBtnList);
         }
         return i;
     }

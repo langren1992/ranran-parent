@@ -52,4 +52,20 @@ public interface TsRoleRestController {
      * @return
      */
     public ResponseResult updateRoleBatch(HttpServletRequest request);
+
+    /**
+     * 生成角色资源、权限关联关系
+     * @param request
+     * @return
+     */
+    public ResponseResult optRoleResRal(HttpServletRequest request);
+
+    /**
+     * 生成角色用户关联关系
+     * @param request
+     * @return
+     */
+    public ResponseResult optRoleUserRal(HttpServletRequest request);
+
+
 }

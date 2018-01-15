@@ -34,7 +34,7 @@ public class TsRoleRestControllerLocal extends RestBaseController implements TsR
      */
     @Override
     public ResponseResult pageRoleCondition(HttpServletRequest request) {
-        String reqData = this.wrapperJson(request, new ErrorCode(100, "/tsRole/selectByCondition.html json trans error"));
+        String reqData = this.wrapperJson(request, new ErrorCode(100, "/tsRole/pageRoleCondition.html"));
         TsRoleConditionVo tsRoleConditionVo = JSONObject.parseObject(reqData, TsRoleConditionVo.class);
         ResponseResult resultBody = new ResponseResult();
         PageInfo pageInfo = tsRoleService.pageRoleCondition(tsRoleConditionVo);
@@ -56,7 +56,7 @@ public class TsRoleRestControllerLocal extends RestBaseController implements TsR
      */
     @Override
     public ResponseResult selectRoleResource(HttpServletRequest request) {
-        String reqData = this.wrapperJson(request, new ErrorCode(101,"/tsRole/selectByCondition.html json trans error"));
+        String reqData = this.wrapperJson(request, new ErrorCode(101,"/tsRole/selectRoleResource.html"));
         TsRoleResourceVo tsRoleResourceVo = JSONObject.parseObject(reqData, TsRoleResourceVo.class);
         return this.listResult(tsRoleService.selectRoleResource(tsRoleResourceVo));
     }
@@ -68,7 +68,7 @@ public class TsRoleRestControllerLocal extends RestBaseController implements TsR
      */
     @Override
     public ResponseResult selectRoleResPermi(HttpServletRequest request) {
-        String reqData = this.wrapperJson(request, new ErrorCode(102,"/tsRole/selectByCondition.html json trans error"));
+        String reqData = this.wrapperJson(request, new ErrorCode(102,"/tsRole/selectRoleResPermi.html"));
         TsRoleResPermiVo tsRoleResPermiVo = JSONObject.parseObject(reqData,TsRoleResPermiVo.class);
         return this.listResult(tsRoleService.selectRoleResPermi(tsRoleResPermiVo));
     }
@@ -81,7 +81,7 @@ public class TsRoleRestControllerLocal extends RestBaseController implements TsR
      */
     @Override
     public ResponseResult selectRoleUser(HttpServletRequest request) {
-        String reqData = this.wrapperJson(request, new ErrorCode(102,"/tsRole/selectByCondition.html json trans error"));
+        String reqData = this.wrapperJson(request, new ErrorCode(103,"/tsRole/selectRoleUser.html"));
         TsRoleUserVo tsRoleUserVo = JSONObject.parseObject(reqData,TsRoleUserVo.class);
         return this.listResult(tsRoleService.selectRoleUser(tsRoleUserVo));
     }
@@ -94,7 +94,7 @@ public class TsRoleRestControllerLocal extends RestBaseController implements TsR
      */
     @Override
     public ResponseResult selectRoleNotUser(HttpServletRequest request) {
-        String reqData = this.wrapperJson(request, new ErrorCode(102,"/tsRole/selectByCondition.html json trans error"));
+        String reqData = this.wrapperJson(request, new ErrorCode(104,"/tsRole/selectRoleNotUser.html"));
         TsRoleNotUserVo tsRoleNotUserVo = JSONObject.parseObject(reqData,TsRoleNotUserVo.class);
         return this.listResult(tsRoleService.selectRoleNotUser(tsRoleNotUserVo));
     }
@@ -107,8 +107,34 @@ public class TsRoleRestControllerLocal extends RestBaseController implements TsR
      */
     @Override
     public ResponseResult updateRoleBatch(HttpServletRequest request) {
-        String reqData = this.wrapperJson(request, new ErrorCode(102,"/tsRole/selectByCondition.html json trans error"));
+        String reqData = this.wrapperJson(request, new ErrorCode(105,"/tsRole/updateRoleBatch.html"));
         TsRoleBatchVo tsRoleBatchVo = JSONObject.parseObject(reqData,TsRoleBatchVo.class);
         return this.saveResult(tsRoleService.updateRoleBatch(tsRoleBatchVo));
+    }
+
+    /**
+     * 生成角色资源、权限关联关系
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public ResponseResult optRoleResRal(HttpServletRequest request) {
+        String reqData = this.wrapperJson(request, new ErrorCode(106,"/tsRole/optRoleResRal.html"));
+        TsRoleResRalVo tsRoleResRalVo = JSONObject.parseObject(reqData,TsRoleResRalVo.class);
+        return this.saveResult(tsRoleService.optRoleResRal(tsRoleResRalVo));
+    }
+
+    /**
+     * 生成角色用户关联关系
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public ResponseResult optRoleUserRal(HttpServletRequest request) {
+        String reqData = this.wrapperJson(request, new ErrorCode(108,"/tsRole/optRoleUserRal.html"));
+        TsRoleUserRalVo tsRoleUserRalVo = JSONObject.parseObject(reqData,TsRoleUserRalVo.class);
+        return this.saveResult(tsRoleService.optRoleUserRal(tsRoleUserRalVo));
     }
 }

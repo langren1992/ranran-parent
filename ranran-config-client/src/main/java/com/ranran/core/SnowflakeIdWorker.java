@@ -1,5 +1,9 @@
 package com.ranran.core;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class SnowflakeIdWorker {
 
     /** 开始时间截 (2015-01-01) */
@@ -33,9 +37,11 @@ public class SnowflakeIdWorker {
     private final long sequenceMask = -1L ^ (-1L << sequenceBits);
 
     /** 工作机器ID(0~31) */
+    @Value("${snowflakeIdWorker.workerId}")
     private long workerId;
 
     /** 数据中心ID(0~31) */
+    @Value("${snowflakeIdWorker.dataCenterId}")
     private long dataCenterId;
 
     /** 毫秒内序列(0~4095) */
@@ -49,16 +55,16 @@ public class SnowflakeIdWorker {
      * @param workerId 工作ID (0~31)
      * @param dataCenterId 数据中心ID (0~31)
      */
-    public SnowflakeIdWorker(long workerId, long dataCenterId) {
-        if (workerId > maxWorkerId || workerId < 0) {
-            throw new IllegalArgumentException(String.format("workerId can't be greater than %d or less than 0", maxWorkerId));
-        }
-        if (dataCenterId > maxDataCenterId || dataCenterId < 0) {
-            throw new IllegalArgumentException(String.format("dataCenterId can't be greater than %d or less than 0", maxDataCenterId));
-        }
-        this.workerId = workerId;
-        this.dataCenterId = dataCenterId;
-    }
+//    public SnowflakeIdWorker(long workerId, long dataCenterId) {
+//        if (workerId > maxWorkerId || workerId < 0) {
+//            throw new IllegalArgumentException(String.format("workerId can't be greater than %d or less than 0", maxWorkerId));
+//        }
+//        if (dataCenterId > maxDataCenterId || dataCenterId < 0) {
+//            throw new IllegalArgumentException(String.format("dataCenterId can't be greater than %d or less than 0", maxDataCenterId));
+//        }
+//        this.workerId = workerId;
+//        this.dataCenterId = dataCenterId;
+//    }
 
     // ==============================Methods==========================================
     /**
@@ -119,16 +125,32 @@ public class SnowflakeIdWorker {
         return System.currentTimeMillis();
     }
 
+    public long getWorkerId() {
+        return workerId;
+    }
+
+    public void setWorkerId(long workerId) {
+        this.workerId = workerId;
+    }
+
+    public long getDataCenterId() {
+        return dataCenterId;
+    }
+
+    public void setDataCenterId(long dataCenterId) {
+        this.dataCenterId = dataCenterId;
+    }
+
     //==============================Test=============================================
     /** 测试 */
-    public static void main(String[] args) {
-        System.out.println(System.currentTimeMillis());
-        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(1, 1);
-        long startTime = System.nanoTime();
-        for (int i = 0; i < 50000; i++) {
-            long id = idWorker.nextId();
-            System.out.println(id);
-        }
-        System.out.println((System.nanoTime()-startTime)/1000000+"ms");
-    }
+//    public static void main(String[] args) {
+//        System.out.println(System.currentTimeMillis());
+//        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(1, 1);
+//        long startTime = System.nanoTime();
+//        for (int i = 0; i < 50000; i++) {
+//            long id = idWorker.nextId();
+//            System.out.println(id);
+//        }
+//        System.out.println((System.nanoTime()-startTime)/1000000+"ms");
+//    }
 }

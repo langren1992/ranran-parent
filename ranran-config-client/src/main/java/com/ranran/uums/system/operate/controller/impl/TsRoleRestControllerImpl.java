@@ -233,5 +233,71 @@ public class TsRoleRestControllerImpl extends RestBaseController implements TsRo
         return responseResult;
     }
 
+    /**
+     * 生成角色资源、权限关联关系
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    @PostMapping("/optRoleResRal.html")
+    public ResponseResult optRoleResRal(HttpServletRequest request) {
+        ResponseResult responseResult = null;
+        try {
+            responseResult = tsRoleRestController.optRoleResRal(request);
+        } catch (ServiceException e) {
+            LOGGER.error(e.getMessage(), e);
+            ErrorCode error = e.getErrorCode();
+            responseResult = new ResponseResult();
+            responseResult.success = false;
+            responseResult.message = error.code +":"+error.name;
+        } catch (ControllerException e) {
+            LOGGER.error(e.getMessage(), e);
+            ErrorCode error = e.getErrorCode();
+            responseResult = new ResponseResult();
+            responseResult.success = false;
+            responseResult.message = error.code +":"+error.name;
+        }  catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseResult = new ResponseResult();
+            responseResult.success = false;
+            responseResult.message = "999:未知错误,请联系管理员!";
+        }
+        return responseResult;
+    }
+
+    /**
+     * 生成角色用户关联关系
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    @PostMapping("/optRoleUserRal.html")
+    public ResponseResult optRoleUserRal(HttpServletRequest request) {
+        ResponseResult responseResult = null;
+        try {
+            responseResult = tsRoleRestController.optRoleUserRal(request);
+        } catch (ServiceException e) {
+            LOGGER.error(e.getMessage(), e);
+            ErrorCode error = e.getErrorCode();
+            responseResult = new ResponseResult();
+            responseResult.success = false;
+            responseResult.message = error.code +":"+error.name;
+        } catch (ControllerException e) {
+            LOGGER.error(e.getMessage(), e);
+            ErrorCode error = e.getErrorCode();
+            responseResult = new ResponseResult();
+            responseResult.success = false;
+            responseResult.message = error.code +":"+error.name;
+        }  catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseResult = new ResponseResult();
+            responseResult.success = false;
+            responseResult.message = "999:未知错误,请联系管理员!";
+        }
+        return responseResult;
+    }
+
 
 }

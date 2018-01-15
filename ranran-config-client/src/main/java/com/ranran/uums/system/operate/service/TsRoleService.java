@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.ranran.core.exception.ServiceException;
 import com.ranran.uums.system.model.TsResource;
 import com.ranran.uums.system.model.TsRole;
+import com.ranran.uums.system.model.TsUser;
 import com.ranran.uums.system.operate.vo.*;
 
 import java.util.List;
@@ -40,14 +41,14 @@ public interface TsRoleService {
      * @param tsRoleUserVo
      * @return
      */
-    public List<TsRole> selectRoleUser(TsRoleUserVo tsRoleUserVo);
+    public List<TsUser> selectRoleUser(TsRoleUserVo tsRoleUserVo);
 
     /**
      * 查询不属于角色的用户信息
      * @param tsRoleNotUserVo
      * @return
      */
-    public List<TsRole> selectRoleNotUser(TsRoleNotUserVo tsRoleNotUserVo);
+    public List<TsUser> selectRoleNotUser(TsRoleNotUserVo tsRoleNotUserVo);
 
     /**
      * 批量更新角色信息
@@ -55,4 +56,18 @@ public interface TsRoleService {
      * @return
      */
     public Integer updateRoleBatch(TsRoleBatchVo tsRoleBatchVo);
+
+    /**
+     * 生成角色资源、权限关联关系
+     * @param tsRoleResRalVo
+     * @return
+     */
+    int optRoleResRal(TsRoleResRalVo tsRoleResRalVo);
+
+    /**
+     * 生成角色用户关联关系
+     * @param tsRoleUserRalVo
+     * @return
+     */
+    int optRoleUserRal(TsRoleUserRalVo tsRoleUserRalVo);
 }

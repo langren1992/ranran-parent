@@ -3,12 +3,8 @@ package com.ranran.uums.system.operate.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.ranran.uums.system.mapper.RaRoleResourceMapper;
-import com.ranran.uums.system.mapper.TsResourceMapper;
-import com.ranran.uums.system.mapper.TsRoleMapper;
-import com.ranran.uums.system.model.RaRoleResource;
-import com.ranran.uums.system.model.TsResource;
-import com.ranran.uums.system.model.TsRole;
+import com.ranran.uums.system.mapper.*;
+import com.ranran.uums.system.model.*;
 import com.ranran.uums.system.operate.service.TsRoleService;
 import com.ranran.uums.system.operate.vo.*;
 import org.springframework.beans.BeanUtils;
@@ -32,6 +28,12 @@ public class TsRoleServiceImpl implements TsRoleService {
 
     @Autowired
     private RaRoleResourceMapper raRoleResourceMapper;
+
+    @Autowired
+    private RaUserRoleMapper raUserRoleMapper;
+
+    @Autowired
+    private TsUserMapper tsUserMapper;
 
     /**
      * 根据查询查询
@@ -153,8 +155,24 @@ public class TsRoleServiceImpl implements TsRoleService {
      * @return
      */
     @Override
-    public List<TsRole> selectRoleUser(TsRoleUserVo tsRoleUserVo) {
-        return null;
+    public List<TsUser> selectRoleUser(TsRoleUserVo tsRoleUserVo) {
+        RaUserRole raUserRole = new RaUserRole();
+        raUserRole.setUrRoleNo(tsRoleUserVo.getRoleNo());
+        //使用角色用户关联关系表查询用户编码
+        List<RaUserRole> raUserRoles = raUserRoleMapper.select(raUserRole);
+        Map<String,Object> userNoMap = new HashMap<String,Object>();
+        List<TsUser> tsUsers = new ArrayList<TsUser>();
+        //没有用户编码查询为空
+        if (raUserRoles.size() > 0){
+            for (RaUserRole userRole: raUserRoles) {
+                userNoMap.put(userRole.getUrUserNo(),null);
+            }
+            Example example = new Example(TsUser.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andIn("userNo",userNoMap.keySet());
+            tsUsers = tsUserMapper.selectByExample(example);
+        }
+        return tsUsers;
     }
 
     /**
@@ -164,8 +182,22 @@ public class TsRoleServiceImpl implements TsRoleService {
      * @return
      */
     @Override
-    public List<TsRole> selectRoleNotUser(TsRoleNotUserVo tsRoleNotUserVo) {
-        return null;
+    public List<TsUser> selectRoleNotUser(TsRoleNotUserVo tsRoleNotUserVo) {
+        RaUserRole raUserRole = new RaUserRole();
+        raUserRole.setUrRoleNo(tsRoleNotUserVo.getRoleNo());
+        //使用角色用户关联关系表查询用户编码
+        List<RaUserRole> raUserRoles = raUserRoleMapper.select(raUserRole);
+        Map<String,Object> userNoMap = new HashMap<String,Object>();
+        Example example = new Example(TsUser.class);
+        Example.Criteria criteria = example.createCriteria();
+        //没有用户编码查询全表
+        if (raUserRoles.size() > 0){
+            for (RaUserRole userRole: raUserRoles) {
+                userNoMap.put(userRole.getUrUserNo(),null);
+            }
+            criteria.andNotIn("userNo",userNoMap.keySet());
+        }
+        return tsUserMapper.selectByExample(example);
     }
 
     /**
@@ -176,7 +208,44 @@ public class TsRoleServiceImpl implements TsRoleService {
      */
     @Override
     public Integer updateRoleBatch(TsRoleBatchVo tsRoleBatchVo) {
+
         return null;
+    }
+
+    /**
+     * 生成角色资源、权限关联关系
+     *
+     * @param tsRoleResRalVo
+     * @return
+     */
+    @Override
+    public int optRoleResRal(TsRoleResRalVo tsRoleResRalVo) {
+        RaRoleResource raRoleResource = new RaRoleResource();
+        raRoleResource.setRrRoleNo(tsRoleResRalVo.getRoleNo());
+        //删除之前所有关联关系
+        raRoleResourceMapper.delete(raRoleResource);
+        List<RaRoleResource> addRoleResources = new ArrayList<RaRoleResource>();
+        //建立关联关系
+        for (TsResource tsResource:  tsRoleResRalVo.getResources()) {
+            raRoleResource = new RaRoleResource();
+            raRoleResource.setRrRoleNo(tsRoleResRalVo.getRoleNo());
+            raRoleResource.setRrResourceNo(tsResource.getResNo());
+            raRoleResource.setChecked(tsRoleResRalVo.getChecked());
+            raRoleResource.setCheckState(tsRoleResRalVo.getCheckState());
+            addRoleResources.add(raRoleResource);
+        }
+        return raRoleResourceMapper.insertBatch(addRoleResources);
+    }
+
+    /**
+     * 生成角色用户关联关系
+     *
+     * @param tsRoleUserRalVo
+     * @return
+     */
+    @Override
+    public int optRoleUserRal(TsRoleUserRalVo tsRoleUserRalVo) {
+        return 0;
     }
 
 
