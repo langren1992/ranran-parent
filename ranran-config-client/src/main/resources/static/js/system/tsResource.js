@@ -242,7 +242,12 @@ function btnSaveOpt() {
                 $("#res_btn").datagrid('loadData',{total:0,rows:[]});
                 if(data.success){
                     parent.$.messager.alert("提示信息",data.message);
+                }else {
+                    parent.$.messager.alert("异常提示",data.message);
                 }
+            },
+            error:function (message) {
+                console.log(message);
             }
         });
     }

@@ -62,35 +62,4 @@ public class BeetlConfiguration {
         beetlSpringViewResolver.setConfig(beetlGroupUtilConfiguration);
         return beetlSpringViewResolver;
     }
-
-//    @Bean(name = "beetlSqlScannerConfigurer")
-//    public BeetlSqlScannerConfigurer getBeetlSqlScannerConfigurer() {
-//        BeetlSqlScannerConfigurer conf = new BeetlSqlScannerConfigurer();
-//        conf.setBasePackage("com.ranran");
-//        conf.setDaoSuffix("Mapper");
-//        conf.setSqlManagerFactoryBeanName("sqlManagerFactoryBean");
-//        return conf;
-//    }
-
-//    @Bean(name = "sqlManagerFactoryBean")
-//    @Primary
-//    public SqlManagerFactoryBean getSqlManagerFactoryBean(@Qualifier("dataSource") DataSource datasource) {
-//        SqlManagerFactoryBean factory = new SqlManagerFactoryBean();
-//        BeetlSqlDataSource  source = new BeetlSqlDataSource();
-//        source.setMasterSource(datasource);
-//        factory.setCs(source);
-//        factory.setDbStyle(new MySqlStyle());
-//        factory.setInterceptors(new Interceptor[]{new DebugInterceptor()});
-//        factory.setNc(new JPA2NameConversion());
-//        factory.setSqlLoader(new ClasspathLoader("/sql"));
-//        return factory;
-//    }
-
-//    @Bean(name="txManager")
-//    public DataSourceTransactionManager getDataSourceTransactionManager(@Qualifier("dataSource") DataSource datasource) {
-//        DataSourceTransactionManager dsm = new DataSourceTransactionManager();
-//        dsm.setDataSource(datasource);
-//        return dsm;
-//    }
-
 }

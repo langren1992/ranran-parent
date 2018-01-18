@@ -47,13 +47,6 @@ public interface TsRoleRestController {
     public ResponseResult selectRoleNotUser(HttpServletRequest request);
 
     /**
-     * 新增，更新角色信息
-     * @param request
-     * @return
-     */
-    public ResponseResult updateRoleBatch(HttpServletRequest request);
-
-    /**
      * 生成角色资源、权限关联关系
      * @param request
      * @return
@@ -67,5 +60,18 @@ public interface TsRoleRestController {
      */
     public ResponseResult optRoleUserRal(HttpServletRequest request);
 
+    /**
+     * 新增、更新、启用、停用角色信息
+     * @param request
+     * @return
+     */
+    public ResponseResult updateRoleBatch(HttpServletRequest request);
+
+    /**
+     * 删除角色
+     * @param request
+     * @return
+     */
+    public ResponseResult deleteRole(HttpServletRequest request);
 
 }

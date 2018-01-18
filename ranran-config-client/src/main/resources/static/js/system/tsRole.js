@@ -13,6 +13,7 @@ var role_user_list = '#role_user_list';
 var role_non_user_list = '#role_non_user_list';
 var form_condi = '#form_condi';
 var form_roleNo_res = '#form_roleNo_res';
+var btn_roleRes_add = '#btn_roleRes_add';
 /*******************************所有访问路径定义****************************************/
 //角色列表访问路径
 var role_list_url = './tsRole/selectByCondition.html';
@@ -241,6 +242,7 @@ function initComponent(){
             { field: 'resDescribe', title: '描述'}
         ]],
         toolbar:roleRes_btn_tool,
+        // SelectOnCheck:true,
         queryParams:{
             roleNo:'',
             resNo:''
@@ -253,7 +255,18 @@ function initComponent(){
                 contentType : 'application/json;charset=utf-8', // 设置请求头信息
                 data : JSON.stringify(param),
                 success : function(result) {
+                    //先赋值
                     success(result);
+                    //重新选择
+                    var results = result.data;
+                    for (var i = 0,length = results.length; i <= length; i++){
+                        var res = results[i];
+                        if(res != undefined){
+                            if (res.checked!= undefined && res.checked){
+                                $(roleRes_btn_list).datagrid('selectRecord',res.resNo)
+                            }
+                        }
+                    }
                 }
             });
         }
@@ -442,7 +455,7 @@ function btnSaveOpt() {
     if (flag){
         $.ajax({
             type: "POST",
-            url: "/tsRole/saveBatch.html",
+            url: "./tsRole/updateRoles.html",
             data: JSON.stringify(arr),
             contentType:"application/json",
             dataType: "json",
@@ -602,6 +615,18 @@ function btnSaveRoleResOpt() {
     }
 };
 
+function benRoleAdd() {
+    //获取单选的行数据
+    var tsRole = $(role_list).datagrid('getSelected');
+    //获取勾选的行数据
+    var roleResBtnList = $(roleRes_btn_list).datagrid('getChecked');
+    //获取选中的资源树
+    var roleRes = $(roleRes_list).tree('getSelected');
+    if(tsRole == null || roleRes == null){
+        parent.$.messager.alert("提示信息",'请选择角色和资源菜单！');
+    }
+};
+
 function btnBindFun() {
     $(btn_add).bind('click', function(){
         btnAddOpt();
@@ -630,6 +655,10 @@ function btnBindFun() {
     $(btn_add_user).bind('click',function(){
         // parent.$('#index_body').layout('collapse','west');
         $(add_user_dialog).dialog('open');
+    });
+
+    $(btn_roleRes_add).bind('click',function () {
+        benRoleAdd();
     });
 }
 

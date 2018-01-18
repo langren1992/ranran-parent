@@ -68,7 +68,7 @@ public class InertAspect {
                 beanWrapper = new BeanWrapperImpl(object);
                 //对象ID主键赋值
                 for (int i = 0,size = idList.size(); i < size; i++) {
-                    beanWrapper.setPropertyValue(idName, snowflakeIdWorker.nextId());
+                    beanWrapper.setPropertyValue(idList.get(i), snowflakeIdWorker.nextId());
                 }
                 // 设置创建时间和修改时间
                 if (beanWrapper.isWritableProperty(CREATOR)) {

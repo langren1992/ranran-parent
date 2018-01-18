@@ -51,11 +51,11 @@ public interface TsRoleService {
     public List<TsUser> selectRoleNotUser(TsRoleNotUserVo tsRoleNotUserVo);
 
     /**
-     * 批量更新角色信息
-     * @param tsRoleBatchVo
+     * 批量更新、更新、启用、停用角色信息
+     * @param tsRoleUpdateVos
      * @return
      */
-    public Integer updateRoleBatch(TsRoleBatchVo tsRoleBatchVo);
+    public Integer updateRoleBatch(List<TsRoleUpdateVo> tsRoleUpdateVos);
 
     /**
      * 生成角色资源、权限关联关系
@@ -70,4 +70,12 @@ public interface TsRoleService {
      * @return
      */
     int optRoleUserRal(TsRoleUserRalVo tsRoleUserRalVo);
+
+    /**
+     * 删除角色
+     *
+     * @param tsRoleDeleteVo
+     * @return
+     */
+    int deleteRole(TsRoleDeleteVo tsRoleDeleteVo);
 }

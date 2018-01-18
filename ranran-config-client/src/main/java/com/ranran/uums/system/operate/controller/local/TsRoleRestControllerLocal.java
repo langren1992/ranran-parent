@@ -1,5 +1,6 @@
 package com.ranran.uums.system.operate.controller.local;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
@@ -100,7 +101,7 @@ public class TsRoleRestControllerLocal extends RestBaseController implements TsR
     }
 
     /**
-     * 新增，更新角色信息
+     * 新增、更新、启用、停用角色信息
      *
      * @param request
      * @return
@@ -108,8 +109,21 @@ public class TsRoleRestControllerLocal extends RestBaseController implements TsR
     @Override
     public ResponseResult updateRoleBatch(HttpServletRequest request) {
         String reqData = this.wrapperJson(request, new ErrorCode(105,"/tsRole/updateRoleBatch.html"));
-        TsRoleBatchVo tsRoleBatchVo = JSONObject.parseObject(reqData,TsRoleBatchVo.class);
-        return this.saveResult(tsRoleService.updateRoleBatch(tsRoleBatchVo));
+        List<TsRoleUpdateVo> tsRoleUpdateVos = JSONArray.parseArray(reqData,TsRoleUpdateVo.class);
+        return this.saveResult(tsRoleService.updateRoleBatch(tsRoleUpdateVos));
+    }
+
+    /**
+     * 删除角色
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public ResponseResult deleteRole(HttpServletRequest request) {
+        String reqData = this.wrapperJson(request, new ErrorCode(106,"/tsRole/deleteRole.html"));
+        TsRoleDeleteVo tsRoleDeleteVo = JSONObject.parseObject(reqData,TsRoleDeleteVo.class);
+        return this.deleteResult(tsRoleService.deleteRole(tsRoleDeleteVo));
     }
 
     /**

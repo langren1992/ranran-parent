@@ -1,11 +1,14 @@
 package com.ranran.core.configuration;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import org.beetl.sql.ext.spring4.SqlManagerFactoryBean;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -86,4 +89,15 @@ public class DruidDataSourceConfiguration {
         return datasource;
     }
 
+    /**
+     * 添加事务控制
+     * @param datasource
+     * @return
+     */
+    @Bean(name="txManager")
+    public DataSourceTransactionManager getDataSourceTransactionManager(@Qualifier("dataSource") DataSource datasource) {
+        DataSourceTransactionManager dsm = new DataSourceTransactionManager();
+        dsm.setDataSource(datasource);
+        return dsm;
+    }
 }

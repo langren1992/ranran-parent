@@ -234,6 +234,39 @@ public class TsRoleRestControllerImpl extends RestBaseController implements TsRo
     }
 
     /**
+     * 删除角色
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    @PostMapping("/deleteRole.html")
+    public ResponseResult deleteRole(HttpServletRequest request) {
+        ResponseResult responseResult = null;
+        try {
+            responseResult = tsRoleRestController.deleteRole(request);
+        } catch (ServiceException e) {
+            LOGGER.error(e.getMessage(), e);
+            ErrorCode error = e.getErrorCode();
+            responseResult = new ResponseResult();
+            responseResult.success = false;
+            responseResult.message = error.code +":"+error.name;
+        } catch (ControllerException e) {
+            LOGGER.error(e.getMessage(), e);
+            ErrorCode error = e.getErrorCode();
+            responseResult = new ResponseResult();
+            responseResult.success = false;
+            responseResult.message = error.code +":"+error.name;
+        }  catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseResult = new ResponseResult();
+            responseResult.success = false;
+            responseResult.message = "999:未知错误,请联系管理员!";
+        }
+        return responseResult;
+    }
+
+    /**
      * 生成角色资源、权限关联关系
      *
      * @param request

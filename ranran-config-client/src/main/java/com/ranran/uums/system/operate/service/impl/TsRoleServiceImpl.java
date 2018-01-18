@@ -20,6 +20,7 @@ import java.util.*;
 @Service
 public class TsRoleServiceImpl implements TsRoleService {
 
+
     @Autowired
     private TsRoleMapper tsRoleMapper;
 
@@ -201,13 +202,13 @@ public class TsRoleServiceImpl implements TsRoleService {
     }
 
     /**
-     * 批量更新角色信息
+     * 批量更新、更新、启用、停用角色信息
      *
-     * @param tsRoleBatchVo
+     * @param tsRoleUpdateVos
      * @return
      */
     @Override
-    public Integer updateRoleBatch(TsRoleBatchVo tsRoleBatchVo) {
+    public Integer updateRoleBatch(List<TsRoleUpdateVo> tsRoleUpdateVos) {
 
         return null;
     }
@@ -248,5 +249,15 @@ public class TsRoleServiceImpl implements TsRoleService {
         return 0;
     }
 
+    /**
+     * 删除角色
+     *
+     * @param tsRoleDeleteVo
+     * @return
+     */
+    @Override
+    public int deleteRole(TsRoleDeleteVo tsRoleDeleteVo) {
+        return 0;
+    }
 
 }
