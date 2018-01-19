@@ -1,22 +1,16 @@
 package com.ranran.uums.system.operate.controller.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.ranran.core.RestBaseController;
-import com.ranran.core.BaseModel;
 import com.ranran.core.ResponseResult;
 import com.ranran.uums.system.model.TsResource;
 import com.ranran.uums.system.operate.controller.TsResourceRestController;
 import com.ranran.uums.system.operate.service.TsResourceService;
-import com.ranran.uums.system.operate.vo.TsResourceVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.ConnectException;
 
 /**
  * Created by zengrui on 2017/7/9.

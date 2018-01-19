@@ -54,6 +54,13 @@ public interface TsRoleRestController {
     public ResponseResult optRoleResRal(HttpServletRequest request);
 
     /**
+     * 生成角色权限关联关系
+     * @param request 请求参数
+     * @return ResponseResult
+     */
+    public ResponseResult optRoleResPermiRal(HttpServletRequest request);
+
+    /**
      * 生成角色用户关联关系
      * @param request
      * @return

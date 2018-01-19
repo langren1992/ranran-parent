@@ -1,28 +1,20 @@
 package com.ranran.uums.system.operate.controller.impl;
 
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.ranran.core.ErrorCode;
 import com.ranran.core.RestBaseController;
 import com.ranran.core.ResponseResult;
 import com.ranran.core.exception.ControllerException;
 import com.ranran.core.exception.ServiceException;
-import com.ranran.core.util.StringUtils;
-import com.ranran.uums.system.model.TsRole;
 import com.ranran.uums.system.operate.controller.TsRoleRestController;
-import com.ranran.uums.system.operate.service.TsRoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * Created by zengrui on 2017/7/11.
@@ -278,6 +270,39 @@ public class TsRoleRestControllerImpl extends RestBaseController implements TsRo
         ResponseResult responseResult = null;
         try {
             responseResult = tsRoleRestController.optRoleResRal(request);
+        } catch (ServiceException e) {
+            LOGGER.error(e.getMessage(), e);
+            ErrorCode error = e.getErrorCode();
+            responseResult = new ResponseResult();
+            responseResult.success = false;
+            responseResult.message = error.code +":"+error.name;
+        } catch (ControllerException e) {
+            LOGGER.error(e.getMessage(), e);
+            ErrorCode error = e.getErrorCode();
+            responseResult = new ResponseResult();
+            responseResult.success = false;
+            responseResult.message = error.code +":"+error.name;
+        }  catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseResult = new ResponseResult();
+            responseResult.success = false;
+            responseResult.message = "999:未知错误,请联系管理员!";
+        }
+        return responseResult;
+    }
+
+    /**
+     * 生成角色权限关联关系
+     *
+     * @param request 请求参数
+     * @return ResponseResult
+     */
+    @Override
+    @PostMapping("/optRoleResPermiRal.html")
+    public ResponseResult optRoleResPermiRal(HttpServletRequest request) {
+        ResponseResult responseResult = null;
+        try {
+            responseResult = tsRoleRestController.optRoleResPermiRal(request);
         } catch (ServiceException e) {
             LOGGER.error(e.getMessage(), e);
             ErrorCode error = e.getErrorCode();

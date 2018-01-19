@@ -25,4 +25,5 @@ public class ResponseResult {
      * 配合easyui属性，数据列表rows
      */
     public Object[] rows;
+
 }

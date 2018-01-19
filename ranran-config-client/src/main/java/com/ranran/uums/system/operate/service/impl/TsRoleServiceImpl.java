@@ -15,6 +15,9 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.*;
 
 /**
+ * 角色新增、保存、启用、停用
+ * 角色资源关联
+ * 角色用户关联
  * Created by zengrui on 2017/7/17.
  */
 @Service
@@ -87,20 +90,20 @@ public class TsRoleServiceImpl implements TsRoleService {
         tsResource.setResType(1);
         //查询所有菜单
         List<TsResource> tsResourcesList = tsResourceMapper.select(tsResource);
-        //标记后的所有菜单
-        List<TsRoleResourceVo> tsRoleResourceTreeVoList = new ArrayList<TsRoleResourceVo>();
         //取出所有需要标记的资源编码
-        Map<String,RaRoleResource> allResNo = new HashMap<String, RaRoleResource>();
+        Map<String,RaRoleResource> allResNo = new HashMap<String, RaRoleResource>(raRoleResourceList.size());
         //取出所有父及编码
-        Map<String,RaRoleResource> parentResNoMap = new HashMap<String, RaRoleResource>();
-        for (int j = 0; j < raRoleResourceList.size(); j++){
+        Map<String,RaRoleResource> parentResNoMap = new HashMap<String, RaRoleResource>(tsResourcesList.size());
+        for (int j = 0, size = raRoleResourceList.size(); j < size; j++){
             allResNo.put(raRoleResourceList.get(j).getRrResourceNo(),raRoleResourceList.get(j));
         }
-        for (int i = 0; i < tsResourcesList.size(); i++){
+        for (int i = 0, size = tsResourcesList.size(); i < size; i++){
             parentResNoMap.put(tsResourcesList.get(i).getResParentNo(),null);
         }
         TsRoleResourceVo tsRoleResourceTreeVo = null;
-        for (int i = 0; i < tsResourcesList.size(); i++){
+        //标记后的所有菜单
+        List<TsRoleResourceVo> tsRoleResourceTreeVoList = new ArrayList<TsRoleResourceVo>(tsResourcesList.size());
+        for (int i = 0,size = tsResourcesList.size(); i < size; i++){
             tsRoleResourceTreeVo = new TsRoleResourceVo();
             BeanUtils.copyProperties(tsResourcesList.get(i),tsRoleResourceTreeVo);
             //包含则表示需要标记
@@ -115,9 +118,8 @@ public class TsRoleServiceImpl implements TsRoleService {
 
     /**
      * 查询资源权限信息
-     *
-     * @param tsRoleResPermiVo
-     * @return
+     * @param tsRoleResPermiVo 权限视图类
+     * @return 权限视图列表
      */
     @Override
     public List<TsRoleResPermiVo> selectRoleResPermi(TsRoleResPermiVo tsRoleResPermiVo) {
@@ -135,7 +137,7 @@ public class TsRoleServiceImpl implements TsRoleService {
         for (RaRoleResource raRoleResourceTmp: raRoleResourceList) {
             selectResMap.put(raRoleResourceTmp.getRrResourceNo(),null);
         }
-        TsRoleResPermiVo tsRoleResPermiTmp = null;
+        TsRoleResPermiVo tsRoleResPermiTmp;
         List<TsRoleResPermiVo> tsRoleResPermiList = new ArrayList<TsRoleResPermiVo>();
         for (TsResource tsResourceTmp: tsResourcesList) {
             tsRoleResPermiTmp = new TsRoleResPermiVo();
@@ -152,8 +154,8 @@ public class TsRoleServiceImpl implements TsRoleService {
     /**
      * 查询角色角色用户信息
      *
-     * @param tsRoleUserVo
-     * @return
+     * @param tsRoleUserVo 角色用户前台视图
+     * @return 角色的用户列表
      */
     @Override
     public List<TsUser> selectRoleUser(TsRoleUserVo tsRoleUserVo) {
@@ -209,55 +211,207 @@ public class TsRoleServiceImpl implements TsRoleService {
      */
     @Override
     public Integer updateRoleBatch(List<TsRoleUpdateVo> tsRoleUpdateVos) {
-
-        return null;
+        // TODO: 2018/1/18 曾睿 添加保存、启用、停用
+        // 新增列表
+        List<TsRole> insertList = new ArrayList<TsRole>();
+        // 更新列表
+        List<TsRole> updateList = new ArrayList<TsRole>();
+        TsRole tsRole;
+        for (int i = 0,size = tsRoleUpdateVos.size(); i < size; i++) {
+            // 判断新增、更新
+            if (tsRoleUpdateVos.get(i).getRoleId() != null){
+                tsRole = new TsRole();
+                BeanUtils.copyProperties(tsRoleUpdateVos.get(i),tsRole);
+                insertList.add(tsRole);
+            } else {
+                tsRole = new TsRole();
+                BeanUtils.copyProperties(tsRoleUpdateVos.get(i),tsRole);
+                updateList.add(tsRole);
+            }
+        }
+        int i = 0;
+        if (insertList.size()>0){
+            i += tsRoleMapper.insertBatch(insertList);
+        }
+        if (updateList.size()>0){
+            i += tsRoleMapper.updateBatch(updateList);
+        }
+        return i;
     }
 
     /**
      * 生成角色资源、权限关联关系
      *
-     * @param tsRoleResRalVo
+     * @param tsRoleResRalVos
      * @return
      */
     @Override
-    public int optRoleResRal(TsRoleResRalVo tsRoleResRalVo) {
+    public int optRoleResRal(List<TsRoleResourceVo> tsRoleResRalVos) {
+        // TODO: 2018/1/18 曾睿 生成角色资源、权限关联关系
         RaRoleResource raRoleResource = new RaRoleResource();
-        raRoleResource.setRrRoleNo(tsRoleResRalVo.getRoleNo());
-        //删除之前所有关联关系
-        raRoleResourceMapper.delete(raRoleResource);
-        List<RaRoleResource> addRoleResources = new ArrayList<RaRoleResource>();
-        //建立关联关系
-        for (TsResource tsResource:  tsRoleResRalVo.getResources()) {
-            raRoleResource = new RaRoleResource();
-            raRoleResource.setRrRoleNo(tsRoleResRalVo.getRoleNo());
-            raRoleResource.setRrResourceNo(tsResource.getResNo());
-            raRoleResource.setChecked(tsRoleResRalVo.getChecked());
-            raRoleResource.setCheckState(tsRoleResRalVo.getCheckState());
-            addRoleResources.add(raRoleResource);
+        raRoleResource.setRrRoleNo(tsRoleResRalVos.get(0).getRoleNo());
+        //原角色资源集合
+        List<RaRoleResource> raRoleResourcesOld = raRoleResourceMapper.select(raRoleResource);
+        // 所有原始资源 菜单和按钮
+        Set<String> resourceNoOldSet = new HashSet<String>();
+        for (int i = 0,size = raRoleResourcesOld.size(); i < size; i++) {
+            resourceNoOldSet.add(raRoleResourcesOld.get(i).getRrResourceNo());
         }
-        return raRoleResourceMapper.insertBatch(addRoleResources);
+        Example example = new Example(TsResource.class);
+        // 添加菜单查询条件
+        example.createCriteria().andIn("resNo",resourceNoOldSet).andEqualTo("resType",1);
+        List<TsResource> tsResourcesMenuOld = tsResourceMapper.selectByExample(example);
+        resourceNoOldSet.clear();
+        // 所有原始资源 菜单
+        for (int i = 0,size = tsResourcesMenuOld.size(); i < size; i++) {
+            resourceNoOldSet.add(tsResourcesMenuOld.get(i).getResNo());
+        }
+        // 获取最新资源 菜单
+        Set<String> resourceNoNewSet = new HashSet<String>();
+        for (TsRoleResourceVo tsRoleResourceVo:  tsRoleResRalVos) {
+            resourceNoNewSet.add(tsRoleResourceVo.getResNo());
+        }
+        // 获取 原始菜单 新菜单 的差集 此元素为删除菜单
+        Set<String> resourceNoDeleteSet = new HashSet<String>();
+        resourceNoDeleteSet.addAll(resourceNoOldSet);
+        resourceNoDeleteSet.removeAll(resourceNoNewSet);
+
+        // 获取 新菜单 旧菜单 的差集 此元素为新增菜单
+        Set<String> resourceNoInsertSet = new HashSet<String>();
+        resourceNoInsertSet.addAll(resourceNoNewSet);
+        resourceNoInsertSet.removeAll(resourceNoOldSet);
+
+        List<RaRoleResource> raRoleResourcesInsert = new ArrayList<RaRoleResource>();
+        //建立关联关系
+        for (TsRoleResourceVo tsRoleResourceVo:  tsRoleResRalVos) {
+            if(resourceNoInsertSet.contains(tsRoleResourceVo.getResNo())){
+                raRoleResource = new RaRoleResource();
+                raRoleResource.setRrRoleNo(tsRoleResourceVo.getRoleNo());
+                raRoleResource.setRrResourceNo(tsRoleResourceVo.getResNo());
+                raRoleResource.setChecked(tsRoleResourceVo.getChecked());
+                raRoleResource.setCheckState(tsRoleResourceVo.getCheckState());
+                raRoleResourcesInsert.add(raRoleResource);
+            }
+        }
+        int i = 0;
+        if (resourceNoDeleteSet.size() >=1){
+            example = new Example(RaRoleResource.class);
+            example.createCriteria().andEqualTo("rrRoleNo",tsRoleResRalVos.get(0).getRoleNo()).andIn("rrResourceNo",resourceNoDeleteSet);
+            i += raRoleResourceMapper.deleteByExample(example);
+        }
+        if (raRoleResourcesInsert.size() >=1){
+            i += raRoleResourceMapper.insertBatch(raRoleResourcesInsert);
+        }
+        return i;
     }
 
     /**
      * 生成角色用户关联关系
      *
-     * @param tsRoleUserRalVo
-     * @return
+     * @param tsRoleUserRalVo 角色用户操作视图
+     * @return 操作数据条数
      */
     @Override
     public int optRoleUserRal(TsRoleUserRalVo tsRoleUserRalVo) {
-        return 0;
+        // TODO: 2018/1/18 曾睿 添加角色用户操作逻辑
+        int i = 0;
+        //存放add、delete操作需要添加的对象
+        List<RaUserRole> raUserRoles = new ArrayList<RaUserRole>();
+        //获取本次操作的用户信息
+        List<TsUser> users = tsRoleUserRalVo.getUsers();
+        //获取本次操作的角色编号
+        String roleNo = tsRoleUserRalVo.getRoleNo();
+        RaUserRole raUserRole;
+        for (int j = 0,size = users.size(); j < size; j++) {
+            //创建角色用户关联信息
+            raUserRole = new RaUserRole();
+            raUserRole.setUrRoleNo(roleNo);
+            raUserRole.setUrUserNo(users.get(j).getUserNo());
+            raUserRoles.add(raUserRole);
+        }
+        //判断 新增（ADD）、删除（DELETE）
+        if (RoleUserOptEnum.ADD.name.equalsIgnoreCase(tsRoleUserRalVo.getOptType())){
+            if (raUserRoles.size()>0){
+                i += raUserRoleMapper.insertBatch(raUserRoles);
+            }
+        }else if(RoleUserOptEnum.DELETE.name.equalsIgnoreCase(tsRoleUserRalVo.getOptType())){
+            if (raUserRoles.size()>0){
+                i += raUserRoleMapper.deleteBatchByObjs(raUserRoles);
+            }
+        }
+        return i;
+    }
+
+    /**
+     * 用户角色信息操作枚举
+     */
+    private enum RoleUserOptEnum{
+
+        ADD("ADD",1),DELETE("DELETE",2);
+
+        public final String name;
+
+        public final int code;
+
+        RoleUserOptEnum(String name,int code){
+            this.code = code;
+            this.name = name;
+        }
+
     }
 
     /**
      * 删除角色
      *
-     * @param tsRoleDeleteVo
-     * @return
+     * @param tsRoleDeleteVo 角色删除前台视图
+     * @return 删除结果
      */
     @Override
     public int deleteRole(TsRoleDeleteVo tsRoleDeleteVo) {
-        return 0;
+        // TODO: 2018/1/18 曾睿 添加角色删除逻辑
+        TsRole tsRole = new TsRole();
+        BeanUtils.copyProperties(tsRoleDeleteVo,tsRole);
+        return tsRoleMapper.deleteByPrimaryKey(tsRole);
+    }
+
+    /**
+     * 生成角色权限关联关系
+     *
+     * @param tsRoleResourceVos 角色权限关系视图
+     * @return int
+     */
+    @Override
+    public int optRoleResPermiRal(List<TsRoleResourceVo> tsRoleResourceVos) {
+        // TODO: 2018/1/18 曾睿 角色权限关系视图
+        TsResource tsResource = new TsResource();
+        tsResource.setResParentNo(tsRoleResourceVos.get(0).getResParentNo());
+        List<TsResource> tsResourcesList = tsResourceMapper.select(tsResource);
+        Set<String> resNoSet = new HashSet<String>();
+        for (int i = 0,size = tsResourcesList.size(); i < size; i++) {
+            resNoSet.add(tsResourcesList.get(i).getResNo());
+        }
+        Example example = new Example(RaRoleResource.class);
+        example.createCriteria().andEqualTo("rrRoleNo",tsRoleResourceVos.get(0).getRoleNo()).andIn("rrResourceNo",resNoSet);
+
+        List<RaRoleResource> raRoleResourcesInsert = new ArrayList<RaRoleResource>();
+        RaRoleResource raRoleResource;
+        //建立关联关系
+        for (TsRoleResourceVo tsRoleResourceVo:  tsRoleResourceVos) {
+            raRoleResource = new RaRoleResource();
+            raRoleResource.setRrRoleNo(tsRoleResourceVo.getRoleNo());
+            raRoleResource.setRrResourceNo(tsRoleResourceVo.getResNo());
+            raRoleResource.setChecked(tsRoleResourceVo.getChecked());
+            raRoleResource.setCheckState(tsRoleResourceVo.getCheckState());
+            raRoleResourcesInsert.add(raRoleResource);
+        }
+        int i = 0;
+        if(resNoSet.size() >=1){
+            i+= raRoleResourceMapper.deleteByExample(example);
+        }
+        if (raRoleResourcesInsert.size() >=1){
+            i+= raRoleResourceMapper.insertBatch(raRoleResourcesInsert);
+        }
+        return i;
     }
 
 }

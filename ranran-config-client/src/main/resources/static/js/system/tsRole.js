@@ -586,6 +586,7 @@ function btnSaveRoleResOpt() {
         var roleResNull = [];
         for (var i = 0; i < roleResHas.length; i++){
             roleResNull.push({
+                roleNo:$(form_roleNo_res).textbox("getValue"),
                 resId:roleResHas[i].resId,
                 resNo:roleResHas[i].resNo,
                 resName:roleResHas[i].resName,
@@ -593,20 +594,19 @@ function btnSaveRoleResOpt() {
                 checkState:roleResHas[i].checkState
             });
         }
-        var json = '{'+$(form_roleRes+" input").map(function(){
-                if($(this).attr("name")!= undefined)
-                    return '"'+$(this).attr("name")+'":"'+$(this).val()+'"';
-            }).get().join(", ")+',"roleResList":'+JSON.stringify(roleResNull)+'}';
-
         $.ajax({
             type: "POST",
-            url: "./role/addRoleRes",
-            data: json,
+            url: "./tsRole/optRoleResRal.html",
+            data: JSON.stringify(roleResNull),
             contentType:"application/json",
             dataType: "json",
             success: function(data){
                 $(form_roleRes).form("clear");
-                $(roleRes_list).tree({url: "./res/resList"});
+                $(roleRes_list).tree({
+                    queryParams:{
+                        roleNo:''
+                    }
+                });
                 if(data.success){
                     parent.$.messager.alert("提示信息",data.message);
                 }
@@ -622,12 +622,49 @@ function benRoleAdd() {
     var roleResBtnList = $(roleRes_btn_list).datagrid('getChecked');
     //获取选中的资源树
     var roleRes = $(roleRes_list).tree('getSelected');
-    if(tsRole == null || roleRes == null){
+    if(tsRole == null || roleRes == null && roleRes.resParentNo == null){
         parent.$.messager.alert("提示信息",'请选择角色和资源菜单！');
+    }else{
+        var roleResNull = [];
+        for (var i = 0; i < roleResBtnList.length; i++){
+            roleResNull.push({
+                roleNo:$(form_roleNo_res).textbox("getValue"),
+                resId:roleResBtnList[i].resId,
+                resNo:roleResBtnList[i].resNo,
+                resParentNo:roleRes.resParentNo,
+                resName:roleResBtnList[i].resName,
+                checked:roleResBtnList[i].checked,
+                checkState:roleResBtnList[i].checkState
+            });
+        }
+        $.ajax({
+            type: "POST",
+            url: "./tsRole/optRoleResPermiRal.html",
+            data: JSON.stringify(roleResNull),
+            contentType:"application/json",
+            dataType: "json",
+            success: function(data){
+                $(form_roleRes).form("clear");
+                $(roleRes_list).tree({
+                    queryParams:{
+                        roleNo:''
+                    }
+                });
+                $(roleRes_btn_list).datagrid('loadData',{total:0,rows:[]});
+                $(roleRes_btn_list).datagrid('unselectAll');
+                if(data.success){
+                    parent.$.messager.alert("提示信息",data.message);
+                }
+            }
+        });
     }
+
 };
 
 function btnBindFun() {
+    /**
+     *
+     */
     $(btn_add).bind('click', function(){
         btnAddOpt();
     });

@@ -41,6 +41,9 @@ public class InertAspect {
     //修改时间
     private static final String MODIFYTIME = "modifyTime";
 
+    //版本号
+    private static final String RECVER = "recVer";
+
     //id生成组件
     @Autowired
     private SnowflakeIdWorker snowflakeIdWorker;

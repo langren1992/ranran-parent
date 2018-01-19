@@ -59,18 +59,12 @@ public class BaseDeleteProvider extends MapperTemplate {
         //当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
         for (EntityColumn column : columnList) {
             if(first) {
-                sql.append("<if test=\"record."+column.getProperty()+" != null AND record." + column.getProperty() + "!=''\">");
+                sql.append("<if test=\"record."+column.getProperty()+"!= null and record." + column.getProperty() + "!='' \">");
                 sql.append(column.getColumn()+"=#{record."+column.getProperty()+"}");
                 sql.append("</if>");
-                sql.append("<if test=\"record."+column.getProperty()+" == null\">");
-                sql.append(column.getColumn()+" is null ");
-                sql.append("</if>");
             }
-            sql.append("<if test=\"record."+column.getProperty()+" != null AND record." + column.getProperty() + "!=''\">");
+            sql.append("<if test=\"record."+column.getProperty()+"!= null and record." + column.getProperty() + "!='' \">");
             sql.append(" AND "+column.getColumn()+"=#{record."+column.getProperty()+"}");
-            sql.append("</if>");
-            sql.append("<if test=\"record."+column.getProperty()+" == null\">");
-            sql.append(" AND "+column.getColumn()+" is null ");
             sql.append("</if>");
             first = false;
         }

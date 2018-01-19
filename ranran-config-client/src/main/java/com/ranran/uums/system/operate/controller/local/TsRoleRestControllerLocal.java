@@ -135,8 +135,21 @@ public class TsRoleRestControllerLocal extends RestBaseController implements TsR
     @Override
     public ResponseResult optRoleResRal(HttpServletRequest request) {
         String reqData = this.wrapperJson(request, new ErrorCode(106,"/tsRole/optRoleResRal.html"));
-        TsRoleResRalVo tsRoleResRalVo = JSONObject.parseObject(reqData,TsRoleResRalVo.class);
-        return this.saveResult(tsRoleService.optRoleResRal(tsRoleResRalVo));
+        List<TsRoleResourceVo> tsRoleResourceVos = JSONArray.parseArray(reqData,TsRoleResourceVo.class);
+        return this.saveResult(tsRoleService.optRoleResRal(tsRoleResourceVos));
+    }
+
+    /**
+     * 生成角色权限关联关系
+     *
+     * @param request 请求参数
+     * @return ResponseResult
+     */
+    @Override
+    public ResponseResult optRoleResPermiRal(HttpServletRequest request) {
+        String reqData = this.wrapperJson(request, new ErrorCode(106,"/tsRole/optRoleResPermiRal.html"));
+        List<TsRoleResourceVo> tsRoleResourceVos = JSONArray.parseArray(reqData,TsRoleResourceVo.class);
+        return this.saveResult(tsRoleService.optRoleResPermiRal(tsRoleResourceVos));
     }
 
     /**
