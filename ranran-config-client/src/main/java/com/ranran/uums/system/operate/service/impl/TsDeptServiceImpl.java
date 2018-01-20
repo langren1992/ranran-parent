@@ -1,13 +1,15 @@
 package com.ranran.uums.system.operate.service.impl;
 
-import com.ranran.core.exception.ServiceException;
-import com.ranran.core.shiro.util.StringUtils;
+
 import com.ranran.uums.system.mapper.TsDeptMapper;
 import com.ranran.uums.system.model.TsDept;
 import com.ranran.uums.system.operate.service.TsDeptService;
-import com.ranran.uums.system.operate.vo.TsCompanyDeptVo;
+import com.ranran.uums.system.operate.vo.TsDeptSearchVo;
+import com.ranran.uums.system.operate.vo.TsDeptUpdateVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,114 +23,52 @@ public class TsDeptServiceImpl implements TsDeptService {
     @Autowired
     private TsDeptMapper tsDeptMapper;
 
-
     /**
-     * @descripte
-     * @param tsDept
-     * @return TsDept
-     */
-    @Override
-    public TsDept selectOne(TsDept tsDept){
-        return tsDeptMapper.selectOne(tsDept);
-    }
-
-    @Override
-    public List<TsDept> select(TsDept tsDept){
-        return tsDeptMapper.select(tsDept);
-    }
-
-    /**
-     * 插入空
-     * */
-    @Override
-    public int insert(TsDept tsDept){
-        return tsDeptMapper.insert(tsDept);
-    }
-
-    /**
-     * 插入不为空的
-     * */
-    @Override
-        public int insertSelective(TsDept tsDept){
-        return tsDeptMapper.insertSelective(tsDept);
-    }
-
-    /**
+     * 查询部门信息，生成树形菜单
      *
-     * @param tsDepts
-     * @return
+     * @param tsDeptSearchVo 查询条件视图
+     * @return 返回部门列表 响应结果
      */
     @Override
-    public int insertBatch(List<TsDept> tsDepts){
-        return tsDeptMapper.insertBatch(tsDepts);
+    public List<TsDept> selectDept(TsDeptSearchVo tsDeptSearchVo) {
+        // TODO: 2018/1/20  曾睿 添加部门数创建数据生成
+        Example example = new Example(TsDept.class);
+        return tsDeptMapper.selectByExample(example);
     }
 
+    /**
+     * 新增、启用、停用、删除（逻辑阐述）部门
+     *
+     * @param tsDeptUpdateVos 操作数据视图
+     * @return 返回操作成功数量
+     */
     @Override
-    public int updateByPrimaryKey(TsDept tsDept) throws ServiceException {
-        if (StringUtils.isNotEmpty(tsDept.getDeptId())){
-            return tsDeptMapper.updateByPrimaryKey(tsDept);
-        }
-//        throw new ServiceException(TsDeptServiceImpl.class.toString()+"出现异常，异常编号"+001);
-        return 0;
-    }
-
-    @Override
-    public int updateByPrimaryKeySelective(TsDept tsDept) throws ServiceException {
-        if (StringUtils.isNotEmpty(tsDept.getDeptId())){
-            return tsDeptMapper.updateByPrimaryKeySelective(tsDept);
-        }
-//        throw new ServiceException(TsDeptServiceImpl.class.toString()+"出现异常，异常编号"+002);
-        return 0;
-    }
-
-    @Override
-    public int updateBatch(List<TsDept> tsDepts){
-        return tsDeptMapper.updateBatch(tsDepts);
-    }
-
-
-    @Override
-    public int deleteByPrimaryKey(Object object){
-        return  tsDeptMapper.deleteByPrimaryKey(object);
-    }
-
-    @Override
-    public int deleteBatchByIds(List<TsDept> tsDepts){
-        return  tsDeptMapper.deleteBatchByIds(tsDepts);
-    }
-
-    @Override
-    public List<TsDept> selectByCondition(Object object){
-        return tsDeptMapper.selectByExample(object);
-    }
-
-    @Override
-    public int saveBatch(List<TsDept> tsDepts) {
-        List<TsDept> tsDeptsInert = new ArrayList<TsDept>();
-        List<TsDept> tsDeptsUpdate = new ArrayList<TsDept>();
-        for (TsDept tsDept: tsDepts) {
-            /**
-            * 没有主键是新增
-            */
-            if (StringUtils.isEmpty(tsDept.getDeptId())){
-//                tsDept.setDeptId(IdWorkerGen.nextID());
-                tsDeptsInert.add(tsDept);
-            }else{
-                tsDeptsUpdate.add(tsDept);
+    public int updateDepts(List<TsDeptUpdateVo> tsDeptUpdateVos) {
+        // TODO: 2018/1/20 曾睿 部门新增、启用、停用、删除
+        // 新增列表
+        List<TsDept> insertList = new ArrayList<TsDept>();
+        // 更新列表
+        List<TsDept> updateList = new ArrayList<TsDept>();
+        TsDept tsDept;
+        for (int i = 0,size = tsDeptUpdateVos.size(); i < size; i++) {
+            // 判断新增、更新
+            if (tsDeptUpdateVos.get(i).getDeptId() == null){
+                tsDept = new TsDept();
+                BeanUtils.copyProperties(tsDeptUpdateVos.get(i),tsDept);
+                insertList.add(tsDept);
+            } else {
+                tsDept = new TsDept();
+                BeanUtils.copyProperties(tsDeptUpdateVos.get(i),tsDept);
+                updateList.add(tsDept);
             }
         }
         int i = 0;
-        if (tsDeptsInert.size() >= 1){
-            i = tsDeptMapper.insertBatch(tsDeptsInert);
+        if (insertList.size()>0){
+            i += tsDeptMapper.insertBatch(insertList);
         }
-        if (tsDeptsUpdate.size() >=1){
-            i = i + tsDeptMapper.updateBatch(tsDeptsUpdate);
+        if (updateList.size()>0){
+            i += tsDeptMapper.updateBatch(updateList);
         }
         return i;
-    }
-
-    @Override
-    public TsCompanyDeptVo loadCompanyDept(String userNo) {
-        return tsDeptMapper.loadCompanyDept(userNo);
     }
 }

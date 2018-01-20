@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.Id;
 import java.lang.reflect.Field;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,7 +49,7 @@ public class InertAspect {
     @Autowired
     private SnowflakeIdWorker snowflakeIdWorker;
 
-    @Before("execution(* com.ranran.uums.**.mapper.*Mapper.insert*(..))")
+    @Before("execution(* com.ranran.uums.*.mapper.*Mapper.insert*(..))")
     public void logServiceAccess(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         //登录人工号
@@ -76,11 +77,11 @@ public class InertAspect {
                 // 设置创建时间和修改时间
                 if (beanWrapper.isWritableProperty(CREATOR)) {
                     beanWrapper.setPropertyValue(CREATOR, userNo);
-                    beanWrapper.setPropertyValue(CREATETIME,new Date());
+                    beanWrapper.setPropertyValue(CREATETIME,new Timestamp(System.currentTimeMillis()));
                 }
                 if (beanWrapper.isWritableProperty(MODIFIER)) {
                     beanWrapper.setPropertyValue(MODIFIER, userNo);
-                    beanWrapper.setPropertyValue(MODIFYTIME,new Date());
+                    beanWrapper.setPropertyValue(MODIFYTIME,new Timestamp(System.currentTimeMillis()));
                 }
             }
         }else {
@@ -88,11 +89,11 @@ public class InertAspect {
             // 设置创建时间和修改时间
             if (beanWrapper.isWritableProperty(CREATOR)) {
                 beanWrapper.setPropertyValue(CREATOR, userNo);
-                beanWrapper.setPropertyValue(CREATETIME,new Date());
+                beanWrapper.setPropertyValue(CREATETIME,new Timestamp(System.currentTimeMillis()));
             }
             if (beanWrapper.isWritableProperty(MODIFIER)) {
                 beanWrapper.setPropertyValue(MODIFIER, userNo);
-                beanWrapper.setPropertyValue(MODIFYTIME,new Date());
+                beanWrapper.setPropertyValue(MODIFYTIME,new Timestamp(System.currentTimeMillis()));
             }
         }
     }

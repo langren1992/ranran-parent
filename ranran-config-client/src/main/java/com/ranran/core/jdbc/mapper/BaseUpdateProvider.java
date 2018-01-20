@@ -35,11 +35,13 @@ public class BaseUpdateProvider extends MapperTemplate {
                 } else {
                     sql.append(" AND "+pkColumn.getColumn()+"=#{i."+pkColumn.getProperty()+"}");
                 }
+                flag = false;
             }
             sql.append(" then #{i."+column.getProperty()+"}");
             sql.append("</if>");
             sql.append("</foreach>");
             sql.append("</trim>");
+            flag = true;
         }
         sql.append("</trim>");
         sql.append("<where>");
@@ -52,6 +54,7 @@ public class BaseUpdateProvider extends MapperTemplate {
                 sql.append(" AND "+pkColumn.getColumn()+"=#{i."+pkColumn.getProperty()+"}");
             }
             sql.append(")");
+            flag = false;
         }
         sql.append("</foreach>");
         sql.append("</where>");

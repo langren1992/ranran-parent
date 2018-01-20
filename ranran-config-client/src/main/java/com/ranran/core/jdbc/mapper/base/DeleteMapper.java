@@ -23,6 +23,7 @@ public interface DeleteMapper<T> {
      * @params 对象集合
      *
      * */
+    @Deprecated
     @InsertProvider(type = BaseDeleteProvider.class, method = "dynamicSQL")
     int deleteBatchByObjs(List<T> t);
 }

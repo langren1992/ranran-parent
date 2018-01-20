@@ -8,6 +8,7 @@ import com.ranran.core.ResponseResult;
 import com.ranran.core.util.StringUtils;
 import com.ranran.uums.system.model.TsDistrict;
 import com.ranran.uums.system.operate.service.TsDistrictService;
+import com.ranran.uums.system.operate.vo.TsDistrictSearchVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,19 +44,19 @@ public class TsDistrictRestController extends RestBaseController{
     /**
      * 根据条件查询功能和排序功能
      *
-     * @param tsDistrict
+     * @param tsDistrictSearchVo 省市区县查询条件视图
      * @return PageInfo
      */
     @RequestMapping("/tsDistrict/selectByCondition.html")
-    public PageInfo selectByCondition(TsDistrict tsDistrict){
+    public PageInfo selectByCondition(TsDistrictSearchVo tsDistrictSearchVo){
         PageInfo pageInfo = new PageInfo();
-        PageHelper.startPage(tsDistrict.getPage(),tsDistrict.getRows());
+        PageHelper.startPage(tsDistrictSearchVo.getPage(),tsDistrictSearchVo.getRows());
         Example example = new Example(TsDistrict.class);
-        if(StringUtils.isNotEmpty(tsDistrict.getOrder()) && StringUtils.isNotEmpty(tsDistrict.getSort())) {
-            if("DESC".equalsIgnoreCase(tsDistrict.getOrder())){
-                example.orderBy(tsDistrict.getSort()).desc();
+        if(StringUtils.isNotEmpty(tsDistrictSearchVo.getOrder()) && StringUtils.isNotEmpty(tsDistrictSearchVo.getSort())) {
+            if("DESC".equalsIgnoreCase(tsDistrictSearchVo.getOrder())){
+                example.orderBy(tsDistrictSearchVo.getSort()).desc();
             }else {
-                example.orderBy(tsDistrict.getSort()).asc();
+                example.orderBy(tsDistrictSearchVo.getSort()).asc();
             }
         }
         List<TsDistrict> tsDistricts = tsDistrictService.selectByCondition(example);

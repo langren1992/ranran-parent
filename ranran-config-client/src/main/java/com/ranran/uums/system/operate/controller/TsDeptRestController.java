@@ -9,6 +9,7 @@ import com.ranran.core.ResponseResult;
 import com.ranran.core.util.StringUtils;
 import com.ranran.uums.system.model.TsDept;
 import com.ranran.uums.system.operate.service.TsDeptService;
+import com.ranran.uums.system.operate.vo.TsDeptSearchVo;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,77 +18,30 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
-* Created by zengrui on 2017-08-11 12:10:02.
-*/
-@RestController
-public class TsDeptRestController extends RestBaseController{
+ * 部门信息请求控制
+ *
+ * Created by zengrui on 2017-08-11 12:10:02.
+ */
+public interface TsDeptRestController {
 
-    @Autowired
-    private TsDeptService tsDeptService;
-
-    @RequestMapping("/tsDept/loadCompanyDept.html")
-    public ResponseResult loadCompanyDept(){
-        return this.objectResult(tsDeptService.loadCompanyDept((String) SecurityUtils.getSubject().getPrincipal()));
-    }
+    /**
+     * 查询部门信息，生成树形菜单
+     * @param request 请求参数
+     * @return ResponseResult 响应结果
+     */
+    public ResponseResult selectDept(HttpServletRequest request);
 
 
     /**
-     * 根据条件查询功能和排序功能
-     *
-     * @param tsDept
-     * @return PageInfo
+     * 新增、启用、停用、删除（逻辑阐述）部门
+     * @param request 参数
+     * @return ResponseResult 响应结果
      */
-    @RequestMapping("/tsDept/selectByCondition.html")
-    public PageInfo selectByCondition(TsDept tsDept){
-        PageInfo pageInfo = new PageInfo();
-        PageHelper.startPage(tsDept.getPage(),tsDept.getRows());
-        Example example = new Example(TsDept.class);
-        if(StringUtils.isNotEmpty(tsDept.getOrder()) && StringUtils.isNotEmpty(tsDept.getSort())) {
-            if("DESC".equalsIgnoreCase(tsDept.getOrder())){
-                example.orderBy(tsDept.getSort()).desc();
-            }else {
-                example.orderBy(tsDept.getSort()).asc();
-            }
-        }
-        List<TsDept> tsDepts = tsDeptService.selectByCondition(example);
-        pageInfo.setList(tsDepts);
-        pageInfo.setTotal(((Page<TsDept>) tsDepts).getTotal());
-        return pageInfo;
-    }
+    public ResponseResult updateDepts(HttpServletRequest request);
 
-    /**
-     * 批量新增或者更新操作
-     *
-     * @param tsDepts
-     * @return ResponseResult
-     */
-    @RequestMapping("/tsDept/saveBatch.html")
-    public ResponseResult saveBatch(@RequestBody List<TsDept> tsDepts){
-        return super.saveResult(tsDeptService.saveBatch(tsDepts));
-    }
 
-    /**
-     * 启用或者停用操作
-     *
-     * @param tsDepts
-     * @return ResponseResult
-     */
-    @RequestMapping("/tsDept/updateBatch.html")
-    public ResponseResult updateBatchByEnOrDis(@RequestBody List<TsDept> tsDepts){
-        return super.optResult(tsDeptService.updateBatch(tsDepts));
-    }
-
-    /**
-     * 启用或者停用操作
-     *
-     * @param tsDepts
-     * @return ResponseResult
-     */
-    @RequestMapping("/tsDept/deleteBatch.html")
-    public ResponseResult deleteBatch(List<TsDept> tsDepts){
-        return super.deleteResult(tsDeptService.deleteBatchByIds(tsDepts));
-    }
 }

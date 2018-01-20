@@ -10,6 +10,7 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -49,7 +50,7 @@ public class UpdateAspect {
                 beanWrapper = new BeanWrapperImpl(object);
                 if (beanWrapper.isWritableProperty(MODIFIER)) {
                     beanWrapper.setPropertyValue(MODIFIER, userNo);
-                    beanWrapper.setPropertyValue(MODIFYTIME,new Date());
+                    beanWrapper.setPropertyValue(MODIFYTIME,new Timestamp(System.currentTimeMillis()));
                 }
             }
         }else {
@@ -57,7 +58,7 @@ public class UpdateAspect {
             // 设置创建时间和修改时间
             if (beanWrapper.isWritableProperty(MODIFIER)) {
                 beanWrapper.setPropertyValue(MODIFIER, userNo);
-                beanWrapper.setPropertyValue(MODIFYTIME,new Date());
+                beanWrapper.setPropertyValue(MODIFYTIME,new Timestamp(System.currentTimeMillis()));
             }
         }
     }

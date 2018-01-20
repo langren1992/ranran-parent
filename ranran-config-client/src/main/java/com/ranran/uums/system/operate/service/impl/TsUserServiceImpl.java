@@ -1,123 +1,105 @@
 package com.ranran.uums.system.operate.service.impl;
 
-import com.ranran.core.exception.ServiceException;
 
-import com.ranran.core.shiro.util.StringUtils;
+import com.ranran.core.shiro.PasswordHelper;
 import com.ranran.uums.system.mapper.TsUserMapper;
 import com.ranran.uums.system.model.TsUser;
 import com.ranran.uums.system.operate.service.TsUserService;
+import com.ranran.uums.system.operate.vo.TsUserSearchVo;
+import com.ranran.uums.system.operate.vo.TsUserUpdateVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
-* Created by zengrui on 2017-07-25 21:46:14.
-*/
+ * 用户信息逻辑类
+ *
+ * Created by zengrui on 2017-08-11 12:10:02.
+ */
 @Service
 public class TsUserServiceImpl implements TsUserService {
 
     @Autowired
     private TsUserMapper tsUserMapper;
 
-    /**
-     * @descripte
-     * @param tsUser
-     * @return TsUser
-     */
-    @Override
-    public TsUser selectOne(TsUser tsUser){
-        return tsUserMapper.selectOne(tsUser);
-    }
-
-    @Override
-    public List<TsUser> select(TsUser tsUser){
-        return tsUserMapper.select(tsUser);
-    }
+    @Autowired
+    private PasswordHelper passwordHelper;
 
     /**
-     * 插入空
-     * */
-    @Override
-    public int insert(TsUser tsUser){
-        return tsUserMapper.insert(tsUser);
-    }
-
-    /**
-     * 插入不为空的
-     * */
-    @Override
-        public int insertSelective(TsUser tsUser){
-        return tsUserMapper.insertSelective(tsUser);
-    }
-
-    /**
+     * 查询部门信息，生成树形菜单
      *
-     * @param tsUsers
-     * @return
+     * @param tsUserSearchVo 查询条件视图
+     * @return 返回部门列表 响应结果
      */
     @Override
-    public int insertBatch(List<TsUser> tsUsers){
-        return tsUserMapper.insertBatch(tsUsers);
+    public List<TsUser> selectUser(TsUserSearchVo tsUserSearchVo) {
+        // TODO: 2018/1/20  曾睿 添加部门数创建数据生成
+        Example example = new Example(TsUser.class);
+        example.createCriteria().andEqualTo("userDeptNo",tsUserSearchVo.getUserDeptNo());
+        return tsUserMapper.selectByExample(example);
     }
 
+    /**
+     * 新增、启用、停用、删除（逻辑阐述）部门
+     *
+     * @param tsUserUpdateVos 操作数据视图
+     * @return 返回操作成功数量
+     */
     @Override
-    public int updateByPrimaryKey(TsUser tsUser) throws ServiceException {
-        if (StringUtils.isNotEmpty(tsUser.getUserId())){
-            return tsUserMapper.updateByPrimaryKey(tsUser);
-        }
-//        throw new ServiceException(TsUserServiceImpl.class.toString()+"出现异常，异常编号"+001);
-        return 0;
-    }
-
-    @Override
-    public int updateByPrimaryKeySelective(TsUser tsUser) throws ServiceException {
-        if (StringUtils.isNotEmpty(tsUser.getUserId())){
-            return tsUserMapper.updateByPrimaryKeySelective(tsUser);
-        }
-//        throw new ServiceException(TsUserServiceImpl.class.toString()+"出现异常，异常编号"+002);
-        return 0;
-    }
-
-    @Override
-    public int updateBatch(List<TsUser> tsUsers){
-        return tsUserMapper.updateBatch(tsUsers);
-    }
-
-
-    @Override
-    public int deleteByPrimaryKey(Object object){
-        return  tsUserMapper.deleteByPrimaryKey(object);
-    }
-
-    @Override
-    public int deleteBatchByIds(List<TsUser> tsUsers){
-        return  tsUserMapper.deleteBatchByIds(tsUsers);
-    }
-
-    @Override
-    public List<TsUser> selectByCondition(Object object){
-        return tsUserMapper.selectByExample(object);
-    }
-
-    @Override
-    public int saveBatch(List<TsUser> tsUsers) {
-        List<TsUser> tsUsersInert = new ArrayList<TsUser>();
-        List<TsUser> tsUsersUpdate = new ArrayList<TsUser>();
-        for (TsUser tsUser: tsUsers) {
-            /**
-            * 没有主键是新增
-            */
-            if (StringUtils.isEmpty(tsUser.getUserId())){
-//                tsUser.setUserId(IdWorkerGen.nextID());
-                tsUsersInert.add(tsUser);
-            }else{
-                tsUsersUpdate.add(tsUser);
+    public int updateUsers(List<TsUserUpdateVo> tsUserUpdateVos) {
+        // TODO: 2018/1/20 曾睿 用户新增、启用、停用、删除
+        // 新增列表
+        List<TsUser> insertList = new ArrayList<TsUser>();
+        // 更新列表
+        List<TsUser> updateList = new ArrayList<TsUser>();
+        TsUser tsUser;
+        for (int i = 0,size = tsUserUpdateVos.size(); i < size; i++) {
+            // 判断新增、更新
+            if (tsUserUpdateVos.get(i).getUserId() == null){
+                tsUser = new TsUser();
+                BeanUtils.copyProperties(tsUserUpdateVos.get(i),tsUser);
+                //默认密码
+                tsUser.setUserPassword("123456");
+                //默认在职
+                tsUser.setUserStatus(1);
+                //密码加密
+                passwordHelper.encryptPassword(tsUser);
+                insertList.add(tsUser);
+            } else {
+                tsUser = new TsUser();
+                BeanUtils.copyProperties(tsUserUpdateVos.get(i),tsUser);
+                updateList.add(tsUser);
             }
         }
-        int i = tsUserMapper.insertBatch(tsUsersInert);
-        i = i + tsUserMapper.updateBatch(tsUsersUpdate);
+        int i = 0;
+        if (insertList.size()>0){
+            i += tsUserMapper.insertBatch(insertList);
+        }
+        if (updateList.size()>0){
+            i += tsUserMapper.updateBatch(updateList);
+        }
         return i;
+    }
+
+    /**
+     * 初始化密码
+     *
+     * @param tsUserUpdateVo 初始化视图类
+     * @return 返回操作成功数量
+     */
+    @Override
+    public int updateUserPwd(TsUserUpdateVo tsUserUpdateVo) {
+        // TODO: 2018/1/20 曾睿 初始化密码
+        TsUser tsUser = new TsUser();
+        BeanUtils.copyProperties(tsUserUpdateVo,tsUser);
+        //默认密码
+        tsUser.setUserPassword("123456");
+        //密码加密
+        passwordHelper.encryptPassword(tsUser);
+        return this.tsUserMapper.updateByPrimaryKey(tsUser);
     }
 }

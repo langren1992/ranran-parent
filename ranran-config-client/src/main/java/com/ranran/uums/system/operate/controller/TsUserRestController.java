@@ -1,85 +1,39 @@
 package com.ranran.uums.system.operate.controller;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.ranran.core.RestBaseController;
-import com.ranran.core.ResponseResult;
-import com.ranran.core.util.StringUtils;
-import com.ranran.uums.system.model.TsUser;
-import com.ranran.uums.system.operate.service.TsUserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import tk.mybatis.mapper.entity.Example;
 
-import java.util.List;
+import com.ranran.core.ResponseResult;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
-* Created by zengrui on 2017-07-25 21:46:14.
-*/
-@RestController
-public class TsUserRestController extends RestBaseController{
-
-    @Autowired
-    private TsUserService tsUserService;
+ * 部门信息请求控制
+ *
+ * Created by zengrui on 2017-08-11 12:10:02.
+ */
+public interface TsUserRestController {
 
     /**
-     * 根据条件查询功能和排序功能
-     *
-     * @param tsUser
-     * @return PageInfo
+     * 查询部门信息，生成树形菜单
+     * @param request 请求参数
+     * @return ResponseResult 响应结果
      */
-    @RequestMapping("/tsUser/selectByCondition.html")
-    public PageInfo selectByCondition(TsUser tsUser){
-        PageInfo pageInfo = new PageInfo();
-        PageHelper.startPage(tsUser.getPage(),tsUser.getRows());
-        Example example = new Example(TsUser.class);
-        if(StringUtils.isNotEmpty(tsUser.getOrder()) && StringUtils.isNotEmpty(tsUser.getSort())) {
-            if("DESC".equalsIgnoreCase(tsUser.getOrder())){
-                example.orderBy(tsUser.getSort()).desc();
-            }else {
-                example.orderBy(tsUser.getSort()).asc();
-            }
-        }
-        List<TsUser> tsUsers = tsUserService.selectByCondition(example);
-        pageInfo.setList(tsUsers);
-        pageInfo.setTotal(((Page<TsUser>) tsUsers).getTotal());
-        return pageInfo;
-    }
+    public ResponseResult selectUser(HttpServletRequest request);
+
 
     /**
-     * 批量新增或者更新操作
-     *
-     * @param tsUsers
-     * @return ResponseResult
+     * 新增、启用、停用、删除（逻辑阐述）部门
+     * @param request 参数
+     * @return ResponseResult 响应结果
      */
-    @RequestMapping("/tsUser/saveBatch.html")
-    public ResponseResult saveBatch(List<TsUser> tsUsers){
-        return super.saveResult(tsUserService.saveBatch(tsUsers));
-    }
+    public ResponseResult updateUsers(HttpServletRequest request);
+
 
     /**
-     * 启用或者停用操作
-     *
-     * @param tsUsers
-     * @return ResponseResult
+     * 初始化密码
+     * @param request 参数
+     * @return ResponseResult 响应结果
      */
-    @RequestMapping("/tsUser/updateBatch.html")
-    public ResponseResult updateBatchByEnOrDis(List<TsUser> tsUsers){
-        return super.optResult(tsUserService.updateBatch(tsUsers));
-    }
+    public ResponseResult updateUserPwd(HttpServletRequest request);
 
-    /**
-     * 启用或者停用操作
-     *
-     * @param tsUsers
-     * @return ResponseResult
-     */
-    @RequestMapping("/tsUser/deleteBatch.html")
-    public ResponseResult deleteBatch(List<TsUser> tsUsers){
-        return super.deleteResult(tsUserService.deleteBatchByIds(tsUsers));
-    }
+
 }

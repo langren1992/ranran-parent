@@ -69,6 +69,7 @@ public class TsRoleServiceImpl implements TsRoleService {
         if(com.ranran.core.util.StringUtils.isNotEmpty(tsRoleConditionVo.getRoleStatus())){
             criteria.andEqualTo("roleStatus",tsRoleConditionVo.getRoleStatus());
         }
+        criteria.andNotEqualTo("roleStatus",2);
         List<TsRole> tsRoles = tsRoleMapper.selectByExample(example);
         pageInfo.setList(tsRoles);
         pageInfo.setTotal(((Page<TsRole>) tsRoles).getTotal());
@@ -219,7 +220,7 @@ public class TsRoleServiceImpl implements TsRoleService {
         TsRole tsRole;
         for (int i = 0,size = tsRoleUpdateVos.size(); i < size; i++) {
             // 判断新增、更新
-            if (tsRoleUpdateVos.get(i).getRoleId() != null){
+            if (tsRoleUpdateVos.get(i).getRoleId() == null){
                 tsRole = new TsRole();
                 BeanUtils.copyProperties(tsRoleUpdateVos.get(i),tsRole);
                 insertList.add(tsRole);
@@ -322,12 +323,14 @@ public class TsRoleServiceImpl implements TsRoleService {
         //获取本次操作的角色编号
         String roleNo = tsRoleUserRalVo.getRoleNo();
         RaUserRole raUserRole;
+        Set<String> userNoDeleteSet = new HashSet<String>(users.size());
         for (int j = 0,size = users.size(); j < size; j++) {
             //创建角色用户关联信息
             raUserRole = new RaUserRole();
             raUserRole.setUrRoleNo(roleNo);
             raUserRole.setUrUserNo(users.get(j).getUserNo());
             raUserRoles.add(raUserRole);
+            userNoDeleteSet.add(users.get(j).getUserNo());
         }
         //判断 新增（ADD）、删除（DELETE）
         if (RoleUserOptEnum.ADD.name.equalsIgnoreCase(tsRoleUserRalVo.getOptType())){
@@ -335,29 +338,13 @@ public class TsRoleServiceImpl implements TsRoleService {
                 i += raUserRoleMapper.insertBatch(raUserRoles);
             }
         }else if(RoleUserOptEnum.DELETE.name.equalsIgnoreCase(tsRoleUserRalVo.getOptType())){
-            if (raUserRoles.size()>0){
-                i += raUserRoleMapper.deleteBatchByObjs(raUserRoles);
+            if (userNoDeleteSet.size()>0){
+                Example example = new Example(RaUserRole.class);
+                example.createCriteria().andEqualTo("urRoleNo",roleNo).andIn("urUserNo",userNoDeleteSet);
+                i += raUserRoleMapper.deleteByExample(example);
             }
         }
         return i;
-    }
-
-    /**
-     * 用户角色信息操作枚举
-     */
-    private enum RoleUserOptEnum{
-
-        ADD("ADD",1),DELETE("DELETE",2);
-
-        public final String name;
-
-        public final int code;
-
-        RoleUserOptEnum(String name,int code){
-            this.code = code;
-            this.name = name;
-        }
-
     }
 
     /**
@@ -390,22 +377,25 @@ public class TsRoleServiceImpl implements TsRoleService {
         for (int i = 0,size = tsResourcesList.size(); i < size; i++) {
             resNoSet.add(tsResourcesList.get(i).getResNo());
         }
-        Example example = new Example(RaRoleResource.class);
-        example.createCriteria().andEqualTo("rrRoleNo",tsRoleResourceVos.get(0).getRoleNo()).andIn("rrResourceNo",resNoSet);
 
         List<RaRoleResource> raRoleResourcesInsert = new ArrayList<RaRoleResource>();
         RaRoleResource raRoleResource;
         //建立关联关系
         for (TsRoleResourceVo tsRoleResourceVo:  tsRoleResourceVos) {
             raRoleResource = new RaRoleResource();
-            raRoleResource.setRrRoleNo(tsRoleResourceVo.getRoleNo());
-            raRoleResource.setRrResourceNo(tsRoleResourceVo.getResNo());
-            raRoleResource.setChecked(tsRoleResourceVo.getChecked());
-            raRoleResource.setCheckState(tsRoleResourceVo.getCheckState());
-            raRoleResourcesInsert.add(raRoleResource);
+            if(tsRoleResourceVo.getResId()==null){
+                raRoleResource.setRrRoleNo(tsRoleResourceVo.getRoleNo());
+                raRoleResource.setRrResourceNo(tsRoleResourceVo.getResNo());
+                raRoleResource.setChecked(tsRoleResourceVo.getChecked());
+                raRoleResource.setCheckState(tsRoleResourceVo.getCheckState());
+                raRoleResourcesInsert.add(raRoleResource);
+            }
         }
         int i = 0;
         if(resNoSet.size() >=1){
+            // 查询删除关联关系
+            Example example = new Example(RaRoleResource.class);
+            example.createCriteria().andEqualTo("rrRoleNo",tsRoleResourceVos.get(0).getRoleNo()).andIn("rrResourceNo",resNoSet);
             i+= raRoleResourceMapper.deleteByExample(example);
         }
         if (raRoleResourcesInsert.size() >=1){
@@ -414,4 +404,21 @@ public class TsRoleServiceImpl implements TsRoleService {
         return i;
     }
 
+    /**
+     * 用户角色信息操作枚举
+     */
+    private enum RoleUserOptEnum{
+
+        ADD("ADD",1),DELETE("DELETE",2);
+
+        public final String name;
+
+        public final int code;
+
+        RoleUserOptEnum(String name,int code){
+            this.code = code;
+            this.name = name;
+        }
+
+    }
 }

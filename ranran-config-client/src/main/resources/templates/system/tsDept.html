@@ -14,19 +14,18 @@
 <body>
 	<div class="easyui-layout" data-options="fit: true">
 		<div data-options="region: 'west', title: '部门管理', iconCls: 'icon-standard-application-view-tile', split: true,collapsible:false" style="width: 250px;">
-			<ul id="dept_tree"></ul>
+			<ul id="tree_dept"></ul>
 		</div>
 		<div data-options="region: 'center', split: true">
 			<div class="easyui-layout" data-options="fit: true">
-				<div data-options="region: 'north',title: '部门维护',collapsible:false" style="overflow:hidden;height: 265px" >
-
+				<div data-options="region: 'center',title: '部门维护',collapsible:false" >
 					<div id="dlg-toolbar">
 						<table style="width:100%">
 							<tr>
 								<td>
-									<a id="btn_add" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false">新增</a>
-									<a id="btn_save" href="#" class="easyui-linkbutton" iconCls="icon-save" plain="false">保存</a>
-									<a id="btn_delete" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="false">删除</a>
+									<a id="btn_add_dept" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false">新增</a>
+									<a id="btn_update_dept" href="#" class="easyui-linkbutton" iconCls="icon-save" plain="false">保存</a>
+									<a id="btn_delete_dept" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="false">删除</a>
 								</td>
 							</tr>
 						</table>
@@ -35,57 +34,33 @@
                         <form id="form_dept" method="post" >
                             <table>
                                 <tr style="text-align: right">
-                                    <td style="width:25%;display: none"><input id="form_resId" class="easyui-numberbox" label ="上级编码：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="resId"  id="form_resId"   readonly/></td>
-                                    <td style="width:25%"><input class="easyui-textbox" label ="上级编码：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="resParentNo"  id="form_resParentNo"   readonly/></td>
-                                    <td style="width:25%"><input class="easyui-textbox" label ="上级名称：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="resParentName" id="form_resParentName"  readonly/></td>
-                                    <td style="width:25%"><input id="form_resNo" class="easyui-textbox" label ="部门编码：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="resNo" id="form_resNo"   readonly/></td>
-                                    <td style="width:25%"><input id="form_resName" class="easyui-textbox" label ="部门名称：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="resName" id="form_resName"  /></td>
+                                    <td style="width:25%;display: none"><input id="form_deptId" class="easyui-numberbox" label ="上级编码：" labelWidth="65" labelAlign="right" type="text" style="width: 100%;" name="deptId"   readonly/></td>
+                                    <td style="width:25%"><input id="form_deptParentNo" class="easyui-textbox" label ="上级编码：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="deptParentNo"     readonly/></td>
+                                    <td style="width:25%"><input id="form_deptParentNameCn" class="easyui-textbox" label ="上级名称：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="deptParentNameCn"   readonly/></td>
+                                    <td style="width:25%"><input id="form_deptNo" class="easyui-textbox" label ="部门编码：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="deptNo" required="true"  readonly/></td>
+                                    <td style="width:25%"><input id="form_deptName" class="easyui-textbox" label ="部门名称：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="deptName"  /></td>
                                 </tr>
                                 <tr style="text-align: right">
-                                    <td style="width:25%"><input class="easyui-combobox" label ="部门级别：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" style="" name="resUrl"     /></td>
-                                    <td style="width:25%"><input class="easyui-combobox" label ="是否可见：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="resStatus"  /></td>
-                                    <td style="width:25%"><input class="easyui-combobox" label ="部门状态：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" style="" name="resUrl"   /></td>
+                                    <td style="width:25%"><input id="combo_deptLever" class="easyui-combobox" label ="部门级别：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" style="" name="deptLever"     /></td>
+                                    <td style="width:25%"><input class="easyui-searchbox" label ="负责人：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="deptLeadName" /></td>
                                     <td style="width:25%"><input class="easyui-textbox" label ="服务电话：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="resStatus" /></td>
-
                                 </tr>
                                 <tr style="text-align: right">
-                                    <td style="width:25%"><input class="easyui-searchbox" label ="负责人：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="resStatus" /></td>
-                                    <td style="width:25%"><input class="easyui-searchbox" label ="服务区域：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" style="" name="resUrl"     /></td>
-                                    <td style="width:25%"><input class="easyui-searchbox" label ="上级服务区域：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="resStatus"  /></td>
-                                    <td style="width:25%"><input class="easyui-searchbox" label ="被服务区域：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="resStatus"  /></td>
+                                    <td style="width:25%"><input class="easyui-combobox" label ="所在省：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="deptProvince" /></td>
+                                    <td style="width:25%"><input class="easyui-combobox" label ="所在市：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" style="" name="deptCity"     /></td>
+                                    <td style="width:25%"><input class="easyui-combobox" label ="所在区/县：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="deptDistrict"  /></td>
+                                    <td style="width:25%"><input id="combo_deptStatus" class="easyui-combobox" label ="部门状态：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" style="" name="deptStatus"   /></td>
                                 </tr>
                                 <tr style="text-align: right">
-                                    <td style="width:25%"><input class="easyui-searchbox" label ="所在省：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="resStatus" /></td>
-                                    <td style="width:25%"><input class="easyui-searchbox" label ="所在市：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" style="" name="resUrl"     /></td>
-                                    <td style="width:25%"><input class="easyui-searchbox" label ="所在区/县：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="resStatus"  /></td>
-                                </tr>
-                                <tr style="text-align: right">
-                                    <td colspan=2><input class="easyui-textbox" label ="详细地址：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="resStatus"  /></td>
-                                    <td style="width:20%"><input class="easyui-textbox" label ="经度：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" style="" name="resUrl"     /></td>
-                                    <td style="width:20%"><input class="easyui-textbox" label ="维度：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="resStatus"  /></td>
-                                </tr>
-                                <tr style="text-align: right">
-                                    <td style="width:20%"><input class="easyui-textbox" label ="保价费率：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="resStatus"  /></td>
-                                    <td style="width:20%"><input class="easyui-textbox" label ="代收货款费率：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" style="" name="resUrl"     /></td>
-                                    <td style="width:20%"><input class="easyui-textbox" label ="临欠额度：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="resStatus"  /></td>
-                                    <td style="width:20%"><input class="easyui-textbox" label ="临欠额度：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="resStatus"  /></td>
-                                </tr>
-                                <tr style="text-align: left">
-                                    <td style="width:25%"><input class="easyui-combobox" label ="是否虚拟组织：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;"   /></td>
-                                    <td style="width:25%"><input class="easyui-combobox" label ="是否共用场地：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;"  /></td>
-                                    <td style="width:25%"><input class="easyui-searchbox" label ="共用场地：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;"  /></td>
+                                    <td colspan=2><input class="easyui-textbox" label ="详细地址：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="deptAddress"  /></td>
+                                    <td style="width:20%"><input class="easyui-textbox" label ="经纬度：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" style="" name="deptLon"/></td>
                                 </tr>
                             </table>
                         </form>
                     </div>
 				</div>
-				<div data-options="region: 'center',title: '部门人员'">
-					<table id="dept_user"></table>
-				</div>
-
 			</div>
 		</div>
-
 	</div>
 </body>
 </html>

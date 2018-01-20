@@ -45,9 +45,10 @@ public class BaseDeleteProvider extends MapperTemplate {
 
     /**
      * 批量刪除通过 对象集合
-     * @params 对象集合
+     * @params 对象集合 删除该方法
      *
      * */
+    @Deprecated
     public String deleteBatchByObjs(MappedStatement ms){
         StringBuilder sql = new StringBuilder();
         Class<?> entityClass = getEntityClass(ms);

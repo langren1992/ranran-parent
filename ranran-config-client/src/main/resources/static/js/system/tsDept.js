@@ -6,40 +6,11 @@ function convertsoTree(rows){
         return false;
     }
 
-    var orgNode = {
-        text:rows.orgName,
-        orgId:rows.orgId,
-        orgNo:rows.orgNo,
-        orgName:rows.orgName,
-        orgParentNo:rows.orgParentNo,
-        orgParentNameCn:rows.orgParentNameCn,
-        orgLever:rows.orgLever,
-        orgStatus:rows.orgStatus,
-        orgLeadNo:rows.orgLeadNo,
-        orgLeadName:rows.orgLeadName,
-        orgTel:rows.orgTel,
-        orgAreaNo:rows.orgAreaNo,
-        orgAreaName:rows.orgAreaName,
-        orgProAreaNo:rows.orgProAreaNo,
-        orgProAreaName:rows.orgProAreaName,
-        orgPrivernce:rows.orgPrivernce,
-        orgCity:rows.orgCity,
-        orgDistrict:rows.orgDistrict,
-        orgAddress:rows.orgAddress,
-        orgLon:rows.orgLon,
-        orgLat:rows.orgLat,
-        creator:rows.creator,
-        createTime:rows.createTime,
-        modifier:rows.modifier,
-        modifyTime:rows.modifyTime,
-        recVer:rows.recVer
-    };
-
     var nodes = [];
     // get the top level nodes
-    for(var i=0; i<rows.deptList.length; i++){
-        var row = rows.deptList[i];
-        if (!exists(rows.deptList, row.deptParentNo)){
+    for(var i=0; i<rows.length; i++){
+        var row = rows[i];
+        if (!exists(rows, row.deptParentNo)){
             nodes.push({
                 text:row.deptName,
                 deptId:row.deptId,
@@ -56,7 +27,7 @@ function convertsoTree(rows){
                 deptAreaName:row.deptAreaName,
                 deptProAreaNo:row.deptProAreaNo,
                 deptProAreaName:row.deptProAreaName,
-                deptPrivernce:row.deptPrivernce,
+                deptProvince:row.deptProvince,
                 deptCity:row.deptCity,
                 deptDistrict:row.deptDistrict,
                 deptAddress:row.deptAddress,
@@ -85,7 +56,7 @@ function convertsoTree(rows){
         var node = toDo.shift();
         for(var i = 0; i < rows.length; i++){
             var row = rows[i];
-            if( row.resParentNo == node.resNo){
+            if( row.deptParentNo == node.deptNo){
                 var child = {
                     text:row.deptName,
                     deptId:row.deptId,
@@ -102,7 +73,7 @@ function convertsoTree(rows){
                     deptAreaName:row.deptAreaName,
                     deptProAreaNo:row.deptProAreaNo,
                     deptProAreaName:row.deptProAreaName,
-                    deptPrivernce:row.deptPrivernce,
+                    deptProvince:row.deptPrivernce,
                     deptCity:row.deptCity,
                     deptDistrict:row.deptDistrict,
                     deptAddress:row.deptAddress,
@@ -129,92 +100,141 @@ function convertsoTree(rows){
             }
         }
     }
-    orgNode.children = nodes;
-    var result = [orgNode];
-    return result;
-}
+    return nodes;
+};
 
+//部门树形请求路径
+var url_tree_dept = './tsDept/selectDept.html';
+//部门树形请求路径
+var url_opt_dept = './tsDept/updateDepts.html';
+//部门树形结构
+var tree_dept = '#tree_dept';
+//部门表单
+var form_dept = '#form_dept';
+var form_deptNo = '#form_deptNo';
+var form_deptName = '#form_deptName';
+var combo_deptStatus = '#combo_deptStatus';
+var combo_deptLever = '#combo_deptLever';
+//新增部门按钮
+var btn_add_dept = '#btn_add_dept';
+//更新部门按钮
+var btn_update_dept = '#btn_update_dept';
+//删除部门按钮
+var btn_delete_dept = '#btn_delete_dept';
 
 function initComponent(){
+    $(combo_deptStatus).combobox({
+        //自适应数据高度属性
+        panelHeight:"auto",
+        //值
+        valueField:'value',
+        //名称
+        textField: 'textName',
+        data: [{
+            textName: '启用',
+            value: "1"
+        },{
+            textName: '停用',
+            value: "0"
+        }]
+    });
 
-	$("#dept_tree").tree({
-        url:'/tsDept/loadCompanyDept.html',
-        method:'get',
+    $(combo_deptLever).combobox({
+        //自适应数据高度属性
+        panelHeight:"auto",
+        //值
+        valueField:'value',
+        //名称
+        textField: 'textName',
+        data: [{
+            textName: '启用',
+            value: "1"
+        },{
+            textName: '停用',
+            value: "0"
+        }]
+    });
+
+
+
+	$(tree_dept).tree({
+        url:url_tree_dept,
+        method:'post',
 		fit:true,
 		singleSelect:true,
-		// checkbox:true,
-		cascadeCheck:true,
-		onClickRow:function (row) {
-			console.log(row);
+        onClick:function (row) {
+			$(form_dept).form('load',row);
 		},
 		loadFilter:function(rows){
 			if(rows.data != undefined)
 				return convertsoTree(rows.data);
-		},
-		enableHeaderClickMenu: false,        //此属性开启表头列名称右侧那个箭头形状的鼠标左键点击菜单
-		enableHeaderContextMenu: true     //此属性开启表头列名称右键点击菜单
+		}
 	});
+};
 
+/**
+ * 新增数据
+ */
+function btnAddDept() {
+    $(form_dept).form('reset');
+    var deptParent = $(tree_dept).tree('getSelected');
+    if (deptParent!=undefined){
+        $(form_dept).form('load',{deptParentNo:deptParent.deptNo,deptParentNameCn:deptParent.deptName});
+    }else {
+        $(form_dept).form('load',{});
+    }
+    $(form_deptNo).textbox({"required":true,"readonly":false});
+    $(form_deptName).textbox({"required":true,"readonly":false});
 
 };
 
-function btnSaveOpt() {
-
+function btnUpdateDept() {
+    var flag = $(form_dept).form('validate');
+    if(flag){
+        var json = '[{'+$("#form_dept input").map(function(){
+            if($(this).attr("name")!= undefined)
+                return '"'+$(this).attr("name")+'":"'+$(this).val()+'"';
+        }).get().join(", ")+'}]';
+        $.ajax({
+            type: "POST",
+            url: url_opt_dept,
+            data: json,
+            contentType:"application/json;charset=utf-8",
+            dataType: "json",
+            success: function(data){
+                if(data.success){
+                    parent.$.messager.alert("提示信息",data.message);
+                }else {
+                    parent.$.messager.alert("异常提示",data.message);
+                }
+                reloadComponent();
+            }
+        });
+    }else {
+        parent.$.messager.alert('提示信息','请检查数据！');
+    }
 };
 
-function btnEnableOpt() {
-	
+function reloadComponent() {
+    $(tree_dept).tree('reload');
+    $(form_dept).form('reset');
 };
 
-function btnDisableOpt() {
-
-};
-
-function btnRemoveOpt() {
-
-};
-
-function btnSearchOpt() {
-
-};
-
-function btnResetOpt() {
-
-};
-
-function btnSaveRoleResOpt() {
+function btnDeleteDept() {
 
 };
 
 function initBtnBindFun() {
-	$('#btn_add').bind('click', function(){
-		btnAddOpt();
+	$(btn_add_dept).bind('click', function(){
+		btnAddDept();
 	});
-	$('#btn_save').bind('click', function(){
-		btnSaveOpt("btnSearch");
+	$(btn_update_dept).bind('click', function(){
+		btnUpdateDept();
 	});
-	$('#btn_enable').bind('click', function(){
-		btnEnableOpt("btnAddRole");
-	});
-	$('#btn_disable').bind('click', function(){
-		btnDisableOpt("btnAddRole");
-	});
-	$('#btn_remove').bind('click', function(){
-		btnRemoveOpt("btnAddRole");
-	});
-	$('#btn_search').bind('click', function(){
-		btnSearchOpt("btnAddRole");
-	});
-	$('#btn_reset').bind('click', function(){
-		btnResetOpt("btnAddRole");
-	});
-	$('#btn_save_RoleRes').bind('click', function(){
-		btnSaveRoleResOpt("btnAddRole");
-	});
-}
 
-function initData() {
-
+	$(btn_delete_dept).bind('click', function(){
+		btnDeleteDept();
+	});
 }
 
 $(function(){
@@ -222,6 +242,4 @@ $(function(){
 	initComponent();
 	//按钮绑定功能
 	initBtnBindFun();
-	//初始化
-	initData();
 });

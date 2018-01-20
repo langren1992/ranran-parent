@@ -1,49 +1,29 @@
 package com.ranran.uums.system.operate.service;
 
 
-import com.ranran.core.exception.ServiceException;
 import com.ranran.uums.system.model.TsDept;
-import com.ranran.uums.system.operate.vo.TsCompanyDeptVo;
+import com.ranran.uums.system.operate.vo.TsDeptSearchVo;
+import com.ranran.uums.system.operate.vo.TsDeptUpdateVo;
 
 import java.util.List;
 
 /**
-* Created by zengrui on 2017-08-11 12:10:02.
-*/
+ * 部门服务
+ * Created by zengrui on 2017-08-11 12:10:02.
+ */
 public interface TsDeptService {
 
-    public TsDept selectOne(TsDept tsDept);
-
-    public List<TsDept> select(TsDept tsDept);
+    /**
+     * 查询部门信息，生成树形菜单
+     * @param tsDeptSearchVo 查询条件视图
+     * @return 返回部门列表 响应结果
+     */
+    List<TsDept> selectDept(TsDeptSearchVo tsDeptSearchVo);
 
     /**
-     * 插入空
-     * */
-    public int insert(TsDept tsDept);
-
-    /**
-     * 插入不为空的
-     * */
-    public int insertSelective(TsDept tsDept);
-
-    public int insertBatch(List<TsDept> tsDepts);
-
-    public int updateByPrimaryKey(TsDept tsDept) throws ServiceException;
-
-
-    public int updateByPrimaryKeySelective(TsDept tsDept) throws ServiceException;
-
-
-    public int updateBatch(List<TsDept> tsDepts);
-
-    public int deleteByPrimaryKey(Object object);
-
-
-    public int deleteBatchByIds(List<TsDept> tsDepts);
-
-    public List<TsDept> selectByCondition(Object object);
-
-    public int saveBatch(List<TsDept> tsDepts);
-
-    public TsCompanyDeptVo loadCompanyDept(String principal);
+     * 新增、启用、停用、删除（逻辑阐述）部门
+     * @param tsDeptUpdateVos 操作数据视图
+     * @return 返回操作成功数量
+     */
+    int updateDepts(List<TsDeptUpdateVo> tsDeptUpdateVos);
 }

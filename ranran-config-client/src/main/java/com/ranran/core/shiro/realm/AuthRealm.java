@@ -1,7 +1,7 @@
 package com.ranran.core.shiro.realm;
 
 
-import com.ranran.uums.system.mapper.TsUserMapper;
+import com.ranran.uums.base.mapper.LoginUserMapper;
 import com.ranran.uums.system.model.TsUser;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -21,14 +21,14 @@ public class AuthRealm extends AuthorizingRealm {
     private static Logger LOGGER = LoggerFactory.getLogger(AuthRealm.class);
 
     @Autowired
-    private TsUserMapper tsUserMapper;
+    protected LoginUserMapper loginUserMapper;
 
     //认证.登录
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         TsUser tsUser = new TsUser();
         tsUser.setUserName((String) token.getPrincipal());
-        tsUser= tsUserMapper.selectOne(tsUser);
+        tsUser= loginUserMapper.selectOne(tsUser);
         if (tsUser == null) {
             throw new UnknownAccountException();// 没找到帐号
         }

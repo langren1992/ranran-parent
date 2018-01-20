@@ -5,6 +5,7 @@ import com.ranran.core.ResponseResult;
 import com.ranran.uums.system.model.TsCompany;
 import com.ranran.uums.system.model.TsDept;
 import com.ranran.uums.system.operate.service.TsCompanyService;
+import com.ranran.uums.system.operate.vo.TsCompanySearchVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,13 +28,13 @@ public class TsCompanyRestController extends RestBaseController{
     /**
      * 根据条件查询功能和排序功能
      *
-     * @param tsCompany
+     * @param tsCompanySearchVo 公司条件查询视图
      * @return PageInfo
      */
     @RequestMapping("/tsCompany/selectByCondition.html")
-    public ResponseResult selectByCondition(TsCompany tsCompany){
+    public ResponseResult selectByCondition(TsCompanySearchVo tsCompanySearchVo){
         Example example = new Example(TsCompany.class);
-        example.orderBy(tsCompany.getSort()).asc();
+        example.orderBy(tsCompanySearchVo.getSort()).asc();
         return this.listResult(tsCompanyService.selectByCondition(example));
     }
 

@@ -1,46 +1,37 @@
 package com.ranran.uums.system.operate.service;
 
 
-import com.ranran.core.exception.ServiceException;
 import com.ranran.uums.system.model.TsUser;
+import com.ranran.uums.system.operate.vo.TsUserSearchVo;
+import com.ranran.uums.system.operate.vo.TsUserUpdateVo;
 
 import java.util.List;
 
 /**
-* Created by zengrui on 2017-07-25 21:46:14.
-*/
+ * 用户服务
+ * Created by zengrui on 2017-08-11 12:10:02.
+ */
 public interface TsUserService {
 
-    public TsUser selectOne(TsUser tsUser);
-
-    public List<TsUser> select(TsUser tsUser);
+    /**
+     * 查询部门信息，生成树形菜单
+     * @param tsUserSearchVo 查询条件视图
+     * @return 返回部门列表 响应结果
+     */
+    List<TsUser> selectUser(TsUserSearchVo tsUserSearchVo);
 
     /**
-     * 插入空
-     * */
-    public int insert(TsUser tsUser);
+     * 新增、启用、停用、删除（逻辑阐述）用户
+     * @param tsUserUpdateVos 操作数据视图
+     * @return 返回操作成功数量
+     */
+    int updateUsers(List<TsUserUpdateVo> tsUserUpdateVos);
 
     /**
-     * 插入不为空的
-     * */
-    public int insertSelective(TsUser tsUser);
-
-    public int insertBatch(List<TsUser> tsUsers);
-
-    public int updateByPrimaryKey(TsUser tsUser) throws ServiceException;
-
-
-    public int updateByPrimaryKeySelective(TsUser tsUser) throws ServiceException;
-
-
-    public int updateBatch(List<TsUser> tsUsers);
-
-    public int deleteByPrimaryKey(Object object);
-
-
-    public int deleteBatchByIds(List<TsUser> tsUsers);
-
-    public List<TsUser> selectByCondition(Object object);
-
-    int saveBatch(List<TsUser> tsUsers);
+     * 初始化密码
+     *
+     * @param tsUserUpdateVo 初始化视图类
+     * @return 返回操作成功数量
+     */
+    int updateUserPwd(TsUserUpdateVo tsUserUpdateVo);
 }
