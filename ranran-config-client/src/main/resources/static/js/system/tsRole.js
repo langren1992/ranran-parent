@@ -56,35 +56,47 @@ function initComponent(){
     });
 
     $(form_roleStatus).combobox({
-        //自适应数据高度属性
         panelHeight:"auto",
-        //值
-        valueField:'value',
-        //名称
-        textField: 'textName',
-        data: [{
-            textName: '可用',
-            value: "1"
-        },{
-            textName: '停用',
-            value: "0"
-        }]
+        valueField: 'tdCode',
+        textField: 'tdName',
+        queryParams:{
+            tdKey:'ROLE_STATUS',
+            tdType:2
+        },
+        loader: function(param, success, error) {
+            $.ajax({
+                type : 'POST',
+                url : './tsDict/selectTsDict.html',
+                dataType : 'json',
+                contentType : 'application/json;charset=utf-8', // 设置请求头信息
+                data : JSON.stringify(param),
+                success : function(result) {
+                    success(result.data);
+                }
+            });
+        }
     });
 
     $(form_roleState_res).combobox({
-        //自适应数据高度属性
         panelHeight:"auto",
-        //值
-        valueField:'value',
-        //名称
-        textField: 'textName',
-        data: [{
-            textName: '可用',
-            value: "1"
-        },{
-            textName: '停用',
-            value: "0"
-        }]
+        valueField: 'tdCode',
+        textField: 'tdName',
+        queryParams:{
+            tdKey:'ROLE_STATUS',
+            tdType:2
+        },
+        loader: function(param, success, error) {
+            $.ajax({
+                type : 'POST',
+                url : './tsDict/selectTsDict.html',
+                dataType : 'json',
+                contentType : 'application/json;charset=utf-8', // 设置请求头信息
+                data : JSON.stringify(param),
+                success : function(result) {
+                    success(result.data);
+                }
+            });
+        }
     });
 
     $(role_list).datagrid({

@@ -20,7 +20,7 @@ public class TsDeptUpdateVo implements Serializable{
     //父级名称
     private String deptParentNameCn;
     //级别
-    private Integer deptLever;
+    private Integer deptLevel;
     //状态
     private Integer deptStatus;
     //负责人编码
@@ -140,14 +140,14 @@ public class TsDeptUpdateVo implements Serializable{
     /**
      * 获取 deptLever 级别
      */
-    public Integer getDeptLever(){
-        return  deptLever;
+    public Integer getDeptLevel(){
+        return  deptLevel;
     }
     /**
      * 设置 deptLever 级别
      */
-    public void setDeptLever(Integer deptLever ){
-        this.deptLever = deptLever;
+    public void setDeptLevel(Integer deptLevel ){
+        this.deptLevel = deptLevel;
     }
 
     /**

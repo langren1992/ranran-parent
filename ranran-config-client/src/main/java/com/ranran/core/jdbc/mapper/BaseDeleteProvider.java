@@ -43,35 +43,35 @@ public class BaseDeleteProvider extends MapperTemplate {
         return sql.toString();
     }
 
-    /**
-     * 批量刪除通过 对象集合
-     * @params 对象集合 删除该方法
-     *
-     * */
-    @Deprecated
-    public String deleteBatchByObjs(MappedStatement ms){
-        StringBuilder sql = new StringBuilder();
-        Class<?> entityClass = getEntityClass(ms);
-        sql.append(SqlHelper.deleteFromTable(entityClass, tableName(entityClass)));
-        sql.append("<where>");
-        sql.append(" <foreach collection=\"list\" item=\"record\" open=\"(\" separator=\" OR \" close=\")\"> (");
-        Set<EntityColumn> columnList = EntityHelper.getColumns(entityClass);
-        boolean first = true;
-        //当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
-        for (EntityColumn column : columnList) {
-            if(first) {
-                sql.append("<if test=\"record."+column.getProperty()+"!= null and record." + column.getProperty() + "!='' \">");
-                sql.append(column.getColumn()+"=#{record."+column.getProperty()+"}");
-                sql.append("</if>");
-            }
-            sql.append("<if test=\"record."+column.getProperty()+"!= null and record." + column.getProperty() + "!='' \">");
-            sql.append(" AND "+column.getColumn()+"=#{record."+column.getProperty()+"}");
-            sql.append("</if>");
-            first = false;
-        }
-        sql.append(" )</foreach> ");
-        sql.append("</where>");
-        return sql.toString();
-    }
+//    /**
+//     * 批量刪除通过 对象集合
+//     * @params 对象集合 删除该方法
+//     *
+//     * */
+//    @Deprecated
+//    public String deleteBatchByObjs(MappedStatement ms){
+//        StringBuilder sql = new StringBuilder();
+//        Class<?> entityClass = getEntityClass(ms);
+//        sql.append(SqlHelper.deleteFromTable(entityClass, tableName(entityClass)));
+//        sql.append("<where>");
+//        sql.append(" <foreach collection=\"list\" item=\"record\" open=\"(\" separator=\" OR \" close=\")\"> (");
+//        Set<EntityColumn> columnList = EntityHelper.getColumns(entityClass);
+//        boolean first = true;
+//        //当某个列有主键策略时，不需要考虑他的属性是否为空，因为如果为空，一定会根据主键策略给他生成一个值
+//        for (EntityColumn column : columnList) {
+//            if(first) {
+//                sql.append("<if test=\"record."+column.getProperty()+"!= null and record." + column.getProperty() + "!='' \">");
+//                sql.append(column.getColumn()+"=#{record."+column.getProperty()+"}");
+//                sql.append("</if>");
+//            }
+//            sql.append("<if test=\"record."+column.getProperty()+"!= null and record." + column.getProperty() + "!='' \">");
+//            sql.append(" AND "+column.getColumn()+"=#{record."+column.getProperty()+"}");
+//            sql.append("</if>");
+//            first = false;
+//        }
+//        sql.append(" )</foreach> ");
+//        sql.append("</where>");
+//        return sql.toString();
+//    }
 
 }

@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 @SpringBootApplication
-@EnableDiscoveryClient  //激活eureka中的DiscoveryClient实现
-@RefreshScope           //自动刷新作用域的值
-@EnableCircuitBreaker   //激化熔断器监控
+//@EnableDiscoveryClient  //激活eureka中的DiscoveryClient实现
+//@RefreshScope           //自动刷新作用域的值
+//@EnableCircuitBreaker   //激化熔断器监控
 @ComponentScan(basePackages = "com.ranran")
 @MapperScan(basePackages = "com.ranran.uums.**.mapper")
 @EnableTransactionManagement //开启事务管理

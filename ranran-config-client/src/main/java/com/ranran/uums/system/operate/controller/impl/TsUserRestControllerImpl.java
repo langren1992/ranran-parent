@@ -1,13 +1,8 @@
 package com.ranran.uums.system.operate.controller.impl;
 
-import com.ranran.core.ErrorCode;
 import com.ranran.core.ResponseResult;
 import com.ranran.core.RestBaseController;
-import com.ranran.core.exception.ControllerException;
-import com.ranran.core.exception.ServiceException;
 import com.ranran.uums.system.operate.controller.TsUserRestController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/tsUser")
 public class TsUserRestControllerImpl extends RestBaseController implements TsUserRestController {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(TsUserRestControllerImpl.class);
-
     @Autowired
     private TsUserRestController tsUserRestController;
 
@@ -36,28 +29,7 @@ public class TsUserRestControllerImpl extends RestBaseController implements TsUs
     @Override
     @PostMapping("/selectUser.html")
     public ResponseResult selectUser(HttpServletRequest request) {
-        ResponseResult responseResult = null;
-        try {
-            responseResult = tsUserRestController.selectUser(request);
-        } catch (ServiceException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        } catch (ControllerException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        }  catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = "999:未知错误,请联系管理员!";
-        }
-        return responseResult;
+        return tsUserRestController.selectUser(request);
     }
 
     /**
@@ -69,28 +41,7 @@ public class TsUserRestControllerImpl extends RestBaseController implements TsUs
     @Override
     @PostMapping("/updateUsers.html")
     public ResponseResult updateUsers(HttpServletRequest request) {
-        ResponseResult responseResult = null;
-        try {
-            responseResult = tsUserRestController.updateUsers(request);
-        } catch (ServiceException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        } catch (ControllerException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        }  catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = "999:未知错误,请联系管理员!";
-        }
-        return responseResult;
+        return tsUserRestController.updateUsers(request);
     }
 
     /**

@@ -18,7 +18,7 @@ function convertsoTree(rows){
                 deptName:row.deptName,
                 deptParentNo:row.deptParentNo,
                 deptParentNameCn:row.deptParentNameCn,
-                deptLever:row.deptLever,
+                deptLevel:row.deptLevel,
                 deptStatus:row.deptStatus,
                 deptLeadNo:row.deptLeadNo,
                 deptLeadName:row.deptLeadName,
@@ -64,7 +64,7 @@ function convertsoTree(rows){
                     deptName:row.deptName,
                     deptParentNo:row.deptParentNo,
                     deptParentNameCn:row.deptParentNameCn,
-                    deptLever:row.deptLever,
+                    deptLevel:row.deptLevel,
                     deptStatus:row.deptStatus,
                     deptLeadNo:row.deptLeadNo,
                     deptLeadName:row.deptLeadName,
@@ -114,7 +114,7 @@ var form_dept = '#form_dept';
 var form_deptNo = '#form_deptNo';
 var form_deptName = '#form_deptName';
 var combo_deptStatus = '#combo_deptStatus';
-var combo_deptLever = '#combo_deptLever';
+var combo_deptLevel = '#combo_deptLevel';
 //新增部门按钮
 var btn_add_dept = '#btn_add_dept';
 //更新部门按钮
@@ -124,35 +124,47 @@ var btn_delete_dept = '#btn_delete_dept';
 
 function initComponent(){
     $(combo_deptStatus).combobox({
-        //自适应数据高度属性
         panelHeight:"auto",
-        //值
-        valueField:'value',
-        //名称
-        textField: 'textName',
-        data: [{
-            textName: '启用',
-            value: "1"
-        },{
-            textName: '停用',
-            value: "0"
-        }]
+        valueField: 'tdCode',
+        textField: 'tdName',
+        queryParams:{
+            tdKey:'DEPT_STARUS',
+            tdType:2
+        },
+        loader: function(param, success, error) {
+            $.ajax({
+                type : 'POST',
+                url : './tsDict/selectTsDict.html',
+                dataType : 'json',
+                contentType : 'application/json;charset=utf-8', // 设置请求头信息
+                data : JSON.stringify(param),
+                success : function(result) {
+                    success(result.data);
+                }
+            });
+        }
     });
 
-    $(combo_deptLever).combobox({
-        //自适应数据高度属性
+    $(combo_deptLevel).combobox({
         panelHeight:"auto",
-        //值
-        valueField:'value',
-        //名称
-        textField: 'textName',
-        data: [{
-            textName: '启用',
-            value: "1"
-        },{
-            textName: '停用',
-            value: "0"
-        }]
+        valueField: 'tdCode',
+        textField: 'tdName',
+        queryParams:{
+            tdKey:'DEPT_LEVEL',
+            tdType:2
+        },
+        loader: function(param, success, error) {
+            $.ajax({
+                type : 'POST',
+                url : './tsDict/selectTsDict.html',
+                dataType : 'json',
+                contentType : 'application/json;charset=utf-8', // 设置请求头信息
+                data : JSON.stringify(param),
+                success : function(result) {
+                    success(result.data);
+                }
+            });
+        }
     });
 
 

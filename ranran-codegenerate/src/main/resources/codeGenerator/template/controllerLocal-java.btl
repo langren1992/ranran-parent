@@ -1,0 +1,54 @@
+package com.ranran.uums.system.operate.controller.local;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.ranran.core.ErrorCode;
+import com.ranran.core.ResponseResult;
+import com.ranran.core.RestBaseController;
+import com.ranran.uums.system.operate.controller.${className}RestController;
+import com.ranran.uums.system.operate.controller.impl.${className}RestControllerImpl;
+import com.ranran.uums.system.operate.service.${className}Service;
+import com.ranran.uums.system.operate.vo.${className}SearchVo;
+import com.ranran.uums.system.operate.vo.${className}UpdateVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+/**
+ * ${tableInfo.comment}请求处理
+ * @creator zengrui ${date(),"yyyy-MM-dd hh:mm"}
+ */
+@Component
+public class ${className}RestControllerLocal extends RestBaseController implements ${className}RestController {
+
+    @Autowired
+    private ${className}Service ${firstLowCase(className)}Service;
+
+    /**
+    * 查询部门信息，生成树形菜单
+    *
+    * @param request 请求参数
+    * @return ResponseResult 响应结果
+    */
+    @Override
+    public ResponseResult select${className}(HttpServletRequest request) {
+        String reqData = this.wrapperJson(request, new ErrorCode(101,"/${className}/select${className}.html"));
+        ${className}SearchVo ${firstLowCase(className)}SearchVo = JSONObject.parseObject(reqData,${className}SearchVo.class);
+        return this.listResult(${firstLowCase(className)}Service.select${className}(${firstLowCase(className)}SearchVo));
+    }
+
+    /**
+    * 新增、启用、停用、删除（逻辑阐述）部门
+    *
+    * @param request 参数
+    * @return ResponseResult 响应结果
+    */
+    @Override
+    public ResponseResult update${className}s(HttpServletRequest request) {
+        String reqData = this.wrapperJson(request, new ErrorCode(102,"/${className}/update${className}.html"));
+        List<${className}UpdateVo> ${firstLowCase(className)}UpdateVos = JSONArray.parseArray(reqData,${className}UpdateVo.class);
+        return this.saveResult(${firstLowCase(className)}Service.update${className}s(${firstLowCase(className)}UpdateVos));
+    }
+
+}

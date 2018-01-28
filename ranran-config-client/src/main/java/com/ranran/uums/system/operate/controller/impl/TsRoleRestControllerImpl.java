@@ -1,14 +1,9 @@
 package com.ranran.uums.system.operate.controller.impl;
 
 
-import com.ranran.core.ErrorCode;
 import com.ranran.core.RestBaseController;
 import com.ranran.core.ResponseResult;
-import com.ranran.core.exception.ControllerException;
-import com.ranran.core.exception.ServiceException;
 import com.ranran.uums.system.operate.controller.TsRoleRestController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/tsRole")
 public class TsRoleRestControllerImpl extends RestBaseController implements TsRoleRestController{
 
-    private static Logger LOGGER = LoggerFactory.getLogger(TsRoleRestControllerImpl.class);
-
     @Autowired
     private TsRoleRestController tsRoleRestController;
 
@@ -36,28 +29,7 @@ public class TsRoleRestControllerImpl extends RestBaseController implements TsRo
      */
     @PostMapping("/selectByCondition.html")
     public ResponseResult pageRoleCondition(HttpServletRequest request){
-        ResponseResult responseResult = null;
-        try {
-            responseResult = tsRoleRestController.pageRoleCondition(request);
-        } catch (ServiceException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        } catch (ControllerException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        }  catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = "999:未知错误,请联系管理员!";
-        }
-        return responseResult;
+        return tsRoleRestController.pageRoleCondition(request);
     }
 
     /**
@@ -69,28 +41,7 @@ public class TsRoleRestControllerImpl extends RestBaseController implements TsRo
     @Override
     @PostMapping("/selectRoleResource.html")
     public ResponseResult selectRoleResource(HttpServletRequest request) {
-        ResponseResult responseResult = null;
-        try {
-            responseResult = tsRoleRestController.selectRoleResource(request);
-        } catch (ServiceException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        } catch (ControllerException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        }  catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = "999:未知错误,请联系管理员!";
-        }
-        return responseResult;
+        return tsRoleRestController.selectRoleResource(request);
     }
 
     /**
@@ -102,28 +53,7 @@ public class TsRoleRestControllerImpl extends RestBaseController implements TsRo
     @Override
     @PostMapping("/selectRoleResPermi.html")
     public ResponseResult selectRoleResPermi(HttpServletRequest request) {
-        ResponseResult responseResult = null;
-        try {
-            responseResult = tsRoleRestController.selectRoleResPermi(request);
-        } catch (ServiceException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        } catch (ControllerException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        }  catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = "999:未知错误,请联系管理员!";
-        }
-        return responseResult;
+        return tsRoleRestController.selectRoleResPermi(request);
     }
 
     /**
@@ -135,28 +65,7 @@ public class TsRoleRestControllerImpl extends RestBaseController implements TsRo
     @Override
     @PostMapping("/selectRoleUser.html")
     public ResponseResult selectRoleUser(HttpServletRequest request) {
-        ResponseResult responseResult = null;
-        try {
-            responseResult = tsRoleRestController.selectRoleUser(request);
-        } catch (ServiceException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        } catch (ControllerException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        }  catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = "999:未知错误,请联系管理员!";
-        }
-        return responseResult;
+        return tsRoleRestController.selectRoleUser(request);
     }
 
     /**
@@ -168,28 +77,7 @@ public class TsRoleRestControllerImpl extends RestBaseController implements TsRo
     @Override
     @PostMapping("/selectRoleNotUser.html")
     public ResponseResult selectRoleNotUser(HttpServletRequest request) {
-        ResponseResult responseResult = null;
-        try {
-            responseResult = tsRoleRestController.selectRoleNotUser(request);
-        } catch (ServiceException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        } catch (ControllerException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        }  catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = "999:未知错误,请联系管理员!";
-        }
-        return responseResult;
+        return tsRoleRestController.selectRoleNotUser(request);
     }
 
     /**
@@ -201,28 +89,7 @@ public class TsRoleRestControllerImpl extends RestBaseController implements TsRo
     @Override
     @PostMapping("/updateRoles.html")
     public ResponseResult updateRoleBatch(HttpServletRequest request) {
-        ResponseResult responseResult = null;
-        try {
-            responseResult = tsRoleRestController.updateRoleBatch(request);
-        } catch (ServiceException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        } catch (ControllerException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        }  catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = "999:未知错误,请联系管理员!";
-        }
-        return responseResult;
+        return tsRoleRestController.updateRoleBatch(request);
     }
 
     /**
@@ -234,28 +101,7 @@ public class TsRoleRestControllerImpl extends RestBaseController implements TsRo
     @Override
     @PostMapping("/deleteRole.html")
     public ResponseResult deleteRole(HttpServletRequest request) {
-        ResponseResult responseResult = null;
-        try {
-            responseResult = tsRoleRestController.deleteRole(request);
-        } catch (ServiceException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        } catch (ControllerException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        }  catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = "999:未知错误,请联系管理员!";
-        }
-        return responseResult;
+        return tsRoleRestController.deleteRole(request);
     }
 
     /**
@@ -267,28 +113,7 @@ public class TsRoleRestControllerImpl extends RestBaseController implements TsRo
     @Override
     @PostMapping("/optRoleResRal.html")
     public ResponseResult optRoleResRal(HttpServletRequest request) {
-        ResponseResult responseResult = null;
-        try {
-            responseResult = tsRoleRestController.optRoleResRal(request);
-        } catch (ServiceException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        } catch (ControllerException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        }  catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = "999:未知错误,请联系管理员!";
-        }
-        return responseResult;
+        return tsRoleRestController.optRoleResRal(request);
     }
 
     /**
@@ -300,28 +125,7 @@ public class TsRoleRestControllerImpl extends RestBaseController implements TsRo
     @Override
     @PostMapping("/optRoleResPermiRal.html")
     public ResponseResult optRoleResPermiRal(HttpServletRequest request) {
-        ResponseResult responseResult = null;
-        try {
-            responseResult = tsRoleRestController.optRoleResPermiRal(request);
-        } catch (ServiceException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        } catch (ControllerException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        }  catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = "999:未知错误,请联系管理员!";
-        }
-        return responseResult;
+        return tsRoleRestController.optRoleResPermiRal(request);
     }
 
     /**
@@ -333,28 +137,7 @@ public class TsRoleRestControllerImpl extends RestBaseController implements TsRo
     @Override
     @PostMapping("/optRoleUserRal.html")
     public ResponseResult optRoleUserRal(HttpServletRequest request) {
-        ResponseResult responseResult = null;
-        try {
-            responseResult = tsRoleRestController.optRoleUserRal(request);
-        } catch (ServiceException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        } catch (ControllerException e) {
-            LOGGER.error(e.getMessage(), e);
-            ErrorCode error = e.getErrorCode();
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = error.code +":"+error.name;
-        }  catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            responseResult = new ResponseResult();
-            responseResult.success = false;
-            responseResult.message = "999:未知错误,请联系管理员!";
-        }
-        return responseResult;
+        return tsRoleRestController.optRoleUserRal(request);
     }
 
 

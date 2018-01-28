@@ -7,6 +7,11 @@ public class ResponseResult {
     public Boolean success;
 
     /**
+     * 系统异常标识
+     */
+    public Boolean error;
+
+    /**
      * 响应消息
      */
     public String message;

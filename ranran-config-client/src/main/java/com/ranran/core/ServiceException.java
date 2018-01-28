@@ -1,4 +1,4 @@
-package com.ranran.core.exception;
+package com.ranran.core;
 
 
 import com.ranran.core.ErrorCode;

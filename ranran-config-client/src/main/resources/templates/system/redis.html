@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="./static/easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./static/easyui/themes/icon.css">
+    <script type="text/javascript" src="./static/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="./static/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./static/js/system/redis.js"></script>
+    <title>Redis缓存管理</title>
+</head>
+<body>
+    <div class="easyui-layout" data-options="fit: true">
+        <div data-options="region: 'center'">
+            <table id="dg_redis"></table>
+            <div id="dg_toolbar_redis" style="padding-left:5px;padding-right:5px;">
+                <form id="dg_toolbar_form_redis">
+                    <input id="dg_toolbar_form_key" class="easyui-textbox" label ="键：" labelWidth="65" labelAlign="right" type="text" name="key"  /></td>
+                    <a id="btn_search_redis" href="#" class="easyui-linkbutton" iconCls="icon-search" plain="false">查询</a>
+                    <a id="btn_reset_redis" href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="false">重置</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

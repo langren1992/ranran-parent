@@ -1,10 +1,15 @@
 package com.ranran.core.configuration;
 
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -15,10 +20,11 @@ import redis.clients.jedis.JedisPoolConfig;
  * @create 2017-11-14 0:19
  **/
 @Configuration
+@EnableAutoConfiguration
 public class RedisConfiguration {
 
-    @Bean
-    public JedisPool jedisPoolConfig(
+    @Bean(name = "jedisConnectionFactory")
+    public JedisConnectionFactory jedisPoolConfig(
             @Value("${redis.host}") String hostName,
             @Value("${redis.port}") int port,
             @Value("${redis.password}") String password,
@@ -39,7 +45,13 @@ public class RedisConfiguration {
         jedisPoolConfig.setMaxWaitMillis(maxWait);
         //在获取连接的时候检查有效性, 默认false
         jedisPoolConfig.setTestOnBorrow(testOnBorrow);
-        return new JedisPool(jedisPoolConfig,hostName,port);
+        JedisConnectionFactory factory = new JedisConnectionFactory();
+        factory.setPoolConfig(jedisPoolConfig);
+        return factory;
     }
 
+    @Bean
+    public StringRedisTemplate getRedisTemplate(@Qualifier("jedisConnectionFactory") JedisConnectionFactory connectionFactory){
+        return new StringRedisTemplate(connectionFactory);
+    }
 }

@@ -27,18 +27,20 @@ public class App {
         generateInfo.setProjectUrl("E:/workspace/server/ranran-parent/ranran-config-client");
         generateInfo.setPackageUrl("com.ranran.uums");
         generateInfo.setModelName("system");
-        generateInfo.setTablePattern("ra%");
+        generateInfo.setTablePattern("ts_dict%");
         List<TemplateInfo> templateInfoList = new ArrayList<TemplateInfo>();
 //        templateInfoList.add(new ServiceTemplate());
 //        templateInfoList.add(new ServiceImplTemplate());
-//        templateInfoList.add(new ServiceBaseTemplate());
+//        templateInfoList.add(new ControllerTemplate());
+//        templateInfoList.add(new ControllerImplTemplate());
+//        templateInfoList.add(new ControllerLocalTemplate());
 //        templateInfoList.add(new JsTemplate());
 //        templateInfoList.add(new ViewTemplate());
 //        templateInfoList.add(new VoTemplate());
 //        templateInfoList.add(new MapperTemplate());
 //        templateInfoList.add(new MdTemplate());
         templateInfoList.add(new ModelTemplate());
-//        templateInfoList.add(new MapperXmlTemplate());
+        templateInfoList.add(new MapperXmlTemplate());
         Coder coder = new Coder();
         coder.generate(generateInfo,templateInfoList);
 //        整个库生成

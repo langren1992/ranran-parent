@@ -81,15 +81,24 @@ function initComponent(){
     var formResStatus = $("#form_resStatus");
     formResStatus.combobox({
         panelHeight:"auto",
-        valueField: 'value',
-        textField: 'label',
-        data: [{
-            label: '显示',
-            value: '1'
-        },{
-            label: '隐藏',
-            value: '0'
-        }]
+        valueField: 'tdCode',
+        textField: 'tdName',
+        queryParams:{
+            tdKey:'RESOURCE_STATUS',
+            tdType:2
+        },
+        loader: function(param, success, error) {
+            $.ajax({
+                type : 'POST',
+                url : './tsDict/selectTsDict.html',
+                dataType : 'json',
+                contentType : 'application/json;charset=utf-8', // 设置请求头信息
+                data : JSON.stringify(param),
+                success : function(result) {
+                    success(result.data);
+                }
+            });
+        }
     });
 
     $("#res_btn").datagrid({

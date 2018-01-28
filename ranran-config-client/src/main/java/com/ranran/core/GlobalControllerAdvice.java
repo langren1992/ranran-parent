@@ -1,5 +1,9 @@
 package com.ranran.core;
 
+import com.ranran.core.redis.RanRanRedisException;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,6 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 public class GlobalControllerAdvice {
 
+
+    private static Logger LOGGER = LoggerFactory.getLogger(GlobalControllerAdvice.class);
+
     /**
      * 全局异常捕捉处理
      * @param ex
@@ -20,11 +27,16 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(value = Exception.class)
     public ResponseResult errorHandler(Exception ex) {
         ResponseResult responseResult = new ResponseResult();
-        responseResult.success = false;
-        responseResult.message = "系统异常，请联系管理员！"+ex.getMessage();
-        ex.printStackTrace();
+        responseResult.error = true;
+        if (LOGGER.isDebugEnabled()){
+            ex.printStackTrace();
+        }
+        LOGGER.error("\n {}", StringUtils.join(ex.getStackTrace(),"\n    at "));
+        if (ex instanceof RanRanRedisException){
+            responseResult.message = "系统异常，"+ex.getMessage()+"，请联系管理员！";
+        } else {
+            responseResult.message = "系统异常，请联系管理员！";
+        }
         return responseResult;
     }
-
-
 }

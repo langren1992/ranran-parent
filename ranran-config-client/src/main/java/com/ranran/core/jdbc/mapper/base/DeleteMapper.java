@@ -1,6 +1,7 @@
 package com.ranran.core.jdbc.mapper.base;
 
 import com.ranran.core.jdbc.mapper.BaseDeleteProvider;
+import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface DeleteMapper<T> {
      * @params id集合
      *
      * */
-    @InsertProvider(type = BaseDeleteProvider.class, method = "dynamicSQL")
+    @DeleteProvider(type = BaseDeleteProvider.class, method = "dynamicSQL")
     int deleteBatchByIds(List<T> t);
 
     /**
@@ -23,7 +24,7 @@ public interface DeleteMapper<T> {
      * @params 对象集合
      *
      * */
-    @Deprecated
-    @InsertProvider(type = BaseDeleteProvider.class, method = "dynamicSQL")
-    int deleteBatchByObjs(List<T> t);
+//    @Deprecated
+//    @DeleteProvider(type = BaseDeleteProvider.class, method = "dynamicSQL")
+//    int deleteBatchByObjs(List<T> t);
 }

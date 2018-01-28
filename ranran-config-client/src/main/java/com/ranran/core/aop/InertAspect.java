@@ -59,9 +59,10 @@ public class InertAspect {
         List<String> idList = new ArrayList<String>();
         BeanWrapper beanWrapper;
         List list = new ArrayList();
+        Object o;
         if(args[0] instanceof List){
             list = (List) args[0];
-            Object o = list.get(0);
+            o = list.get(0);
             for (int i = 0,length= o.getClass().getDeclaredFields().length; i < length; i++) {
                 Field field = o.getClass().getDeclaredFields()[i];
                 if (field.isAnnotationPresent(Id.class)){
@@ -85,7 +86,18 @@ public class InertAspect {
                 }
             }
         }else {
-            beanWrapper = new BeanWrapperImpl(args);
+            beanWrapper = new BeanWrapperImpl(args[0]);
+            o = args[0];
+            for (int i = 0,length= o.getClass().getDeclaredFields().length; i < length; i++) {
+                Field field = o.getClass().getDeclaredFields()[i];
+                if (field.isAnnotationPresent(Id.class)){
+                    idList.add(field.getName());
+                }
+            }
+            //对象ID主键赋值
+            for (int i = 0,size = idList.size(); i < size; i++) {
+                beanWrapper.setPropertyValue(idList.get(i), snowflakeIdWorker.nextId());
+            }
             // 设置创建时间和修改时间
             if (beanWrapper.isWritableProperty(CREATOR)) {
                 beanWrapper.setPropertyValue(CREATOR, userNo);

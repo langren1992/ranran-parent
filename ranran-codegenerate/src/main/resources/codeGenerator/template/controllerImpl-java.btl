@@ -1,0 +1,52 @@
+package ${package}.${model}.operate.controller.impl;
+
+import com.ranran.core.ResponseResult;
+import com.ranran.core.RestBaseController;
+import com.ranran.uums.system.operate.controller.${className}RestController;
+import com.ranran.uums.system.operate.service.TsResourceService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * ${tableInfo.comment}请求控制类
+ * @creator zengrui ${date(),"yyyy-MM-dd hh:mm"}
+ */
+@RestController(value = "${className}RestController")
+@RequestMapping("/tsDept")
+public class ${className}RestControllerImpl extends RestBaseController implements ${className}RestController {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(${className}RestControllerImpl.class);
+
+    @Autowired
+    private ${className}RestController ${firstLowCase(className)}RestController;
+
+    /**
+     * 查询${tableInfo.comment}信息
+     *
+     * @param request 请求参数
+     * @return ResponseResult 响应结果
+     */
+    @Override
+    @PostMapping("/select${className}.html")
+    public ResponseResult select${className}(HttpServletRequest request) {
+        return ${firstLowCase(className)}RestController.select${className}(request);
+    }
+
+    /**
+    * 新增、启用、停用、删除（逻辑阐述）${tableInfo.comment}
+    *
+    * @param request 请求参数
+    * @return ResponseResult 响应结果
+    */
+    @Override
+    @PostMapping("/update${className}s.html")
+    public ResponseResult update${className}s(HttpServletRequest request) {
+        return ${firstLowCase(className)}RestController.update${className}s(request);
+    }
+}

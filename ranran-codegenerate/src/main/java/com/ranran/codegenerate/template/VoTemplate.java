@@ -10,7 +10,7 @@ public class VoTemplate extends TemplateInfo {
 
     private String suffix = "Vo.java";
 
-    private String packagePath = "vo";
+    private String packagePath = "operate/vo";
 
     public String getSuffix() {
         return suffix;

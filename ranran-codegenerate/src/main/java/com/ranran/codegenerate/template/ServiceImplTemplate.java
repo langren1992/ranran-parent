@@ -10,7 +10,7 @@ public class ServiceImplTemplate extends TemplateInfo {
 
     private String suffix = "ServiceImpl.java";
 
-    private String packagePath = "service/impl";
+    private String packagePath = "operate/service/impl";
 
     public String getSuffix() {
         return suffix;

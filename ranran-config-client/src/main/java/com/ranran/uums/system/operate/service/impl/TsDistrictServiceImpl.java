@@ -1,6 +1,6 @@
 package com.ranran.uums.system.operate.service.impl;
 
-import com.ranran.core.exception.ServiceException;
+import com.ranran.core.ServiceException;
 import com.ranran.core.shiro.util.StringUtils;
 import com.ranran.uums.system.mapper.TsDistrictMapper;
 import com.ranran.uums.system.model.TsDistrict;

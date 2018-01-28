@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据字典</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="./static/easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./static/easyui/themes/icon.css">
+    <script type="text/javascript" src="./static/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="./static/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./static/js/system/tsDict.js"></script>
+</head>
+<body>
+    <div class="easyui-layout" data-options="fit: true">
+        <div data-options="region: 'west', title: '资源树', iconCls: 'icon-standard-application-view-tile', split: true,collapsible:false" style="width: 250px;">
+            <ul id="tree_dict_resource"></ul>
+        </div>
+        <div data-options="region: 'center', split: true">
+            <div class="easyui-layout" data-options="fit: true">
+                <div data-options="region: 'center',title: '索引管理',collapsible:false" style="overflow:hidden;height: 50%" >
+                    <table id="dg_dict"></table>
+                    <div id="toolbar_dict">
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <a id="btn_add_dict" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false">新增</a>
+                                    <a id="btn_save_dict" href="#" class="easyui-linkbutton" iconCls="icon-save" plain="false">保存</a>
+                                    <a id="btn_delete_dict" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false">删除</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div data-options="region: 'south',title: '值管理',collapsible:false" style="overflow:hidden;height: 50%" >
+                    <table id="dg_dict_value"></table>
+                    <div id="toolbar_dict_value">
+                        <table style="width:100%">
+                            <tr>
+                                <td>
+                                    <a id="btn_add_dict_value" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false">新增</a>
+                                    <a id="btn_delete_dict_value" href="#" class="easyui-linkbutton" iconCls="icon-save" plain="false">删除</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

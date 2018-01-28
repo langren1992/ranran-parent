@@ -1,7 +1,7 @@
 package com.ranran.uums.system.operate.service;
 
 
-import com.ranran.core.exception.ServiceException;
+import com.ranran.core.ServiceException;
 import com.ranran.uums.system.model.TsDistrict;
 
 import java.util.List;

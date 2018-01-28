@@ -2,23 +2,17 @@ package com.ranran.uums.system.operate.controller.local;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.ranran.core.ErrorCode;
 import com.ranran.core.ResponseResult;
 import com.ranran.core.RestBaseController;
-import com.ranran.core.exception.ControllerException;
-import com.ranran.uums.system.model.TsRole;
 import com.ranran.uums.system.operate.controller.TsRoleRestController;
-import com.ranran.uums.system.operate.service.TsResourceService;
 import com.ranran.uums.system.operate.service.TsRoleService;
 import com.ranran.uums.system.operate.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.List;
 
 @Component

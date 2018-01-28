@@ -1,4 +1,4 @@
-package com.ranran.core.jdbc.mapper;
+package com.ranran.core.jdbc;
 
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;

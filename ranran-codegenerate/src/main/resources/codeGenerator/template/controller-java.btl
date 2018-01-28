@@ -1,0 +1,29 @@
+package ${package}.${model}.operate.controller;
+
+import com.ranran.core.ResponseResult;
+
+import javax.servlet.http.HttpServletRequest;
+
+/*
+ * ${tableInfo.comment}
+ * @creator zengrui ${date(),"yyyy-MM-dd hh:mm"}
+ */
+public interface ${className}RestController {
+
+    /**
+     * ${tableInfo.comment}简称
+     * @param request 请求参数
+     * @return ResponseResult 响应结果
+     */
+    public ResponseResult select${className}(HttpServletRequest request);
+
+
+    /**
+     * 新增、启用、停用、删除（逻辑删除）${tableInfo.comment}
+     * @param request 请求参数
+     * @return ResponseResult 响应结果
+     */
+    public ResponseResult update${className}s(HttpServletRequest request);
+
+
+}
