@@ -10,5 +10,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({METHOD, FIELD})
 @Retention(RUNTIME)
 public @interface RedisValue {
-    String value() default "";
+    /**
+     * 值的前面部分
+     * @return
+     */
+    String prefix() default "";
+
+    /**
+     * 值的后面部分
+     * @return
+     */
+    String suffix() default "";
 }

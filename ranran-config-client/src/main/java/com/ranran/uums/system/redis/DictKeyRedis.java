@@ -1,13 +1,12 @@
 package com.ranran.uums.system.redis;
 
 import com.alibaba.fastjson.JSONArray;
-import com.ranran.core.redis.RedisOperate;
 import com.ranran.core.redis.annotation.RedisKey;
 import com.ranran.core.redis.annotation.RedisValue;
 
 import java.util.List;
 
-public class DictKeyRedis implements RedisOperate {
+public class DictKeyRedis{
 
     @RedisKey(prefix = "com.ranran.uums.system.redis.DictKeyRedis")
     private String tsKey;
@@ -31,12 +30,12 @@ public class DictKeyRedis implements RedisOperate {
         this.tsKey = tsKey;
     }
 
-    @Override
+//    @Override
     public String getKey() {
         return this.getClass().getName()+"."+tsKey;
     }
 
-    @Override
+//    @Override
     public String getValue() {
         return JSONArray.toJSONString(dictValues);
     }

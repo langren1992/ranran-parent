@@ -13,14 +13,16 @@ var dg_redis = '#dg_redis',
  * 定义所有访问路径
  * **********************************
  */
-var url_dg_redis = './redis/selectRedis.html';
+var url_dg_redis = './redis/selectRedis.html',
+    url_btn_delete_redis = './redis/deleteRedis.html';
 /**
  * **********************************
  * 定义所有按钮
  * **********************************
  */
 var btn_search_redis = '#btn_search_redis',
-    btn_reset_redis = '#btn_reset_redis';
+    btn_reset_redis = '#btn_reset_redis',
+    btn_delete_redis = '#btn_delete_redis';
 
 /**
  * 初始化组件
@@ -33,10 +35,10 @@ function initComponent(){
         toolbar:dg_toolbar_redis,
         singleSelect:true,
         frozenColumns: [[
-            { field: 'key', title: '键', sortable: true, width:120}
+            { field: 'key', title: '键', sortable: true, width:500}
         ]],
         columns: [[
-            { field: 'value', title: '值',width:120}
+            { field: 'value', title: '值',width:500}
         ]],
         queryParams:{
             key:''
@@ -78,6 +80,36 @@ function btnResetRedis(){
 };
 
 /**
+ * 删除缓存
+ */
+function btnDeleteRedis() {
+    var redis = $(dg_redis).datagrid('getSelected');
+    $.ajax({
+        type : 'POST',
+        url : url_btn_delete_redis,
+        dataType : 'json',
+        contentType : 'application/json;charset=utf-8', // 设置请求头信息
+        data : JSON.stringify(redis),
+        success : function(result) {
+            if (result.error){
+                parent.$.messager.alert("系统异常",result.message,"error");
+            }
+            if(result.success){
+                parent.$.messager.alert("提示信息",result.message,"info");
+            }
+            optRefresh();
+        }
+    });
+};
+
+/**
+ * 操作后刷新
+ */
+function optRefresh() {
+    $(dg_redis).datagrid('reload');
+}
+
+/**
  * 按钮绑定功能
  */
 function btnBindFun(){
@@ -86,6 +118,9 @@ function btnBindFun(){
     });
     $(btn_reset_redis).bind('click', function(){
         btnResetRedis();
+    });
+    $(btn_delete_redis).bind('click', function(){
+        btnDeleteRedis();
     });
 };
 

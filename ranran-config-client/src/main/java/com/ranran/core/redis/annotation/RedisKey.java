@@ -12,12 +12,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface RedisKey {
 
     /**
-     * 键
-     * @return
-     */
-    String key() default "";
-
-    /**
      * 键的前面部分
      * @return
      */

@@ -1,4 +1,4 @@
-package com.ranran.core.redis;
+package com.ranran.core.redis.vo;
 
 import java.io.Serializable;
 

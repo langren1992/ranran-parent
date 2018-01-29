@@ -1,9 +1,9 @@
-package com.ranran.core.redis;
+package com.ranran.core.redis.vo;
 
 import java.io.Serializable;
 
-public class RedisSearchVo implements Serializable{
-
+public class RedisDeleteVo implements Serializable{
+    
     private String key;
 
     public String getKey() {
