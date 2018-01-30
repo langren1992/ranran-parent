@@ -8,7 +8,7 @@ import com.ranran.core.RestBaseController;
 import com.ranran.uums.system.operate.controller.${className}RestController;
 import com.ranran.uums.system.operate.controller.impl.${className}RestControllerImpl;
 import com.ranran.uums.system.operate.service.${className}Service;
-import com.ranran.uums.system.operate.vo.${className}SearchVo;
+import com.ranran.uums.system.operate.vo.${className}SelectVo;
 import com.ranran.uums.system.operate.vo.${className}UpdateVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,7 +34,7 @@ public class ${className}RestControllerLocal extends RestBaseController implemen
     @Override
     public ResponseResult select${className}(HttpServletRequest request) {
         String reqData = this.wrapperJson(request, new ErrorCode(101,"/${className}/select${className}.html"));
-        ${className}SearchVo ${firstLowCase(className)}SearchVo = JSONObject.parseObject(reqData,${className}SearchVo.class);
+        ${className}SelectVo ${firstLowCase(className)}SelectVo = JSONObject.parseObject(reqData,${className}SelectVo.class);
         return this.listResult(${firstLowCase(className)}Service.select${className}(${firstLowCase(className)}SearchVo));
     }
 

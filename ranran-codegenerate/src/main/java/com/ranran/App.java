@@ -27,7 +27,7 @@ public class App {
         generateInfo.setProjectUrl("E:/workspace/server/ranran-parent/ranran-config-client");
         generateInfo.setPackageUrl("com.ranran.uums");
         generateInfo.setModelName("system");
-        generateInfo.setTablePattern("ts_dict%");
+        generateInfo.setTablePattern("ts_system_control%");
         List<TemplateInfo> templateInfoList = new ArrayList<TemplateInfo>();
 //        templateInfoList.add(new ServiceTemplate());
 //        templateInfoList.add(new ServiceImplTemplate());
@@ -36,11 +36,11 @@ public class App {
 //        templateInfoList.add(new ControllerLocalTemplate());
 //        templateInfoList.add(new JsTemplate());
 //        templateInfoList.add(new ViewTemplate());
-//        templateInfoList.add(new VoTemplate());
+        templateInfoList.add(new VoTemplate());
 //        templateInfoList.add(new MapperTemplate());
 //        templateInfoList.add(new MdTemplate());
-        templateInfoList.add(new ModelTemplate());
-        templateInfoList.add(new MapperXmlTemplate());
+//        templateInfoList.add(new ModelTemplate());
+//        templateInfoList.add(new MapperXmlTemplate());
         Coder coder = new Coder();
         coder.generate(generateInfo,templateInfoList);
 //        整个库生成

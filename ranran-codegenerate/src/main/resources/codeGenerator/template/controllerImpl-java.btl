@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  * @creator zengrui ${date(),"yyyy-MM-dd hh:mm"}
  */
 @RestController(value = "${className}RestController")
-@RequestMapping("/tsDept")
+@RequestMapping("/${firstLowCase(className)}")
 public class ${className}RestControllerImpl extends RestBaseController implements ${className}RestController {
 
     private static Logger LOGGER = LoggerFactory.getLogger(${className}RestControllerImpl.class);

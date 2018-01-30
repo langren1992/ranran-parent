@@ -1,11 +1,14 @@
 package ${package}.${model}.operate.service.impl;
 
-
 import ${package}.${model}.mapper.${className}Mapper;
 import ${package}.${model}.model.${className};
 import ${package}.${model}.operate.service.${className}Service;
+import ${package}.${model}.operate.service.${className}SelectVo;
+import ${package}.${model}.operate.service.${className}UpdateVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +18,7 @@ import java.util.List;
  * @auth 曾睿 on ${date(),"yyyy-MM-dd HH:mm:ss"}.
  */
 @Service
-public class ${className}ServiceImpl extends ${className}Service {
+public class ${className}ServiceImpl implements ${className}Service {
 
     @Autowired
     private ${className}Mapper ${firstLowCase(className)}Mapper;
@@ -27,7 +30,7 @@ public class ${className}ServiceImpl extends ${className}Service {
      * @return 返回部门列表 响应结果
      */
     @Override
-    public List<${className}> select${className}(${className}SearchVo ${firstLowCase(className)}SearchVo) {
+    public List<${className}> select${className}(${className}SelectVo ${firstLowCase(className)}SelectVo) {
         // TODO: ${date(),"yyyy-MM-dd HH:mm:ss"}  曾睿 添加部门数创建数据生成
         Example example = new Example(${className}.class);
         return ${firstLowCase(className)}Mapper.selectByExample(example);
