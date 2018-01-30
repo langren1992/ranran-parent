@@ -1,8 +1,8 @@
-package com.ranran.core.redis.vo;
+package com.ranran.uums.system.operate.vo;
 
 import java.io.Serializable;
 
-public class RedisDeleteVo implements Serializable{
+public class TsRedisDeleteVo implements Serializable{
     
     private String key;
 

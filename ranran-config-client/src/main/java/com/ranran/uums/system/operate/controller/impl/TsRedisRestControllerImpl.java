@@ -1,8 +1,8 @@
-package com.ranran.core.redis.controller.impl;
+package com.ranran.uums.system.operate.controller.impl;
 
 import com.ranran.core.ResponseResult;
 import com.ranran.core.RestBaseController;
-import com.ranran.core.redis.controller.RedisRestController;
+import com.ranran.uums.system.operate.controller.TsRedisRestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,13 +14,13 @@ import javax.servlet.http.HttpServletRequest;
  * 数据字典请求控制类
  * @creator zengrui 2018-01-25 11:14
  */
-@RestController(value = "RedisRestControllerImpl")
+@RestController(value = "TsRedisRestController")
 @RequestMapping("/redis")
-public class RedisRestControllerImpl extends RestBaseController implements RedisRestController {
+public class TsRedisRestControllerImpl extends RestBaseController implements TsRedisRestController {
 
 
     @Autowired
-    private RedisRestController redisRestController;
+    private TsRedisRestController redisRestController;
 
     @Override
     @PostMapping("/selectRedis.html")

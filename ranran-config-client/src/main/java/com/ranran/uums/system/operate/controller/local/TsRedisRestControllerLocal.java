@@ -1,28 +1,28 @@
-package com.ranran.core.redis.controller.local;
+package com.ranran.uums.system.operate.controller.local;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ranran.core.ErrorCode;
 import com.ranran.core.ResponseResult;
 import com.ranran.core.RestBaseController;
-import com.ranran.core.redis.controller.RedisRestController;
 
-import com.ranran.core.redis.vo.RedisDeleteVo;
-import com.ranran.core.redis.vo.RedisSelectVo;
-import com.ranran.core.redis.service.RedisService;
+import com.ranran.uums.system.operate.controller.TsRedisRestController;
+import com.ranran.uums.system.operate.vo.TsRedisDeleteVo;
+import com.ranran.uums.system.operate.vo.TsRedisSelectVo;
+import com.ranran.uums.system.operate.service.TsRedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 数据字典请求处理
+ * 缓存请求处理
  * @Author zengrui 2018-01-25 11:14
  */
 @Component
-public class RedisRestControllerLocal extends RestBaseController implements RedisRestController {
+public class TsRedisRestControllerLocal extends RestBaseController implements TsRedisRestController {
 
     @Autowired
-    private RedisService redisService;
+    private TsRedisService tsRedisService;
 
     /**
      *  查询Redis信息
@@ -32,8 +32,8 @@ public class RedisRestControllerLocal extends RestBaseController implements Redi
     @Override
     public ResponseResult selectRedis(HttpServletRequest request) {
         String reqData = this.wrapperJson(request, new ErrorCode(101,"/TsDict/selectTsDict.html"));
-        RedisSelectVo redisSelectVo = JSONObject.parseObject(reqData,RedisSelectVo.class);
-        return this.listResult(redisService.selectRedis(redisSelectVo));
+        TsRedisSelectVo redisSelectVo = JSONObject.parseObject(reqData,TsRedisSelectVo.class);
+        return this.listResult(tsRedisService.selectRedis(redisSelectVo));
     }
 
     /**
@@ -45,7 +45,7 @@ public class RedisRestControllerLocal extends RestBaseController implements Redi
     @Override
     public ResponseResult deleteRedis(HttpServletRequest request) {
         String reqData = this.wrapperJson(request, new ErrorCode( 102,"/TsDict/selectTsDict.html"));
-        RedisDeleteVo redisDeleteVo = JSONObject.parseObject(reqData,RedisDeleteVo.class);
-        return this.deleteResult(redisService.deleteRedis(redisDeleteVo));
+        TsRedisDeleteVo redisDeleteVo = JSONObject.parseObject(reqData,TsRedisDeleteVo.class);
+        return this.deleteResult(tsRedisService.deleteRedis(redisDeleteVo));
     }
 }

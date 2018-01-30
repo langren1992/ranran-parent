@@ -1,4 +1,4 @@
-package com.ranran.uums.system.redis;
+package com.ranran.uums.system.operate.redis;
 
 public class DictValueRedis {
 

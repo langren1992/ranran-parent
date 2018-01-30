@@ -101,6 +101,7 @@ function initComponent(){
         singleSelect:true,
         onClick:function (row) {
             $(dg_dict).datagrid({queryParams:{tdResCode:row.resNo}});
+            $(dg_dict_value).datagrid({queryParams:{tdResCode:'A'}});
             editRow = undefined;
         },
         loadFilter:function(rows){
@@ -275,23 +276,27 @@ function btnSaveTsDict() {
     var dict = $(dg_dict).datagrid("getChanges","inserted").concat($(dg_dict).datagrid("getChanges","updated"));
     var dictValue = $(dg_dict_value).datagrid("getChanges","inserted").concat($(dg_dict_value).datagrid("getChanges","updated"));
     var json = JSON.stringify(dict.concat(dictValue));
-    $.ajax({
-        type: "POST",
-        url: url_opt_dict,
-        data: json,
-        contentType:"application/json;charset=utf-8",
-        dataType: "json",
-        success: function(data){
-            //保存完成后直接刷新 列标识
-            editRow = undefined;
-            editRowValue = undefined;
-            if(data.success){
-                parent.$.messager.alert("提示信息",data.message);
-            }else {
-                parent.$.messager.alert("异常提示",data.message);
+    if(dict.length != 0 && dictValue.length !=0){
+        $.ajax({
+            type: "POST",
+            url: url_opt_dict,
+            data: json,
+            contentType:"application/json;charset=utf-8",
+            dataType: "json",
+            success: function(data){
+                //保存完成后直接刷新 列标识
+                editRow = undefined;
+                editRowValue = undefined;
+                if(data.success){
+                    parent.$.messager.alert("提示信息",data.message);
+                }else {
+                    parent.$.messager.alert("异常提示",data.message);
+                }
             }
-        }
-    });
+        });
+    }else {
+        parent.$.messager.alert("提示信息",'无变化数据！');
+    }
 };
 
 function btnDeleteTsDict() {

@@ -1,8 +1,8 @@
-package com.ranran.core.redis.vo;
+package com.ranran.uums.system.operate.vo;
 
 import java.io.Serializable;
 
-public class RedisDataGirdVo implements Serializable{
+public class TsRedisDataGirdVo implements Serializable{
 
     private String key;
 

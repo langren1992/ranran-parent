@@ -4,9 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ranran.core.ErrorCode;
 import com.ranran.core.redis.annotation.RedisKey;
 import com.ranran.core.redis.annotation.RedisValue;
-import com.ranran.uums.system.redis.DictKeyRedis;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -16,8 +14,6 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Field;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
-import static com.sun.corba.se.spi.activation.IIOP_CLEAR_TEXT.value;
 
 /**
  *
@@ -40,12 +36,17 @@ public class RanranRedisTemplate {
      * @param object 缓存操作对象
      * @param seconds 自动时效时间(单位：秒 s )
      */
-    public void setForString(Object object,long seconds) throws IllegalAccessException {
+    public void setForString(Object object,long seconds){
         ValueOperations<String, String> stringValueOperations = stringRedisTemplate.opsForValue();
         Field[] fields = object.getClass().getDeclaredFields();
         String key = "";
-        String value = "";
-        optFieldsKeyValue(object,fields,key,value);
+        Object value = "";
+        for (Field field : fields) {
+            // 填写key字段的值
+            key = optFieldKey(object,field,key);
+            // 填写value字段的值
+            value = optFieldValue(object,field,value);
+        }
         isErrorKeyValue(key,value);
         stringValueOperations.set(key, JSONObject.toJSONString(value),seconds, TimeUnit.SECONDS);
     }
@@ -55,12 +56,17 @@ public class RanranRedisTemplate {
      *
      * @param object 缓存操作对象
      */
-    public void setForString(Object object) throws IllegalAccessException {
+    public void setForString(Object object){
         ValueOperations<String, String> stringValueOperations = stringRedisTemplate.opsForValue();
         Field[] fields = object.getClass().getDeclaredFields();
         String key = "";
-        String value = "";
-        optFieldsKeyValue(object,fields,key,value);
+        Object value = "";
+        for (Field field : fields) {
+            // 填写key字段的值
+            key = optFieldKey(object,field,key);
+            // 填写value字段的值
+            value = optFieldValue(object,field,value);
+        }
         isErrorKeyValue(key,value);
         stringValueOperations.set(key, JSONObject.toJSONString(value));
     }
@@ -71,7 +77,7 @@ public class RanranRedisTemplate {
      * @param key
      * @param value
      */
-    private void isErrorKeyValue(String key, String value) {
+    private void isErrorKeyValue(String key, Object value) {
         // TODO: 2018/1/28
         // 判断键是否异常
         isErrorKey(key);
@@ -94,31 +100,10 @@ public class RanranRedisTemplate {
      * 判断值是否异常
      * @param value
      */
-    private void isErrorValue(String value) {
+    private void isErrorValue(Object value) {
         // TODO: 2018/1/28
-        if(StringUtils.isBlank(value)){
+        if(value == null){
             throw new RanRanRedisException(new ErrorCode(1001,"The key cannot be null or '' "));
-        }
-    }
-
-
-
-    /**
-     *  填写key和value字段的值
-     *
-     * @param object
-     * @param fields
-     * @param key
-     * @param value
-     * @throws IllegalAccessException
-     */
-    private void optFieldsKeyValue(Object object,Field[] fields,String key,String value) throws IllegalAccessException {
-        // TODO: 2018/1/28 添加注释
-        for (Field field : fields) {
-            // 填写key字段的值
-            optFieldKey(object,field,key);
-            // 填写value字段的值
-            optFieldValue(object,field,value);
         }
     }
 
@@ -130,20 +115,27 @@ public class RanranRedisTemplate {
      * @param key
      * @throws IllegalAccessException
      */
-    private void optFieldKey(Object object,Field field,String key) throws IllegalAccessException {
+    private String optFieldKey(Object object,Field field,String key){
         // 判断是否是key注解
-        if (field.isAnnotationPresent(RedisKey.class)){
-            RedisKey redisKey = field.getAnnotation(RedisKey.class);
-            // 添加操作权限
-            field.setAccessible(true);
-            key = (String) field.get(object);
-            if (StringUtils.isNotBlank(redisKey.prefix())){
-                key = redisKey.prefix()+"."+ key;
+        try {
+            if (field.isAnnotationPresent(RedisKey.class)){
+                RedisKey redisKey = field.getAnnotation(RedisKey.class);
+                // 添加操作权限
+                field.setAccessible(true);
+                key = (String) field.get(object);
+                if (StringUtils.isNotBlank(redisKey.prefix())){
+                    key = redisKey.prefix()+"."+ key;
+                }
+                if (StringUtils.isNotBlank(redisKey.suffix())){
+                    key = key+"."+redisKey.suffix();
+                }
+                field.set(object,key);
             }
-            if (StringUtils.isNotBlank(redisKey.suffix())){
-                key = key+"."+redisKey.suffix();
-            }
-            field.set(object,key);
+            return key;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            throw new RanRanRedisException(new ErrorCode(103,e.getMessage()));
+
         }
     }
 
@@ -155,12 +147,18 @@ public class RanranRedisTemplate {
      * @param value
      * @throws IllegalAccessException
      */
-    private void optFieldValue(Object object,Field field,String value) throws IllegalAccessException {
+    private Object optFieldValue(Object object,Field field,Object value) {
         // 判断是否是value注解
-        if (field.isAnnotationPresent(RedisValue.class)){
-            // 添加操作权限
-            field.setAccessible(true);
-            value = (String) field.get(object);
+        try {
+            if (field.isAnnotationPresent(RedisValue.class)){
+                // 添加操作权限
+                field.setAccessible(true);
+                value = field.get(object);
+            }
+            return value;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            throw new RanRanRedisException(new ErrorCode(103,e.getMessage()));
         }
     }
 
@@ -179,7 +177,7 @@ public class RanranRedisTemplate {
      * @param object 缓存-键
      * @return 返回String类型字符串
      */
-    public String getForString(Object object) throws IllegalAccessException {
+    public String getForString(Object object){
         // 获取操作对象
         ValueOperations<String, String> stringValueOperations = stringRedisTemplate.opsForValue();
         Field[] fields = object.getClass().getDeclaredFields();
@@ -198,11 +196,12 @@ public class RanranRedisTemplate {
      * @param key
      * @throws IllegalAccessException
      */
-    private void optFieldsKey(Object object,Field[] fields,String key) throws IllegalAccessException {
+    private String optFieldsKey(Object object,Field[] fields,String key){
         // TODO: 2018/1/28 添加注释
         for (Field field : fields) {
-            optFieldKey(object,field,key);
+            key = optFieldKey(object,field,key);
         }
+        return key;
     }
     /**
      * 是否包含-键 缓存
@@ -218,10 +217,10 @@ public class RanranRedisTemplate {
      * @param object 缓存-键
      * @return 包含结果
      */
-    public boolean hasKey(Object object) throws IllegalAccessException {
+    public boolean hasKey(Object object){
         Field[] fields = object.getClass().getDeclaredFields();
         String key = "";
-        optFieldsKey(object,fields,key);
+        key = optFieldsKey(object,fields,key);
         isErrorKey(key);
         return stringRedisTemplate.hasKey(key);
     }
@@ -238,10 +237,10 @@ public class RanranRedisTemplate {
      * 删除-键 缓存
      * @param object 缓存-键
      */
-    public void delete(Object object) throws IllegalAccessException {
+    public void delete(Object object){
         Field[] fields = object.getClass().getDeclaredFields();
         String key = "";
-        optFieldsKey(object,fields,key);
+        key = optFieldsKey(object,fields,key);
         isErrorKey(key);
         stringRedisTemplate.delete(key);
     }
