@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ranran.uums.system.mapper.RaRoleResourceMapper">
+    <resultMap id="RaRoleResourceMap" type="com.ranran.uums.system.model.RaRoleResource">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <result column="RR_ID" jdbcType="INTEGER" property="rrId" />
+        <result column="RR_ROLE_NO" jdbcType="VARCHAR" property="rrRoleNo" />
+        <result column="RR_RESOURCE_NO" jdbcType="VARCHAR" property="rrResourceNo" />
+        <result column="RR_DESCRIBE" jdbcType="VARCHAR" property="rrDescribe" />
+        <result column="CHECKED" jdbcType="INTEGER" property="checked" />
+        <result column="CHECK_STATE" jdbcType="VARCHAR" property="checkState" />
+        <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="MODIFIER" jdbcType="VARCHAR" property="modifier" />
+        <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
+        <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+        <result column="REC_VER" jdbcType="INTEGER" property="recVer" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ranran.uums.system.mapper.TsDistrictMapper">
+    <resultMap id="TsDistrictMap" type="com.ranran.uums.system.model.TsDistrict">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <result column="dist_id" jdbcType="BIGINT" property="distId" />
+        <result column="dist_code" jdbcType="BIGINT" property="distCode" />
+        <result column="dist_name" jdbcType="VARCHAR" property="distName" />
+        <result column="dist_parent_code" jdbcType="BIGINT" property="distParentCode" />
+        <result column="dist_citycode" jdbcType="VARCHAR" property="distCitycode" />
+        <result column="dist_adcode" jdbcType="VARCHAR" property="distAdcode" />
+        <result column="dist_lon" jdbcType="DECIMAL" property="distLon" />
+        <result column="dist_lat" jdbcType="DECIMAL" property="distLat" />
+        <result column="dist_level" jdbcType="VARCHAR" property="distLevel" />
+    </resultMap>
+
+</mapper>

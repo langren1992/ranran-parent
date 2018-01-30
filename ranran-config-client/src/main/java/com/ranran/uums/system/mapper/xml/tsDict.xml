@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ranran.uums.system.mapper.TsDictMapper">
+    <resultMap id="TsDictMap" type="com.ranran.uums.system.model.TsDict">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <result column="td_id" jdbcType="BIGINT" property="tdId" />
+        <result column="td_code" jdbcType="VARCHAR" property="tdCode" />
+        <result column="td_name" jdbcType="VARCHAR" property="tdName" />
+        <result column="td_key" jdbcType="VARCHAR" property="tdKey" />
+        <result column="td_type" jdbcType="VARCHAR" property="tdType" />
+        <result column="td_parent_code" jdbcType="VARCHAR" property="tdParentCode" />
+        <result column="td_parent_name" jdbcType="VARCHAR" property="tdParentName" />
+        <result column="td_res_code" jdbcType="VARCHAR" property="tdResCode" />
+        <result column="td_res_name" jdbcType="VARCHAR" property="tdResName" />
+        <result column="creator" jdbcType="VARCHAR" property="creator" />
+        <result column="create_time" jdbcType="DATE" property="createTime" />
+        <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+        <result column="modify_time" jdbcType="DATE" property="modifyTime" />
+        <result column="org_code" jdbcType="VARCHAR" property="orgCode" />
+    </resultMap>
+
+</mapper>

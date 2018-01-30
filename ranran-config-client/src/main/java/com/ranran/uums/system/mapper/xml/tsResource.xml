@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ranran.uums.system.mapper.TsResourceMapper">
+    <resultMap id="TsResourceMap" type="com.ranran.uums.system.model.TsResource">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <result column="RES_ID" jdbcType="INTEGER" property="resId" />
+        <result column="RES_NO" jdbcType="VARCHAR" property="resNo" />
+        <result column="RES_NAME" jdbcType="VARCHAR" property="resName" />
+        <result column="RES_PARENT_NO" jdbcType="VARCHAR" property="resParentNo" />
+        <result column="RES_PARENT_NAME" jdbcType="VARCHAR" property="resParentName" />
+        <result column="RES_URL" jdbcType="VARCHAR" property="resUrl" />
+        <result column="RES_TYPE" jdbcType="INTEGER" property="resType" />
+        <result column="RES_STATUS" jdbcType="INTEGER" property="resStatus" />
+        <result column="RES_PERMISSION" jdbcType="VARCHAR" property="resPermission" />
+        <result column="RES_ICONCLS" jdbcType="VARCHAR" property="resIconcls" />
+        <result column="RES_DESCRIBE" jdbcType="VARCHAR" property="resDescribe" />
+        <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="MODIFIER" jdbcType="VARCHAR" property="modifier" />
+        <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
+        <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+        <result column="REC_VER" jdbcType="INTEGER" property="recVer" />
+    </resultMap>
+
+</mapper>
