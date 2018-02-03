@@ -1,0 +1,161 @@
+package ${package}.${model}.operate.service.impl;
+
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.ranran.core.BaseModel;
+import com.ranran.core.ResponseResult;
+import ${package}.${model}.mapper.${className}Mapper;
+import ${package}.${model}.model.${className};
+import ${package}.${model}.operate.service.${className}Service;
+import ${package}.${model}.operate.vo.*;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+* ${tableInfo.comment}逻辑
+* @creator zengrui ${date(),"yyyy-MM-dd hh:mm"}
+*/
+@Service
+public class ${className}ServiceImpl implements ${className}Service {
+
+    @Autowired
+    private ${className}Mapper  ${firstLowCase(className)}Mapper;
+
+    /**
+    * 查询${tableInfo.comment}信息
+    * @param ${firstLowCase(className)}SelectVo 查询条件视图
+    * @return 返回部门翻页数据
+    */
+    @Override
+    public PageInfo select${className}(${className}SelectVo  ${firstLowCase(className)}SelectVo) {
+        PageInfo pageInfo = new PageInfo();
+        PageHelper.startPage( ${firstLowCase(className)}SelectVo.getPage(), ${firstLowCase(className)}SelectVo.getRows());
+        Example example = new Example(${className}.class);
+        Example.Criteria criteria = example.createCriteria();
+        if (StringUtils.isNotBlank( ${firstLowCase(className)}SelectVo.getSort())){
+            if(BaseModel.OrderEnum.ASC.name.equalsIgnoreCase( ${firstLowCase(className)}SelectVo.getOrder())){
+                example.orderBy(${firstLowCase(className)}SelectVo.getSort()).asc();
+            }
+            if(BaseModel.OrderEnum.DESC.name.equalsIgnoreCase( ${firstLowCase(className)}SelectVo.getOrder())){
+                example.orderBy(${firstLowCase(className)}SelectVo.getSort()).desc();
+            }
+        }
+        example.orderBy("modifyTime").desc();
+        List<${className}> ${firstLowCase(className)}s =  ${firstLowCase(className)}Mapper.selectByExample(example);
+        pageInfo.setList(${firstLowCase(className)}s);
+        pageInfo.setTotal(((Page<${className}>) ${firstLowCase(className)}s).getTotal());
+        return pageInfo;
+    }
+
+    /**
+    * 新增、启用、停用、删除（逻辑阐述）${tableInfo.comment}
+    * @param ${firstLowCase(className)}UpdateVos 操作数据视图
+    * @return 返回操作成功数量
+    */
+    @Override
+    public int update${className}s(List<${className}UpdateVo>  ${firstLowCase(className)}UpdateVos) {
+        // 新增列表
+        List<${className}> insertList = new ArrayList<${className}>();
+        // 更新列表
+        List<${className}> updateList = new ArrayList<${className}>();
+        ${className}  ${firstLowCase(className)};
+        for (int i = 0,size =  ${firstLowCase(className)}UpdateVos.size(); i < size; i++) {
+            // 判断新增、更新
+            if (${firstLowCase(className)}UpdateVos.get(i).getTscId() == null){
+                ${firstLowCase(className)} = new ${className}();
+                BeanUtils.copyProperties( ${firstLowCase(className)}UpdateVos.get(i), ${firstLowCase(className)});
+                insertList.add( ${firstLowCase(className)});
+            } else {
+                ${firstLowCase(className)} = new ${className}();
+                BeanUtils.copyProperties( ${firstLowCase(className)}UpdateVos.get(i), ${firstLowCase(className)});
+                updateList.add( ${firstLowCase(className)});
+            }
+        }
+        int i = 0;
+        if (insertList.size()>0){
+            i +=  ${firstLowCase(className)}Mapper.insertBatch(insertList);
+        }
+        if (updateList.size()>0){
+            i +=  ${firstLowCase(className)}Mapper.updateBatch(updateList);
+        }
+        return i;
+    }
+
+    /**
+    * 删除（物理删除）${tableInfo.comment}
+    *
+    * @param ${firstLowCase(className)}DeleteVos 删除数据视图
+    * @return 返回操作结果
+    */
+    @Override
+    public int delete${className}s(List<${className}DeleteVo>  ${firstLowCase(className)}DeleteVos) {
+        List<${className}> ${firstLowCase(className)}s = new ArrayList<${className}>();
+        ${className} ${firstLowCase(className)};
+        for (int i = 0,size =  ${firstLowCase(className)}DeleteVos.size(); i < size; i++) {
+            ${firstLowCase(className)} = new ${className}();
+            BeanUtils.copyProperties( ${firstLowCase(className)}DeleteVos.get(i),${firstLowCase(className)});
+            ${firstLowCase(className)}s.add(${firstLowCase(className)});
+        }
+        return  ${firstLowCase(className)}Mapper.deleteBatchByIds(${firstLowCase(className)}s);
+    }
+
+    /**
+    * 导入${tableInfo.comment}
+    *
+    * @param ${firstLowCase(className)}ImportVos 导入数据视图
+    * @return 导入结果
+    */
+    @Override
+    public ResponseResult import${className}s(List<${className}ImportVo>  ${firstLowCase(className)}ImportVos) {
+        ResponseResult responseResult = new ResponseResult();
+        List<${className}>  ${firstLowCase(className)}s = new ArrayList<${className}>();
+        ${className} ${firstLowCase(className)};
+        StringBuffer stringBuffer = new StringBuffer();
+        for (int i = 0,size =  ${firstLowCase(className)}ImportVos.size(); i < size; i++) {
+            ${firstLowCase(className)} = new ${className}();
+            BeanUtils.copyProperties( ${firstLowCase(className)}ImportVos.get(i),${firstLowCase(className)});
+            if( ${firstLowCase(className)}Mapper.selectCount(${firstLowCase(className)})==0){
+                ${firstLowCase(className)}s.add(${firstLowCase(className)});
+            }else {
+                stringBuffer.append("第"+(i+2)+"行控制键:【"+${firstLowCase(className)}.getTscKey()+"】的数据未导入成功；<br / >");
+            }
+        }
+        int i = 0;
+        if (${firstLowCase(className)}s.size()>0){
+            i +=  ${firstLowCase(className)}Mapper.insertBatch(${firstLowCase(className)}s);
+        }
+        responseResult.success = true;
+        responseResult.message = stringBuffer.append("成功导入"+i+"条数据！").toString();
+        return responseResult;
+    }
+
+    /**
+    * 导出${tableInfo.comment}
+    *
+    * @param ${firstLowCase(className)}SelectVo 根据查询条件查询导出结果
+    * @return 导出结果
+    */
+    @Override
+    public List<${className}ExportVo> export${className}s(${className}SelectVo  ${firstLowCase(className)}SelectVo) {
+        Example example = new Example(${className}.class);
+        Example.Criteria criteria = example.createCriteria();
+        List<${className}> systemControls =  ${firstLowCase(className)}Mapper.selectByExample(example);
+        List<${className}ExportVo>  ${firstLowCase(className)}ExportVos = new ArrayList<${className}ExportVo>();
+        ${className}ExportVo  ${firstLowCase(className)}ExportVo;
+        for (int i = 0,size = systemControls.size(); i < size; i++) {
+            ${firstLowCase(className)}ExportVo = new ${className}ExportVo();
+            BeanUtils.copyProperties(systemControls.get(i), ${firstLowCase(className)}ExportVo);
+            ${firstLowCase(className)}ExportVos.add( ${firstLowCase(className)}ExportVo);
+        }
+        return  ${firstLowCase(className)}ExportVos;
+    }
+
+
+}

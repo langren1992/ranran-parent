@@ -3,16 +3,16 @@ package com.ranran.codegenerate.template;
 import com.ranran.codegenerate.StringUtils;
 
 /**
- * 视图模板信息
+ * JS模板信息
  *
  * @author 曾睿
  * @create 2017-11-23 16:35
  **/
-public class ViewTemplate extends TemplateInfo {
+public class HMapperTemplate extends TemplateInfo {
 
-    private String suffix = ".html";
+    private String suffix = "Mapper.java";
 
-    private String packagePath = "ui";
+    private String packagePath = "mapper";
 
     public String getSuffix() {
         return suffix;
@@ -24,16 +24,12 @@ public class ViewTemplate extends TemplateInfo {
 
     @Override
     public BrowserOrServer getIsBrowserOrServer() {
-        return BrowserOrServer.BROWSER;
+        return BrowserOrServer.SERVER;
     }
 
     @Override
     public String getTemplateName() {
-        return "js.btl";
+        return "h-java-mapper.btl";
     }
 
-    @Override
-    public String getFileName() {
-        return StringUtils.toLowerCaseFirstOne(super.getClassName())+suffix;
-    }
 }

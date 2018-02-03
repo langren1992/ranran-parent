@@ -6,11 +6,11 @@ package com.ranran.codegenerate.template;
  * @author 曾睿
  * @create 2017-11-23 16:35
  **/
-public class DaoTemplate extends TemplateInfo {
+public class HModelTemplate extends TemplateInfo {
 
-    private String suffix = "Dao.java";
+    private String suffix = ".java";
 
-    private String packagePath = "dao";
+    private String packagePath = "model";
 
     public String getSuffix() {
         return suffix;
@@ -27,7 +27,7 @@ public class DaoTemplate extends TemplateInfo {
 
     @Override
     public String getTemplateName() {
-        return "dao.btl";
+        return "h-java-model.btl";
     }
 
 }

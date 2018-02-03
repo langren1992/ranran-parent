@@ -1,18 +1,16 @@
 package com.ranran.codegenerate.template;
 
-import com.ranran.codegenerate.StringUtils;
-
 /**
- * JS模板信息
+ * 服务类模板信息
  *
  * @author 曾睿
  * @create 2017-11-23 16:35
  **/
-public class MapperTemplate extends TemplateInfo {
+public class HServiceImplTemplate extends TemplateInfo {
 
-    private String suffix = "Mapper.java";
+    private String suffix = "ServiceImpl.java";
 
-    private String packagePath = "mapper";
+    private String packagePath = "operate/service/impl";
 
     public String getSuffix() {
         return suffix;
@@ -29,7 +27,6 @@ public class MapperTemplate extends TemplateInfo {
 
     @Override
     public String getTemplateName() {
-        return "mapper.btl";
+        return "h-java-service-impl.btl";
     }
-
 }

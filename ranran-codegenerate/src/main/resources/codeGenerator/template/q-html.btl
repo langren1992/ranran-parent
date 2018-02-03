@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>部门管理</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="./static/easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./static/easyui/themes/icon.css">
+    <script type="text/javascript" src="./static/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="./static/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./static/jquery/jquery.form.js"></script>
+    <script type="text/javascript" src="./static/js/common.js"></script>
+    <script type="text/javascript" src="./static/js/system/${firstLowCase(className)}.js"></script>
+</head>
+<body>
+<div class="easyui-layout" data-options="fit: true">
+    <div data-options="region: 'center', split: true">
+        <div class="easyui-layout" data-options="fit: true">
+            <div data-options="region: 'center',collapsible:false" >
+                <table id="dg_${firstLowCase(className)}" class="easyui-datagrid"></table>
+                <div id="toolbar_dg_${firstLowCase(className)}">
+                    <form id="form_toolbar_dg_${firstLowCase(className)}" method="post">
+                        <table>
+                            <tr>
+                                <td>
+                                    <a id="btn_add_${firstLowCase(className)}" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="false">新增</a>
+                                    <a id="btn_delete_${firstLowCase(className)}" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="false">删除</a>
+                                    <a id="btn_import_${firstLowCase(className)}" href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="false">导入</a>
+                                    <a id="btn_export_${firstLowCase(className)}" href="#" class="easyui-linkbutton" iconCls="icon-redo" plain="false">导出</a>
+                                </td>
+
+                            </tr>
+                        </table>
+                        <table>
+                            <tr>
+                                <td><input id="form_tscKey" class="easyui-textbox" label ="控制键：" labelWidth="65" labelAlign="right" type="text" style="width: 99%;" name="tscKey" /></td>
+                                <td><input id="form_tscValue" class="easyui-textbox" label ="控制值：" labelWidth="65" labelAlign="right" type="text" style="width: 99%;" name="tscValue"  /></td>
+                                <td>
+                                    <a id="btn_search_${firstLowCase(className)}" href="#" class="easyui-linkbutton" iconCls="icon-search" plain="false">查询</a>
+                                    <a id="btn_reset_${firstLowCase(className)}" href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="false">重置</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="window_${firstLowCase(className)}">
+    <form id="window_form_${firstLowCase(className)}" style="margin: 0 auto;">
+        <table>
+            <tr style="text-align: right;">
+                <td style="display: none;"><label form="tscId">主键:</label><input id="text_tscId" name="tscId"/></td>
+                <td><label form="text_tscKey">控制键:</label><input id="text_tscKey" class="easyui-validatebox" name="tscKey" data-options="required:true"></td>
+                <td><label form="text_tscValue">控制值:</label><input id="text_tscValue" class="easyui-validatebox" name="tscValue"  data-options="required:true"/></td>
+            </tr>
+            <tr style="text-align: right;">
+                <td colspan=2 form="text_tscRemark"><label >描述:</label><input id="text_tscRemark" class="easyui-validatebox" name="tscRemark"  style="width: 89%;"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="window_import_${firstLowCase(className)}">
+    <form id="window_form_import_${firstLowCase(className)}" method="post" enctype="multipart/form-data">
+        <p>请选择文件: <input id="file" type="file" name="file" style="width: 300px;"/></p>
+    </form>
+</div>
+</body>
+</html>

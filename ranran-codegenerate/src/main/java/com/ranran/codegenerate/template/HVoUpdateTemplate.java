@@ -6,9 +6,9 @@ package com.ranran.codegenerate.template;
  * @author 曾睿
  * @create 2017-11-23 16:35
  **/
-public class VoTemplate extends TemplateInfo {
+public class HVoUpdateTemplate extends TemplateInfo {
 
-    private String suffix = "Vo.java";
+    private String suffix = "UpdateVo.java";
 
     private String packagePath = "operate/vo";
 
@@ -27,7 +27,7 @@ public class VoTemplate extends TemplateInfo {
 
     @Override
     public String getTemplateName() {
-        return "vo.btl";
+        return "h-java-vo-update.btl";
     }
 
 }

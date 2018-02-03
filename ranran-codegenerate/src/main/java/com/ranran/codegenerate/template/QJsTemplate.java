@@ -8,7 +8,7 @@ import com.ranran.codegenerate.StringUtils;
  * @author 曾睿
  * @create 2017-11-23 16:35
  **/
-public class JsTemplate extends TemplateInfo {
+public class QJsTemplate extends TemplateInfo {
 
     private String suffix = ".js";
 
@@ -29,7 +29,7 @@ public class JsTemplate extends TemplateInfo {
 
     @Override
     public String getTemplateName() {
-        return "js.btl";
+        return "q-js.btl";
     }
 
     @Override

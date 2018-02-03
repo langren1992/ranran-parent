@@ -1,16 +1,16 @@
 package com.ranran.codegenerate.template;
 
 /**
- * 服务类模板信息
+ * JS模板信息
  *
  * @author 曾睿
  * @create 2017-11-23 16:35
  **/
-public class ControllerImplTemplate extends TemplateInfo {
+public class HVoSelectTemplate extends TemplateInfo {
 
-    private String suffix = "RestControllerImpl.java";
+    private String suffix = "SelectVo.java";
 
-    private String packagePath = "operate/controller/impl";
+    private String packagePath = "operate/vo";
 
     public String getSuffix() {
         return suffix;
@@ -27,6 +27,7 @@ public class ControllerImplTemplate extends TemplateInfo {
 
     @Override
     public String getTemplateName() {
-        return "controllerImpl-java.btl";
+        return "h-java-vo-select.btl";
     }
+
 }

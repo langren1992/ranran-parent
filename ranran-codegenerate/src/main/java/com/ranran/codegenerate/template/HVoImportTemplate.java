@@ -1,16 +1,16 @@
 package com.ranran.codegenerate.template;
 
 /**
- * 服务类模板信息
+ * JS模板信息
  *
  * @author 曾睿
  * @create 2017-11-23 16:35
  **/
-public class ServiceImplTemplate extends TemplateInfo {
+public class HVoImportTemplate extends TemplateInfo {
 
-    private String suffix = "ServiceImpl.java";
+    private String suffix = "ImportVo.java";
 
-    private String packagePath = "operate/service/impl";
+    private String packagePath = "operate/vo";
 
     public String getSuffix() {
         return suffix;
@@ -27,6 +27,7 @@ public class ServiceImplTemplate extends TemplateInfo {
 
     @Override
     public String getTemplateName() {
-        return "service-impl.btl";
+        return "h-java-vo-import.btl";
     }
+
 }

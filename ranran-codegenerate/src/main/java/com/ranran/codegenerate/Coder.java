@@ -26,14 +26,14 @@ import java.util.Map;
  **/
 public class Coder {
 
-    public void generate(GenerateInfo generateInfo,String fileName) throws IOException, SQLException {
-        List<TemplateInfo> templateInfoList = new ArrayList<TemplateInfo>();
-        templateInfoList.add(new ServiceTemplate());
-        templateInfoList.add(new ServiceImplTemplate());
-        templateInfoList.add(new JsTemplate());
-        templateInfoList.add(new ViewTemplate());
-        this.generate(generateInfo, templateInfoList,fileName);
-    }
+//    public void generate(GenerateInfo generateInfo,String fileName) throws IOException, SQLException {
+//        List<TemplateInfo> templateInfoList = new ArrayList<TemplateInfo>();
+//        templateInfoList.add(new ServiceTemplate());
+//        templateInfoList.add(new ServiceImplTemplate());
+//        templateInfoList.add(new JsTemplate());
+//        templateInfoList.add(new ViewTemplate());
+//        this.generate(generateInfo, templateInfoList,fileName);
+//    }
 
     public void generate(GenerateInfo generateInfo,List<TemplateInfo> templateInfos,String fileName) throws IOException, SQLException {
         this.generate(new MysqlDataMeta(),generateInfo, templateInfos,fileName);

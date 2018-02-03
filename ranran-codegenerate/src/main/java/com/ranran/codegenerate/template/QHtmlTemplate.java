@@ -3,14 +3,14 @@ package com.ranran.codegenerate.template;
 import com.ranran.codegenerate.StringUtils;
 
 /**
- * 视图模板信息
+ * JS模板信息
  *
  * @author 曾睿
  * @create 2017-11-23 16:35
  **/
-public class MdTemplate extends TemplateInfo {
+public class QHtmlTemplate extends TemplateInfo {
 
-    private String suffix = ".md";
+    private String suffix = ".html";
 
     private String packagePath = "";
 
@@ -29,16 +29,11 @@ public class MdTemplate extends TemplateInfo {
 
     @Override
     public String getTemplateName() {
-        return "beetlsql-md.btl";
+        return "q-html.btl";
     }
 
     @Override
     public String getFileName() {
         return StringUtils.toLowerCaseFirstOne(super.getClassName())+suffix;
-    }
-
-    @Override
-    public String getPrefix() {
-        return "sql";
     }
 }

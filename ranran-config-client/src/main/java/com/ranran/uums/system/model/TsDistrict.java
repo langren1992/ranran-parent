@@ -1,6 +1,4 @@
 package com.ranran.uums.system.model;
-import com.ranran.core.BaseModel;
-
 import java.sql.Timestamp;
 import java.io.Serializable;
 import java.util.*;
@@ -9,7 +7,7 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 /*
  * 
- * gen model 2018-01-20
+ * gen model 2018-02-03
  */
 @Table(name = "ts_district")
 public class TsDistrict implements Serializable{

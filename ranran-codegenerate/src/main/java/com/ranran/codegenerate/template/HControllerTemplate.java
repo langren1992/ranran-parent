@@ -6,11 +6,11 @@ package com.ranran.codegenerate.template;
  * @author 曾睿
  * @create 2017-11-23 16:35
  **/
-public class ServiceTemplate extends TemplateInfo {
+public class HControllerTemplate extends TemplateInfo {
 
-    private String suffix = "Service.java";
+    private String suffix = "RestController.java";
 
-    private String packagePath = "operate/service";
+    private String packagePath = "operate/controller";
 
     public String getSuffix() {
         return suffix;
@@ -27,6 +27,6 @@ public class ServiceTemplate extends TemplateInfo {
 
     @Override
     public String getTemplateName() {
-        return "service.btl";
+        return "h-java-controller.btl";
     }
 }

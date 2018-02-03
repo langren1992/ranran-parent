@@ -1,4 +1,4 @@
-package com.ranran.uums.system.operate.controller.local;
+package ${package}.${model}operate.controller.local;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
@@ -11,8 +11,8 @@ import com.ranran.core.ControllerException;
 import com.ranran.core.ErrorCode;
 import com.ranran.core.ResponseResult;
 import com.ranran.core.RestBaseController;
-import com.ranran.uums.system.operate.controller.TsSystemControlRestController;
-import com.ranran.uums.system.operate.service.TsSystemControlService;
+import com.ranran.uums.system.operate.controller.${className}RestController;
+import com.ranran.uums.system.operate.service.${className}Service;
 import com.ranran.uums.system.operate.vo.*;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,26 +29,26 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * 系统控制参数请求处理
+ * ${tableInfo.comment}请求处理
  * @creator zengrui 2018-01-30 10:13
  */
 @Component
-public class TsSystemControlRestControllerLocal extends RestBaseController implements TsSystemControlRestController {
+public class ${className}RestControllerLocal extends RestBaseController implements ${className}RestController {
 
     @Autowired
-    private TsSystemControlService tsSystemControlService;
+    private ${className}Service ${firstLowCase(className)}Service;
 
     /**
-    * 查询部门信息，生成树形菜单
-    *
-    * @param request 请求参数
-    * @return ResponseResult 响应结果
-    */
+     * 查询${tableInfo.comment}信息
+     *
+     * @param request 请求参数
+     * @return ResponseResult 响应结果
+     */
     @Override
-    public ResponseResult selectTsSystemControl(HttpServletRequest request) {
-        String reqData = this.wrapperJson(request, new ErrorCode(101,"/tsSystemControl/selectTsSystemControl.html"));
-        TsSystemControlSelectVo tsSystemControlSelectVo = JSONObject.parseObject(reqData,TsSystemControlSelectVo.class);
-        PageInfo pageInfo = tsSystemControlService.selectTsSystemControl(tsSystemControlSelectVo);
+    public ResponseResult select${className}(HttpServletRequest request) {
+        String reqData = this.wrapperJson(request, new ErrorCode(101,"/${firstLowCase(className)}/select${className}.html"));
+        ${className}SelectVo ${firstLowCase(className)}SelectVo = JSONObject.parseObject(reqData,${className}SelectVo.class);
+        PageInfo pageInfo = ${firstLowCase(className)}Service.select${className}(${firstLowCase(className)}SelectVo);
         ResponseResult resultBody = new ResponseResult();
         if (pageInfo.getList().size() >0){
             resultBody.rows = (pageInfo.getList().toArray());
@@ -61,39 +61,39 @@ public class TsSystemControlRestControllerLocal extends RestBaseController imple
     }
 
     /**
-    * 新增、启用、停用、删除（逻辑阐述）部门
-    *
-    * @param request 参数
-    * @return ResponseResult 响应结果
-    */
-    @Override
-    public ResponseResult updateTsSystemControls(HttpServletRequest request) {
-        String reqData = this.wrapperJson(request, new ErrorCode(102,"/tsSystemControl/updateTsSystemControl.html"));
-        List<TsSystemControlUpdateVo> tsSystemControlUpdateVos = JSONArray.parseArray(reqData,TsSystemControlUpdateVo.class);
-        return this.saveResult(tsSystemControlService.updateTsSystemControls(tsSystemControlUpdateVos));
-    }
-
-    /**
-     * 删除（物理删除）系统控制参数
+     * 新增、启用、停用、删除（逻辑阐述）${tableInfo.comment}
      *
      * @param request 请求参数
      * @return ResponseResult 响应结果
      */
     @Override
-    public ResponseResult deleteTsSystemControls(HttpServletRequest request) {
-        String reqData = this.wrapperJson(request, new ErrorCode(103,"/tsSystemControl/deleteSystemControls.html"));
-        List<TsSystemControlDeleteVo> tsSystemControlDeleteVos = JSONArray.parseArray(reqData,TsSystemControlDeleteVo.class);
-        return this.deleteResult(tsSystemControlService.deleteTsSystemControls(tsSystemControlDeleteVos));
+    public ResponseResult update${className}s(HttpServletRequest request) {
+        String reqData = this.wrapperJson(request, new ErrorCode(102,"/${firstLowCase(className)}/update${className}.html"));
+        List<${className}UpdateVo> ${firstLowCase(className)}UpdateVos = JSONArray.parseArray(reqData,${className}UpdateVo.class);
+        return this.saveResult(${firstLowCase(className)}Service.update${className}s(${firstLowCase(className)}UpdateVos));
     }
 
     /**
-     * 导入系统控制参数
+     * 删除（物理删除）${tableInfo.comment}
      *
      * @param request 请求参数
      * @return ResponseResult 响应结果
      */
     @Override
-    public ResponseResult importTsSystemControls(HttpServletRequest request) {
+    public ResponseResult delete${className}s(HttpServletRequest request) {
+        String reqData = this.wrapperJson(request, new ErrorCode(103,"/${firstLowCase(className)}/deleteSystemControls.html"));
+        List<${className}DeleteVo> ${firstLowCase(className)}DeleteVos = JSONArray.parseArray(reqData,${className}DeleteVo.class);
+        return this.deleteResult(${firstLowCase(className)}Service.delete${className}s(${firstLowCase(className)}DeleteVos));
+    }
+
+    /**
+     * 导入${tableInfo.comment}
+     *
+     * @param request 请求参数
+     * @return ResponseResult 响应结果
+     */
+    @Override
+    public ResponseResult import${className}s(HttpServletRequest request) {
         try {
             MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
             MultipartFile file = multipartRequest.getFile("file");
@@ -103,8 +103,8 @@ public class TsSystemControlRestControllerLocal extends RestBaseController imple
             ImportParams params = new ImportParams();
             params.setTitleRows(0);
             params.setHeadRows(1);
-            List<TsSystemControlImportVo> objects = ExcelImportUtil.importExcel(file.getInputStream(), TsSystemControlImportVo.class,params);
-            return tsSystemControlService.importTsSystemControls(objects);
+            List<${className}ImportVo> objects = ExcelImportUtil.importExcel(file.getInputStream(), ${className}ImportVo.class,params);
+            return ${firstLowCase(className)}Service.import${className}s(objects);
         } catch (Exception e) {
             e.printStackTrace();
             throw new ControllerException(new ErrorCode(108,"编码格式异常！"));
@@ -112,21 +112,22 @@ public class TsSystemControlRestControllerLocal extends RestBaseController imple
     }
 
     /**
-     * 导出系统控制参数
+     * 导出${tableInfo.comment}
+     *
      * @param response 响应结果
      * @return ResponseResult 响应结果
      */
     @Override
-    public void exportTsSystemControls(@RequestParam TsSystemControlSelectVo tsSystemControlSelectVo, HttpServletResponse response){
+    public void export${className}s(@RequestParam ${className}SelectVo ${firstLowCase(className)}SelectVo, HttpServletResponse response){
         try {
             // 告诉浏览器用什么软件可以打开此文件
             response.setHeader("content-Type", "application/vnd.ms-excel");
             // 下载文件的默认名称
-            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("系统控制参数表","UTF-8") + ".xls");
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("${tableInfo.comment}-导出数据","UTF-8") + ".xls");
             //编码
             response.setCharacterEncoding("UTF-8");
-            List<TsSystemControlExportVo> tsSystemControlExportVos = tsSystemControlService.exportTsSystemControls(tsSystemControlSelectVo);
-            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(), TsSystemControlExportVo.class, tsSystemControlExportVos);
+            List<${className}ExportVo> ${firstLowCase(className)}ExportVos = ${firstLowCase(className)}Service.export${className}s(${firstLowCase(className)}SelectVo);
+            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(), ${className}ExportVo.class, ${firstLowCase(className)}ExportVos);
             workbook.write(response.getOutputStream());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -138,22 +139,21 @@ public class TsSystemControlRestControllerLocal extends RestBaseController imple
     }
 
     /**
-     * 导出系统控制参数
+     * 导出${tableInfo.comment}
      *
      * @param response 响应结果
-     * @return ResponseResult 响应结果
      */
     @Override
-    public void downloadTsSystemControl(HttpServletResponse response) {
+    public void download${className}(HttpServletResponse response) {
         try {
             // 告诉浏览器用什么软件可以打开此文件
             response.setHeader("content-Type", "application/vnd.ms-excel");
             // 下载文件的默认名称
-            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("系统控制参数表","UTF-8") + ".xls");
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("${tableInfo.comment}-导入模板","UTF-8") + ".xls");
             //编码
             response.setCharacterEncoding("UTF-8");
-            List<TsSystemControlExportVo> tsSystemControlExportVos = new ArrayList<TsSystemControlExportVo>();
-            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(), TsSystemControlExportVo.class, tsSystemControlExportVos);
+            List<${className}ExportVo> ${firstLowCase(className)}ExportVos = new ArrayList<${className}ExportVo>();
+            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(), ${className}ExportVo.class, ${firstLowCase(className)}ExportVos);
             workbook.write(response.getOutputStream());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -163,5 +163,4 @@ public class TsSystemControlRestControllerLocal extends RestBaseController imple
             throw new ControllerException(new ErrorCode(107,"出现I/O异常！"));
         }
     }
-
 }

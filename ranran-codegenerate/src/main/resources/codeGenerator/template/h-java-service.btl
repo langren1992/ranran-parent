@@ -1,0 +1,52 @@
+package ${package}.${model}.operate.service;
+
+import com.github.pagehelper.PageInfo;
+import com.ranran.core.ResponseResult;
+import com.ranran.uums.system.operate.vo.*;
+
+import java.util.List;
+
+/*
+ * ${tableInfo.comment}逻辑
+ * @creator zengrui ${date(),"yyyy-MM-dd hh:mm"}
+ */
+public interface ${className}Service {
+
+    /**
+     * 查询${tableInfo.comment}信息
+     * @param ${firstLowCase(className)}SelectVo 查询条件视图
+     * @return 返回部门翻页数据
+     */
+    PageInfo select${className}(${className}SelectVo ${firstLowCase(className)}SelectVo);
+
+    /**
+     * 新增、启用、停用、删除（逻辑阐述）${tableInfo.comment}
+     * @param ${firstLowCase(className)}SelectVo 操作数据视图
+     * @return 返回操作成功数量
+     */
+    int update${className}s(List<${className}UpdateVo> ${firstLowCase(className)}SelectVo);
+
+    /**
+     * 删除（物理删除）${tableInfo.comment}
+     *
+     * @param ${firstLowCase(className)}DeleteVos 删除数据视图
+     * @return 返回操作结果
+     */
+    int delete${className}s(List<${className}DeleteVo> ${firstLowCase(className)}DeleteVos);
+
+    /**
+     * 导入${tableInfo.comment}
+     *
+     * @param ${firstLowCase(className)}ImportVos 导入数据视图
+     * @return 导入结果
+     */
+    ResponseResult import${className}s(List<${className}ImportVo> ${firstLowCase(className)}ImportVos);
+
+    /**
+     * 导出${tableInfo.comment}
+     *
+     * @param ${firstLowCase(className)}SelectVo 根据查询条件查询导出结果
+     * @return 导出结果
+     */
+    List<${className}ExportVo> export${className}s(${className}SelectVo ${firstLowCase(className)}SelectVo);
+}

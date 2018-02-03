@@ -1,48 +1,52 @@
 package com.ranran.uums.system.operate.service;
 
-
-import com.ranran.core.ServiceException;
-import com.ranran.uums.system.model.TsDistrict;
+import com.github.pagehelper.PageInfo;
+import com.ranran.core.ResponseResult;
+import com.ranran.uums.system.operate.vo.*;
 
 import java.util.List;
 
-/**
-* Created by zengrui on 2017-08-21 03:07:30.
-*/
+/*
+ * 逻辑
+ * @creator zengrui 2018-02-03 05:27
+ */
 public interface TsDistrictService {
 
-    public TsDistrict selectOne(TsDistrict tsDistrict);
-
-    public List<TsDistrict> select(TsDistrict tsDistrict);
+    /**
+     * 查询信息
+     * @param tsDistrictSelectVo 查询条件视图
+     * @return 返回部门翻页数据
+     */
+    PageInfo selectTsDistrict(TsDistrictSelectVo tsDistrictSelectVo);
 
     /**
-     * 插入空
-     * */
-    public int insert(TsDistrict tsDistrict);
+     * 新增、启用、停用、删除（逻辑阐述）
+     * @param tsDistrictSelectVo 操作数据视图
+     * @return 返回操作成功数量
+     */
+    int updateTsDistricts(List<TsDistrictUpdateVo> tsDistrictSelectVo);
 
     /**
-     * 插入不为空的
-     * */
-    public int insertSelective(TsDistrict tsDistrict);
+     * 删除（物理删除）
+     *
+     * @param tsDistrictDeleteVos 删除数据视图
+     * @return 返回操作结果
+     */
+    int deleteTsDistricts(List<TsDistrictDeleteVo> tsDistrictDeleteVos);
 
-    public int insertBatch(List<TsDistrict> tsDistricts);
+    /**
+     * 导入
+     *
+     * @param tsDistrictImportVos 导入数据视图
+     * @return 导入结果
+     */
+    ResponseResult importTsDistricts(List<TsDistrictImportVo> tsDistrictImportVos);
 
-    public int updateByPrimaryKey(TsDistrict tsDistrict) throws ServiceException;
-
-
-    public int updateByPrimaryKeySelective(TsDistrict tsDistrict) throws ServiceException;
-
-
-    public int updateBatch(List<TsDistrict> tsDistricts);
-
-    public int deleteByPrimaryKey(Object object);
-
-
-    public int deleteBatchByIds(List<TsDistrict> tsDistricts);
-
-    public List<TsDistrict> selectByCondition(Object object);
-
-    public int saveBatch(List<TsDistrict> tsDistricts);
-
-    public List<TsDistrict> selectByExample(Object object);
+    /**
+     * 导出
+     *
+     * @param tsDistrictSelectVo 根据查询条件查询导出结果
+     * @return 导出结果
+     */
+    List<TsDistrictExportVo> exportTsDistricts(TsDistrictSelectVo tsDistrictSelectVo);
 }

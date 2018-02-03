@@ -1,0 +1,55 @@
+package ${package}.${model}.operate.vo;
+
+import com.ranran.core.BaseModel;
+
+import java.io.Serializable;
+/*
+ * ${tableInfo.comment}
+ * @creator zengrui ${date(),"yyyy-MM-dd hh:mm"}
+ */
+public class ${className}UpdateVo implements Serializable{
+
+    <% for(column in  tableInfo.idColumns) {%>
+    <% 	if(!isEmpty(column.comment)){%>
+    //${column.comment}
+    <%}%>
+    private ${column.propertyType} ${column.propertyName};
+    <% } %>
+    <% for(column in  tableInfo.columns) {%>
+    <% 	if(!isEmpty(column.comment)){%>
+    //${column.comment}
+    <%}%>
+    private ${column.propertyType} ${column.propertyName};
+    <% } %>
+
+    <% for(column in tableInfo.idColumns) {%>
+    /**
+     * 获取 ${column.propertyName} ${column.comment}
+     */
+    public ${column.propertyType} get${firstUpCase(column.propertyName)}(){
+        return  ${column.propertyName};
+    }
+    /**
+     * 设置 ${column.propertyName} ${column.comment}
+     */
+    public void set${firstUpCase(column.propertyName)}(${column.propertyType} ${column.propertyName} ){
+        this.${column.propertyName} = ${column.propertyName};
+    }
+
+    <% } %>
+    <% for(column in tableInfo.columns) {%>
+    /**
+     * 获取 ${column.propertyName} ${column.comment}
+     */
+    public ${column.propertyType} get${firstUpCase(column.propertyName)}(){
+        return  ${column.propertyName};
+    }
+    /**
+     * 设置 ${column.propertyName} ${column.comment}
+     */
+    public void set${firstUpCase(column.propertyName)}(${column.propertyType} ${column.propertyName} ){
+        this.${column.propertyName} = ${column.propertyName};
+    }
+
+  <% } %>
+}

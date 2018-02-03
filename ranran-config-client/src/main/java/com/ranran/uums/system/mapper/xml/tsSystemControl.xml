@@ -10,9 +10,9 @@
         <result column="tsc_value" jdbcType="VARCHAR" property="tscValue" />
         <result column="tsc_remark" jdbcType="VARCHAR" property="tscRemark" />
         <result column="creator" jdbcType="VARCHAR" property="creator" />
-        <result column="create_time" jdbcType="DATETIME" property="createTime" />
+        <result column="create_time" jdbcType="DATE" property="createTime" />
         <result column="modifier" jdbcType="VARCHAR" property="modifier" />
-        <result column="modify_time" jdbcType="DATETIME" property="modifyTime" />
+        <result column="modify_time" jdbcType="DATE" property="modifyTime" />
         <result column="org_code" jdbcType="VARCHAR" property="orgCode" />
     </resultMap>
 

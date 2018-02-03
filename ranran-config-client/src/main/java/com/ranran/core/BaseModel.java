@@ -61,4 +61,17 @@ public class BaseModel {
     public void setOptType(Integer optType) {
         this.optType = optType;
     }
+
+    public static enum OrderEnum{
+        ASC("ASC",1),DESC("DESC",2);
+
+        public final String name;
+
+        public final int code;
+
+        OrderEnum(String name,int code){
+            this.code = code;
+            this.name = name;
+        }
+    }
 }

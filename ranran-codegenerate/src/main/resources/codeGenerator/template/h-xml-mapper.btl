@@ -18,7 +18,7 @@
         <% if (column.type == 'INT'){%>
         <result column="${column.name}" jdbcType="INTEGER" property="${column.propertyName}" />
         <% } else if (column.type == 'DATETIME')  { %>
-        <result column="${column.name}" jdbcType="${column.type}" property="${column.propertyName}" />
+        <result column="${column.name}" jdbcType="DATE" property="${column.propertyName}" />
         <% } else {%>
         <result column="${column.name}" jdbcType="${column.type}" property="${column.propertyName}" />
         <% } %>

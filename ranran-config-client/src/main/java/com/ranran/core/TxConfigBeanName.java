@@ -21,9 +21,10 @@ public class TxConfigBeanName {
     public TransactionInterceptor getAdvisor() throws Exception {
         Properties properties = new Properties();
         properties.setProperty("get*", "PROPAGATION_REQUIRED,-Exception,readOnly");
-        properties.setProperty("*", "PROPAGATION_REQUIRED,-Exception,readOnly");
+        properties.setProperty("*", "PROPAGATION_REQUIRED,-Exception");
         properties.setProperty("add*", "PROPAGATION_REQUIRED,-Exception");
         properties.setProperty("save*", "PROPAGATION_REQUIRED,-Exception");
+        properties.setProperty("insert*", "PROPAGATION_REQUIRED,-Exception");
         properties.setProperty("update*", "PROPAGATION_REQUIRED,-Exception");
         properties.setProperty("delete*", "PROPAGATION_REQUIRED,-Exception");
         properties.setProperty("opt*", "PROPAGATION_REQUIRED,-Exception");

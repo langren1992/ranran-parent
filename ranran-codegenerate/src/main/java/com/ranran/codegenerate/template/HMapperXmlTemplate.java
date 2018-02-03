@@ -1,16 +1,18 @@
 package com.ranran.codegenerate.template;
 
+import com.ranran.codegenerate.StringUtils;
+
 /**
  * JS模板信息
  *
  * @author 曾睿
  * @create 2017-11-23 16:35
  **/
-public class ModelTemplate extends TemplateInfo {
+public class HMapperXmlTemplate extends TemplateInfo {
 
-    private String suffix = ".java";
+    private String suffix = ".xml";
 
-    private String packagePath = "model";
+    private String packagePath = "mapper/xml";
 
     public String getSuffix() {
         return suffix;
@@ -27,7 +29,11 @@ public class ModelTemplate extends TemplateInfo {
 
     @Override
     public String getTemplateName() {
-        return "model.btl";
+        return "h-xml-mapper.btl";
     }
 
+    @Override
+    public String getFileName() {
+        return StringUtils.toLowerCaseFirstOne(super.getClassName())+suffix;
+    }
 }

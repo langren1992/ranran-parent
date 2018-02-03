@@ -1,0 +1,320 @@
+/**
+* **********************************
+* 定义表格列
+* **********************************
+*/
+var dg_${firstLowCase(className)} = '#dg_${firstLowCase(className)}',
+    toolbar_dg_${firstLowCase(className)} = '#toolbar_dg_${firstLowCase(className)}',
+    form_toolbar_dg_${firstLowCase(className)} = '#form_toolbar_dg_${firstLowCase(className)}';
+
+/**
+* **********************************
+* 定义弹出框
+* **********************************
+*/
+var window_${firstLowCase(className)} = '#window_${firstLowCase(className)}',
+    parent_window_${firstLowCase(className)} = parent.$("<div></div>").appendTo("body"),
+    window_form_${firstLowCase(className)} = '#window_form_${firstLowCase(className)}',
+    text_tscKey = '#text_tscKey',
+    window_import_${firstLowCase(className)} = '#window_import_${firstLowCase(className)}',
+    parent_window_import_${firstLowCase(className)} = parent.$("<div></div>").appendTo("body"),
+    window_form_import_${firstLowCase(className)} = '#window_form_import_${firstLowCase(className)}',
+    file = '#file';
+
+/**
+* **********************************
+* 定义所有访问路径
+* **********************************
+*/
+var url_dg_${firstLowCase(className)} = './${firstLowCase(className)}/select${className}.html',
+    url_window_form_${firstLowCase(className)} = './${firstLowCase(className)}/update${className}s.html',
+    url_delete_${firstLowCase(className)} = './${firstLowCase(className)}/delete${className}s.html',
+    url_import_${firstLowCase(className)} = './${firstLowCase(className)}/import${className}s.html',
+    url_export_${firstLowCase(className)} = './${firstLowCase(className)}/export${className}s.html',
+    url_download_${firstLowCase(className)} = './${firstLowCase(className)}/download${className}.html';
+
+/**
+* **********************************
+* 定义所有按钮
+* **********************************
+*/
+var btn_add_${firstLowCase(className)} = '#btn_add_${firstLowCase(className)}',
+    btn_delete_${firstLowCase(className)} = '#btn_delete_${firstLowCase(className)}',
+    btn_search_${firstLowCase(className)} = '#btn_search_${firstLowCase(className)}',
+    btn_reset_${firstLowCase(className)} = '#btn_reset_${firstLowCase(className)}',
+    btn_import_${firstLowCase(className)} = '#btn_import_${firstLowCase(className)}',
+    btn_export_${firstLowCase(className)} = '#btn_export_${firstLowCase(className)}';
+
+
+function initComponent(){
+    /**
+    * ${tableInfo.comment}列表
+    */
+    $(dg_${firstLowCase(className)}).datagrid({
+        fit:true,
+        rownumbers: true,
+        idField: 'tscId',
+        singleSelect:true,
+        pagination:true,
+        toolbar:toolbar_dg_${firstLowCase(className)},
+        columns: [[
+            { field:'ck',checkbox:true },
+            { field: 'tscId', width: 120, sortable: true,hidden:true },
+            { field: 'tscKey', title: '控制键', width: 120, sortable: true,editor:'textbox' },
+            { field: 'tscValue', title: '控制值', width: 120, sortable: true,editor:'textbox' },
+            { field: 'tscRemark', title: '描述', width: 160, sortable: true,editor:'textbox' }
+        ]],
+        queryParams:{
+            tscKey: '',
+            tscValue: ''
+        },
+        loader: function(param, success, error) {
+            $.ajax({
+                type : 'POST',
+                url : url_dg_${firstLowCase(className)},
+                dataType : 'json',
+                contentType : 'application/json;charset=utf-8', // 设置请求头信息
+                data : JSON.stringify(param),
+                success : function(result) {
+                    success(result);
+                }
+            });
+        },
+        onDblClickRow:function (i,row) {
+            //设置标题
+            parent_window_${firstLowCase(className)}.dialog('setTitle','修改控制参数');
+            //打开弹出框
+            parent_window_${firstLowCase(className)}.dialog('open');
+            //填写数据
+            parent.$(window_form_${firstLowCase(className)}).form('load',row);
+            if(row.tscId != null){
+            parent.$(text_tscKey).validatebox('readonly');
+            }
+        }
+    });
+    
+    /**
+    * ${tableInfo.comment}弹出框，初始化先关闭
+    */
+    parent_window_${firstLowCase(className)}.dialog({
+        width: 600,
+        height: 'auto',
+        draggable:false,
+        modal: true,
+        content:$(window_${firstLowCase(className)}),
+        center:true,
+        closed:true,
+        closable:false,
+        buttons:[{
+            text:'保存',
+            iconCls:'icon-save',
+            handler:function(){
+                /**
+                * 如果将form表单放在父页面进行填写，所有操作需要在父页面进行
+                * @type {string}
+                */
+                if(parent.$(window_form_${firstLowCase(className)}).form('enableValidation').form('validate')){
+                    var systemControl = parent.$(window_form_${firstLowCase(className)}).getFormData();
+                    $.ajax({
+                        type: "POST",
+                        url: url_window_form_${firstLowCase(className)},
+                        data:'['+JSON.stringify(systemControl)+']',
+                        contentType:"application/json",
+                        dataType: "json",
+                        success: function(data){
+                            if (data.error){
+                                parent.$.messager.alert("异常信息",data.message);
+                            }
+                            if(data.success){
+                               parent.$.messager.alert("提示信息",data.message);
+                            }
+                            reloadComponent();
+                        }
+                    });
+                }else {
+                    parent.$.messager.alert("提示信息",'请检查提交数据！');
+                }
+            }
+        },{
+            text:'关闭',
+            iconCls:'icon-no',
+            handler:function(){
+                reloadComponent();
+            }
+        }]
+    });
+    
+    /**
+    * 导入数据弹出框
+    */
+    parent_window_import_${firstLowCase(className)}.dialog({
+        width: 600,
+        height: 'auto',
+        draggable:false,
+        modal: true,
+        content:$(window_import_${firstLowCase(className)}),
+        center:true,
+        closed:true,
+        closable:false,
+        buttons:[{
+            text:'下载模板',
+            iconCls:'icon-save',
+            handler:function(){
+                var form = parent.$(window_form_import_${firstLowCase(className)});
+                form.attr("action",url_download_${firstLowCase(className)});
+                form.submit();
+            }
+        },{
+            text:'上传',
+            iconCls:'icon-undo',
+            handler:function(){
+                if(parent.$(file).val()!=''){
+                    var form = parent.$(window_form_import_${firstLowCase(className)});
+                    form.attr("action",url_import_${firstLowCase(className)});
+                    form.ajaxSubmit({
+                        type:'post',
+                        success:function(data){
+                            if (data.error){
+                                parent.$.messager.alert("提示信息",data.message);
+                            }
+                            if(data.success){
+                                parent.$.messager.alert("提示信息",data.message);
+                                reloadComponent();
+                            }
+                        }
+                    });
+                }else{
+                     parent.$.messager.alert("提示信息",'请选择上传文件！');
+                }
+            }
+        },{
+            text:'关闭',
+            iconCls:'icon-no',
+            handler:function(){
+                reloadComponent();
+            }
+        }]
+    });
+};
+
+/**
+* 新增控制参数
+*/
+function btnAdd${className}() {
+    //设置标题
+    parent_window_${firstLowCase(className)}.dialog('setTitle','新增控制参数');
+    //打开弹出框
+    parent_window_${firstLowCase(className)}.dialog('open');
+};
+
+/**
+* 刷新数据列表
+*/
+function reloadComponent() {
+    //清空表单
+    parent.$(window_form_${firstLowCase(className)}).form('clear');
+    //关闭弹出框
+    parent_window_${firstLowCase(className)}.dialog('close');
+    //重新加载列表
+    $(dg_${firstLowCase(className)}).datagrid('reload');
+    //取消只读
+    parent.$(text_tscKey).validatebox('readonly',false);
+    //清空表单
+    parent.$(window_form_import_${firstLowCase(className)})[0].reset();
+    //关闭弹出框
+    parent_window_import_${firstLowCase(className)}.dialog('close');
+};
+
+/**
+* 删除${tableInfo.comment}
+*/
+function btnDelete${className}() {
+    //获取选择的数据
+    var${firstLowCase(className)} = $(dg_${firstLowCase(className)}).datagrid('getSelected');
+    $.ajax({
+        type: "POST",
+        url: url_delete_${firstLowCase(className)},
+        data:'['+JSON.stringify(${firstLowCase(className)})+']',
+        contentType:"application/json",
+        dataType: "json",
+        success: function(data){
+            if (data.error){
+                parent.$.messager.alert("提示信息",data.message);
+            }
+            if(data.success){
+                parent.$.messager.alert("提示信息",data.message);
+            }
+            reloadComponent();
+        }
+    });
+};
+
+/**
+* 查询控制参数
+*/
+function btnSearch${className}() {
+    var searchSystemControl = $(form_toolbar_dg_${firstLowCase(className)}).getFormData();
+    $(dg_${firstLowCase(className)}).datagrid({queryParams:searchSystemControl});
+};
+
+/**
+* 重置查询条件
+*/
+function btnReset${className}() {
+    //重置查询条件
+    $(form_toolbar_dg_${firstLowCase(className)}).form('clear');
+};
+
+/**
+* 导入数据
+*/
+function btnImport${className}() {
+    //添加标题
+    parent_window_import_${firstLowCase(className)}.dialog('setTitle','导入');
+    //显示弹出框
+    parent_window_import_${firstLowCase(className)}.dialog('open');
+};
+
+/**
+* 导出数据
+*/
+function btnExport${className}() {
+    //导出数据需要使用form，不能用ajax
+    $.messager.progress();
+    $(form_toolbar_dg_${firstLowCase(className)}).form('submit',{url:url_export_${firstLowCase(className)}});
+    $.messager.progress('close');	// 如果提交成功则隐藏进度条
+};
+
+function initBtnBindFun() {
+    //新增控制参数
+    $(btn_add_${firstLowCase(className)}).bind('click', function () {
+        btnAdd${className}();
+    });
+    //删除${tableInfo.comment}
+    $(btn_delete_${firstLowCase(className)}).bind('click', function () {
+        btnDelete${className}();
+    });
+    //查询控制参数
+    $(btn_search_${firstLowCase(className)}).bind('click',function () {
+        btnSearch${className}();
+    });
+    //重置查询条件
+    $(btn_reset_${firstLowCase(className)}).bind('click',function () {
+        btnReset${className}();
+    });
+    //导入数据
+    $(btn_import_${firstLowCase(className)}).bind('click',function () {
+        btnImport${className}();
+    });
+    //导出数据
+    $(btn_export_${firstLowCase(className)}).bind('click',function () {
+        btnExport${className}();
+    });
+};
+
+$(function(){
+    //初始化控件
+    initComponent();
+    //按钮绑定功能
+    initBtnBindFun();
+});

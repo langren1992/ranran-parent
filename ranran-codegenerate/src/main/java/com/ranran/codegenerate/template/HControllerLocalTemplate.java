@@ -1,18 +1,16 @@
 package com.ranran.codegenerate.template;
 
-import com.ranran.codegenerate.StringUtils;
-
 /**
- * JS模板信息
+ * 服务类模板信息
  *
  * @author 曾睿
  * @create 2017-11-23 16:35
  **/
-public class MapperXmlTemplate extends TemplateInfo {
+public class HControllerLocalTemplate extends TemplateInfo {
 
-    private String suffix = ".xml";
+    private String suffix = "RestControllerLocal.java";
 
-    private String packagePath = "mapper/xml";
+    private String packagePath = "operate/controller/local";
 
     public String getSuffix() {
         return suffix;
@@ -29,11 +27,6 @@ public class MapperXmlTemplate extends TemplateInfo {
 
     @Override
     public String getTemplateName() {
-        return "xml.btl";
-    }
-
-    @Override
-    public String getFileName() {
-        return StringUtils.toLowerCaseFirstOne(super.getClassName())+suffix;
+        return "h-java-controller-local.btl";
     }
 }

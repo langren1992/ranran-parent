@@ -42,3 +42,23 @@ Date.prototype.pattern=function(fmt) {
     }
     return fmt;
 };
+
+/**
+ * 获取form表单JSON数据
+ * @returns 表单对象数据
+ */
+$.fn.getFormData = function() {
+    var o = {};
+    var a = this.find('input').serializeArray();
+    $.each(a, function() {
+        if (o[this.name]) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
