@@ -10,130 +10,60 @@ import java.io.Serializable;
 public class TsDistrictUpdateVo implements Serializable{
 
     private Long distId;
-    private Long distCode;
+    private String distCode;
     private String distName;
-    private Long distParentCode;
-    private String distCitycode;
-    private String distAdcode;
-    private Double distLon;
-    private Double distLat;
+    private String distParentCode;
+    private String distParentName;
     private String distLevel;
 
-    /**
-     * 获取 distId 
-     */
-    public Long getDistId(){
-        return  distId;
+    public Long getDistId() {
+        return distId;
     }
-    /**
-     * 设置 distId 
-     */
-    public void setDistId(Long distId ){
+
+    public void setDistId(Long distId) {
         this.distId = distId;
     }
 
-    /**
-     * 获取 distCode 
-     */
-    public Long getDistCode(){
-        return  distCode;
+    public String getDistCode() {
+        return distCode;
     }
-    /**
-     * 设置 distCode 
-     */
-    public void setDistCode(Long distCode ){
+
+    public void setDistCode(String distCode) {
         this.distCode = distCode;
     }
 
-    /**
-     * 获取 distName 
-     */
-    public String getDistName(){
-        return  distName;
+    public String getDistName() {
+        return distName;
     }
-    /**
-     * 设置 distName 
-     */
-    public void setDistName(String distName ){
+
+    public void setDistName(String distName) {
         this.distName = distName;
     }
 
-    /**
-     * 获取 distParentCode 
-     */
-    public Long getDistParentCode(){
-        return  distParentCode;
+    public String getDistParentCode() {
+        return distParentCode;
     }
-    /**
-     * 设置 distParentCode 
-     */
-    public void setDistParentCode(Long distParentCode ){
+
+    public void setDistParentCode(String distParentCode) {
         this.distParentCode = distParentCode;
     }
 
-    /**
-     * 获取 distCitycode 
-     */
-    public String getDistCitycode(){
-        return  distCitycode;
-    }
-    /**
-     * 设置 distCitycode 
-     */
-    public void setDistCitycode(String distCitycode ){
-        this.distCitycode = distCitycode;
+    public String getDistParentName() {
+        return distParentName;
     }
 
-    /**
-     * 获取 distAdcode 
-     */
-    public String getDistAdcode(){
-        return  distAdcode;
-    }
-    /**
-     * 设置 distAdcode 
-     */
-    public void setDistAdcode(String distAdcode ){
-        this.distAdcode = distAdcode;
+    public void setDistParentName(String distParentName) {
+        this.distParentName = distParentName;
     }
 
-    /**
-     * 获取 distLon 
-     */
-    public Double getDistLon(){
-        return  distLon;
-    }
-    /**
-     * 设置 distLon 
-     */
-    public void setDistLon(Double distLon ){
-        this.distLon = distLon;
+    public String getDistLevel() {
+        return distLevel;
     }
 
-    /**
-     * 获取 distLat 
-     */
-    public Double getDistLat(){
-        return  distLat;
-    }
-    /**
-     * 设置 distLat 
-     */
-    public void setDistLat(Double distLat ){
-        this.distLat = distLat;
-    }
-
-    /**
-     * 获取 distLevel 
-     */
-    public String getDistLevel(){
-        return  distLevel;
-    }
-    /**
-     * 设置 distLevel 
-     */
-    public void setDistLevel(String distLevel ){
+    public void setDistLevel(String distLevel) {
         this.distLevel = distLevel;
     }
+
+
 
 }

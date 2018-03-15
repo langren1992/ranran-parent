@@ -1,12 +1,16 @@
 package com.ranran.uums.system.operate.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ranran.core.BaseModel;
+import com.ranran.core.HttpRequest;
 import com.ranran.core.ResponseResult;
 import com.ranran.uums.system.mapper.TsDistrictMapper;
+import com.ranran.uums.system.mapper.TsSystemControlMapper;
 import com.ranran.uums.system.model.TsDistrict;
+import com.ranran.uums.system.model.TsSystemControl;
 import com.ranran.uums.system.operate.service.TsDistrictService;
 import com.ranran.uums.system.operate.vo.*;
 import org.apache.commons.lang.StringUtils;
@@ -28,6 +32,9 @@ public class TsDistrictServiceImpl implements TsDistrictService {
     @Autowired
     private TsDistrictMapper  tsDistrictMapper;
 
+    @Autowired
+    private TsSystemControlMapper tsSystemControlMapper ;
+
     /**
     * 查询信息
     * @param tsDistrictSelectVo 查询条件视图
@@ -47,7 +54,22 @@ public class TsDistrictServiceImpl implements TsDistrictService {
                 example.orderBy(tsDistrictSelectVo.getSort()).desc();
             }
         }
-        example.orderBy("modifyTime").desc();
+        if(StringUtils.isNotBlank(tsDistrictSelectVo.getDistCode())){
+            criteria.andEqualTo("distCode",tsDistrictSelectVo.getDistCode());
+        }
+        if(StringUtils.isNotBlank(tsDistrictSelectVo.getDistName())){
+            criteria.andEqualTo("distName",tsDistrictSelectVo.getDistName());
+        }
+        if(StringUtils.isNotBlank(tsDistrictSelectVo.getDistParentCode())){
+            criteria.andEqualTo("distParentCode",tsDistrictSelectVo.getDistParentCode());
+        }
+        if(StringUtils.isNotBlank(tsDistrictSelectVo.getDistParentName())){
+            criteria.andEqualTo("distParentName",tsDistrictSelectVo.getDistParentName());
+        }
+        if(StringUtils.isNotBlank(tsDistrictSelectVo.getDistLevel())){
+            criteria.andEqualTo("distLevel",tsDistrictSelectVo.getDistLevel());
+        }
+        example.orderBy("distCode");
         List<TsDistrict> tsDistricts =  tsDistrictMapper.selectByExample(example);
         pageInfo.setList(tsDistricts);
         pageInfo.setTotal(((Page<TsDistrict>) tsDistricts).getTotal());
@@ -155,6 +177,120 @@ public class TsDistrictServiceImpl implements TsDistrictService {
             tsDistrictExportVos.add( tsDistrictExportVo);
         }
         return  tsDistrictExportVos;
+    }
+
+    /**
+     * 通过第三方获取省市区县信息 高德（IMAP）
+     *
+     * @param tsDistrictSyncMapVo 请求参数
+     * @return 导入成功数量
+     */
+    @Override
+    public int syncMapTsDistrict(TsDistrictSyncMapVo tsDistrictSyncMapVo) {
+        TsSystemControl tsSystemControl = new TsSystemControl();
+        tsSystemControl.setTscKey("MAP_KEY");
+        tsSystemControl = tsSystemControlMapper.selectOne(tsSystemControl);
+        String mapKey = tsSystemControl.getTscValue();
+        tsSystemControl = new TsSystemControl();
+        tsSystemControl.setTscKey("DISTRICT_SYNC_URL");
+        tsSystemControl = tsSystemControlMapper.selectOne(tsSystemControl);
+        String districtSyncUrl = tsSystemControl.getTscValue();
+        districtSyncUrl = districtSyncUrl.replace("MAP_KEY",mapKey);
+        String sysncTsDistrictJson = HttpRequest.sendGet(districtSyncUrl);
+        SyncTsDistrictResultJson syncTsDistrictResult = JSONObject.parseObject(sysncTsDistrictJson,SyncTsDistrictResultJson.class);
+        // 国家层级
+        List<TsDistrict> tsDistrictCountry =  new ArrayList<TsDistrict>();
+        // 省市层级
+        List<SyncTsDistrictJson> districtProvince = new ArrayList<SyncTsDistrictJson>();
+        List<TsDistrict> tsDistrictProvince =  new ArrayList<TsDistrict>();
+        // 市市层级
+        List<SyncTsDistrictJson> districtCity = new ArrayList<SyncTsDistrictJson>();
+        List<TsDistrict> tsDistrictCity =  new ArrayList<TsDistrict>();
+        // 区县层级
+        List<TsDistrict> tsDistrict =  new ArrayList<TsDistrict>();
+        // 添加城市 和 省
+        TsDistrict tsDistrictTmp;
+        for (int i = 0,size = syncTsDistrictResult.getDistricts().size(); i < size; i++) {
+            tsDistrictTmp = new TsDistrict();
+            tsDistrictTmp.setDistCode(syncTsDistrictResult.getDistricts().get(i).getAdcode());
+            tsDistrictTmp.setDistName(syncTsDistrictResult.getDistricts().get(i).getName());
+            tsDistrictTmp.setDistLevel(syncTsDistrictResult.getDistricts().get(i).getLevel());
+            tsDistrictTmp.setDistLonlat(syncTsDistrictResult.getDistricts().get(i).getCenter());
+            tsDistrictTmp.setDistCitycode(syncTsDistrictResult.getDistricts().get(i).getCitycode());
+            tsDistrictCountry.add(tsDistrictTmp);
+            districtProvince.addAll(syncTsDistrictResult.getDistricts().get(i).getDistricts());
+            for (int j = 0,tSize = syncTsDistrictResult.getDistricts().get(i).getDistricts().size(); j < tSize; j++) {
+                tsDistrictTmp = new TsDistrict();
+                tsDistrictTmp.setDistCode(syncTsDistrictResult.getDistricts().get(i).getDistricts().get(j).getAdcode());
+                tsDistrictTmp.setDistName(syncTsDistrictResult.getDistricts().get(i).getDistricts().get(j).getName());
+                tsDistrictTmp.setDistLevel(syncTsDistrictResult.getDistricts().get(i).getDistricts().get(j).getLevel());
+                tsDistrictTmp.setDistLonlat(syncTsDistrictResult.getDistricts().get(i).getDistricts().get(j).getCenter());
+                tsDistrictTmp.setDistParentCode(syncTsDistrictResult.getDistricts().get(i).getAdcode());
+                tsDistrictTmp.setDistParentName(syncTsDistrictResult.getDistricts().get(i).getName());
+                tsDistrictTmp.setDistCitycode(syncTsDistrictResult.getDistricts().get(i).getCitycode());
+                tsDistrictProvince.add(tsDistrictTmp);
+            }
+        }
+
+        for (int i = 0,size = districtProvince.size(); i < size; i++) {
+            districtCity.addAll(districtProvince.get(i).getDistricts());
+            wapperTsDistrict(districtProvince.get(i),tsDistrictCity);
+        }
+
+        for (int i = 0,size = districtCity.size(); i < size; i++) {
+            wapperTsDistrict(districtCity.get(i),tsDistrict);
+        }
+        tsDistrictCountry.addAll(tsDistrictProvince);
+        tsDistrictCountry.addAll(tsDistrictCity);
+        tsDistrictCountry.addAll(tsDistrict);
+        return tsDistrictMapper.insertBatch(tsDistrictCountry);
+    }
+
+    /**
+     * 省市区县级联查询
+     *
+     * @param tsDistrictProvCityDistVo 请求参数
+     * @return 返回操作结果
+     */
+    @Override
+    public List getProvCityDist(TsDistrictProvCityDistVo tsDistrictProvCityDistVo) {
+        Example example = new Example(TsDistrict.class);
+        Example.Criteria criteria = example.createCriteria();
+        if(StringUtils.isNotBlank(tsDistrictProvCityDistVo.getDistCode())){
+            criteria.andEqualTo("distCode",tsDistrictProvCityDistVo.getDistCode());
+        }
+        if(StringUtils.isNotBlank(tsDistrictProvCityDistVo.getDistName())){
+            criteria.andEqualTo("distName",tsDistrictProvCityDistVo.getDistName());
+        }
+        if(StringUtils.isNotBlank(tsDistrictProvCityDistVo.getDistParentCode())){
+            criteria.andEqualTo("distParentCode",tsDistrictProvCityDistVo.getDistParentCode());
+        }
+        if(StringUtils.isNotBlank(tsDistrictProvCityDistVo.getDistParentName())){
+            criteria.andEqualTo("distParentName",tsDistrictProvCityDistVo.getDistParentName());
+        }
+        if(StringUtils.isNotBlank(tsDistrictProvCityDistVo.getDistLevel())){
+            criteria.andEqualTo("distLevel",tsDistrictProvCityDistVo.getDistLevel());
+        }
+        example.orderBy("distCode");
+        return tsDistrictMapper.selectByExample(example);
+    }
+
+    /**
+     * 组装数据对象
+     */
+    private void wapperTsDistrict(SyncTsDistrictJson district,List<TsDistrict> tsDistricts){
+        TsDistrict tsDistrictTmp;
+        for (int j = 0,tSize = district.getDistricts().size(); j < tSize; j++) {
+            tsDistrictTmp = new TsDistrict();
+            tsDistrictTmp.setDistCode(district.getDistricts().get(j).getAdcode());
+            tsDistrictTmp.setDistName(district.getDistricts().get(j).getName());
+            tsDistrictTmp.setDistLevel(district.getDistricts().get(j).getLevel());
+            tsDistrictTmp.setDistLonlat(district.getDistricts().get(j).getCenter());
+            tsDistrictTmp.setDistParentCode(district.getAdcode());
+            tsDistrictTmp.setDistParentName(district.getName());
+            tsDistrictTmp.setDistCitycode(district.getCitycode());
+            tsDistricts.add(tsDistrictTmp);
+        }
     }
 
 

@@ -49,4 +49,20 @@ public interface TsDistrictService {
      * @return 导出结果
      */
     List<TsDistrictExportVo> exportTsDistricts(TsDistrictSelectVo tsDistrictSelectVo);
+
+    /**
+     * 通过第三方获取省市区县信息 高德（IMAP）
+     *
+     * @param tsDistrictSyncMapVo 请求参数
+     * @return 导入成功
+     */
+    int syncMapTsDistrict(TsDistrictSyncMapVo tsDistrictSyncMapVo);
+
+    /**
+     * 省市区县级联查询
+     *
+     * @param tsDistrictProvCityDistVo 请求参数
+     * @return 返回操作结果
+     */
+    List getProvCityDist(TsDistrictProvCityDistVo tsDistrictProvCityDistVo);
 }

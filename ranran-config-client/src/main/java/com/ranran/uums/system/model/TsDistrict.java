@@ -6,146 +6,199 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Column;
 /*
- * 
- * gen model 2018-02-03
+ * 省市区县
+ * gen model 2018-02-25
  */
 @Table(name = "ts_district")
 public class TsDistrict implements Serializable{
+	//主键
     @Column(name ="dist_id")
     @Id
 	private Long distId;
+    //区域编码（区域邮政编码）
     @Column(name ="dist_code")
-    private Long distCode;
+    private String distCode;
+    //区域名称
     @Column(name ="dist_name")
     private String distName;
+    //父级区域编码（区域邮政编码）
     @Column(name ="dist_parent_code")
-    private Long distParentCode;
+    private String distParentCode;
+    //父级区域名称
+    @Column(name ="dist_parent_name")
+    private String distParentName;
+    //区域城市编码
     @Column(name ="dist_citycode")
     private String distCitycode;
-    @Column(name ="dist_adcode")
-    private String distAdcode;
-    @Column(name ="dist_lon")
-    private Double distLon;
-    @Column(name ="dist_lat")
-    private Double distLat;
+    //区域经纬度
+    @Column(name ="dist_lonlat")
+    private String distLonlat;
+    //区域层级
     @Column(name ="dist_level")
     private String distLevel;
+    @Column(name ="create_time")
+    private Timestamp createTime;
+    @Column(name ="creator")
+    private String creator;
+    @Column(name ="modify_time")
+    private Timestamp modifyTime;
+    @Column(name ="modifier")
+    private String modifier;
 
     /**
-     * 获取 distId 
+     * 获取 distId 主键
      */
     public Long getDistId(){
         return  distId;
     }
     /**
-     * 设置 distId 
+     * 设置 distId 主键
      */
     public void setDistId(Long distId ){
         this.distId = distId;
     }
 
     /**
-     * 获取 distCode 
+     * 获取 distCode 区域编码（区域邮政编码）
      */
-    public Long getDistCode(){
+    public String getDistCode(){
         return  distCode;
     }
     /**
-     * 设置 distCode 
+     * 设置 distCode 区域编码（区域邮政编码）
      */
-    public void setDistCode(Long distCode ){
+    public void setDistCode(String distCode ){
         this.distCode = distCode;
     }
 
     /**
-     * 获取 distName 
+     * 获取 distName 区域名称
      */
     public String getDistName(){
         return  distName;
     }
     /**
-     * 设置 distName 
+     * 设置 distName 区域名称
      */
     public void setDistName(String distName ){
         this.distName = distName;
     }
 
     /**
-     * 获取 distParentCode 
+     * 获取 distParentCode 父级区域编码（区域邮政编码）
      */
-    public Long getDistParentCode(){
+    public String getDistParentCode(){
         return  distParentCode;
     }
     /**
-     * 设置 distParentCode 
+     * 设置 distParentCode 父级区域编码（区域邮政编码）
      */
-    public void setDistParentCode(Long distParentCode ){
+    public void setDistParentCode(String distParentCode ){
         this.distParentCode = distParentCode;
     }
 
     /**
-     * 获取 distCitycode 
+     * 获取 distParentName 父级区域名称
+     */
+    public String getDistParentName(){
+        return  distParentName;
+    }
+    /**
+     * 设置 distParentName 父级区域名称
+     */
+    public void setDistParentName(String distParentName ){
+        this.distParentName = distParentName;
+    }
+
+    /**
+     * 获取 distCitycode 区域城市编码
      */
     public String getDistCitycode(){
         return  distCitycode;
     }
     /**
-     * 设置 distCitycode 
+     * 设置 distCitycode 区域城市编码
      */
     public void setDistCitycode(String distCitycode ){
         this.distCitycode = distCitycode;
     }
 
     /**
-     * 获取 distAdcode 
+     * 获取 distLonlat 区域经纬度
      */
-    public String getDistAdcode(){
-        return  distAdcode;
+    public String getDistLonlat(){
+        return  distLonlat;
     }
     /**
-     * 设置 distAdcode 
+     * 设置 distLonlat 区域经纬度
      */
-    public void setDistAdcode(String distAdcode ){
-        this.distAdcode = distAdcode;
-    }
-
-    /**
-     * 获取 distLon 
-     */
-    public Double getDistLon(){
-        return  distLon;
-    }
-    /**
-     * 设置 distLon 
-     */
-    public void setDistLon(Double distLon ){
-        this.distLon = distLon;
+    public void setDistLonlat(String distLonlat ){
+        this.distLonlat = distLonlat;
     }
 
     /**
-     * 获取 distLat 
-     */
-    public Double getDistLat(){
-        return  distLat;
-    }
-    /**
-     * 设置 distLat 
-     */
-    public void setDistLat(Double distLat ){
-        this.distLat = distLat;
-    }
-
-    /**
-     * 获取 distLevel 
+     * 获取 distLevel 区域层级
      */
     public String getDistLevel(){
         return  distLevel;
     }
     /**
-     * 设置 distLevel 
+     * 设置 distLevel 区域层级
      */
     public void setDistLevel(String distLevel ){
         this.distLevel = distLevel;
+    }
+
+    /**
+     * 获取 createTime 
+     */
+    public Timestamp getCreateTime(){
+        return  createTime;
+    }
+    /**
+     * 设置 createTime 
+     */
+    public void setCreateTime(Timestamp createTime ){
+        this.createTime = createTime;
+    }
+
+    /**
+     * 获取 creator 
+     */
+    public String getCreator(){
+        return  creator;
+    }
+    /**
+     * 设置 creator 
+     */
+    public void setCreator(String creator ){
+        this.creator = creator;
+    }
+
+    /**
+     * 获取 modifyTime 
+     */
+    public Timestamp getModifyTime(){
+        return  modifyTime;
+    }
+    /**
+     * 设置 modifyTime 
+     */
+    public void setModifyTime(Timestamp modifyTime ){
+        this.modifyTime = modifyTime;
+    }
+
+    /**
+     * 获取 modifier 
+     */
+    public String getModifier(){
+        return  modifier;
+    }
+    /**
+     * 设置 modifier 
+     */
+    public void setModifier(String modifier ){
+        this.modifier = modifier;
     }
 
 }

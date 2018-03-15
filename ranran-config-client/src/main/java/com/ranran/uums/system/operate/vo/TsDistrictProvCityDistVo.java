@@ -1,13 +1,6 @@
 package com.ranran.uums.system.operate.vo;
 
-import com.ranran.core.BaseModel;
-
-import java.io.Serializable;
-/*
- * 
- * @creator zengrui 2018-02-03 05:27
- */
-public class TsDistrictSelectVo extends BaseModel implements Serializable{
+public class TsDistrictProvCityDistVo {
 
     private String distCode;
     private String distName;

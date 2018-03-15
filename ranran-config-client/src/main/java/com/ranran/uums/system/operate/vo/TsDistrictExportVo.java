@@ -1,5 +1,6 @@
 package com.ranran.uums.system.operate.vo;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.ranran.core.BaseModel;
 
 import java.io.Serializable;
@@ -9,28 +10,22 @@ import java.io.Serializable;
  */
 public class TsDistrictExportVo extends BaseModel  implements Serializable{
 
-    private Long distId;
+    @Excel(name = "编码", orderNum = "0")
     private Long distCode;
+    @Excel(name = "名称", orderNum = "1")
     private String distName;
+    @Excel(name = "父编码", orderNum = "2")
     private Long distParentCode;
+    @Excel(name = "控制键", orderNum = "3")
     private String distCitycode;
+    @Excel(name = "邮编", orderNum = "4")
     private String distAdcode;
+    @Excel(name = "控制键", orderNum = "5")
     private Double distLon;
+    @Excel(name = "控制键", orderNum = "6")
     private Double distLat;
+    @Excel(name = "控制键", orderNum = "7")
     private String distLevel;
-
-    /**
-     * 获取 distId 
-     */
-    public Long getDistId(){
-        return  distId;
-    }
-    /**
-     * 设置 distId 
-     */
-    public void setDistId(Long distId ){
-        this.distId = distId;
-    }
 
     /**
      * 获取 distCode 

@@ -1,4 +1,4 @@
-package com.ranran.uums.systemoperate.controller.local;
+package com.ranran.uums.system.operate.controller.local;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
@@ -123,7 +123,7 @@ public class TsDistrictRestControllerLocal extends RestBaseController implements
             // 告诉浏览器用什么软件可以打开此文件
             response.setHeader("content-Type", "application/vnd.ms-excel");
             // 下载文件的默认名称
-            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("-导出数据","UTF-8") + ".xls");
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("行政区划-导出数据","UTF-8") + ".xls");
             //编码
             response.setCharacterEncoding("UTF-8");
             List<TsDistrictExportVo> tsDistrictExportVos = tsDistrictService.exportTsDistricts(tsDistrictSelectVo);
@@ -149,7 +149,7 @@ public class TsDistrictRestControllerLocal extends RestBaseController implements
             // 告诉浏览器用什么软件可以打开此文件
             response.setHeader("content-Type", "application/vnd.ms-excel");
             // 下载文件的默认名称
-            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("-导入模板","UTF-8") + ".xls");
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("行政区划-导入模板","UTF-8") + ".xls");
             //编码
             response.setCharacterEncoding("UTF-8");
             List<TsDistrictExportVo> tsDistrictExportVos = new ArrayList<TsDistrictExportVo>();
@@ -162,5 +162,31 @@ public class TsDistrictRestControllerLocal extends RestBaseController implements
             e.printStackTrace();
             throw new ControllerException(new ErrorCode(107,"出现I/O异常！"));
         }
+    }
+
+    /**
+     * 通过第三方获取省市区县信息 高德（IMAP）
+     *
+     * @param request 请求参数
+     * @return ResponseResult 响应结果
+     */
+    @Override
+    public ResponseResult syncMapTsDistrict(HttpServletRequest request) {
+        String reqData = this.wrapperJson(request, new ErrorCode(110,"/tsDistrict/updateTsDistrict.html"));
+        TsDistrictSyncMapVo tsDistrictSyncMapVo = JSONObject.parseObject(reqData,TsDistrictSyncMapVo.class);
+        return this.saveResult(tsDistrictService.syncMapTsDistrict(tsDistrictSyncMapVo));
+    }
+
+    /**
+     * 省市区县级联查询
+     *
+     * @param request 请求参数
+     * @return ResponseResult 响应结果
+     */
+    @Override
+    public ResponseResult getProvCityDist(HttpServletRequest request) {
+        String reqData = this.wrapperJson(request, new ErrorCode(111,"/tsDistrict/getProvCityDist.html"));
+        TsDistrictProvCityDistVo tsDistrictProvCityDistVo = JSONObject.parseObject(reqData,TsDistrictProvCityDistVo.class);
+        return this.listResult(tsDistrictService.getProvCityDist(tsDistrictProvCityDistVo));
     }
 }

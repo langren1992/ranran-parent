@@ -19,7 +19,6 @@ public interface TsDistrictRestController {
      */
     ResponseResult selectTsDistrict(HttpServletRequest request);
 
-
     /**
      * 新增、启用、停用、删除（逻辑删除）
      * @param request 请求参数
@@ -54,4 +53,18 @@ public interface TsDistrictRestController {
      * @return ResponseResult 响应结果
      */
     void downloadTsDistrict(HttpServletResponse response);
+
+    /**
+     * 通过第三方获取省市区县信息 高德（IMAP）
+     * @param request 请求参数
+     * @return ResponseResult 响应结果
+     */
+    ResponseResult syncMapTsDistrict(HttpServletRequest request);
+
+    /**
+     * 省市区县级联查询
+     * @param request 请求参数
+     * @return ResponseResult 响应结果
+     */
+    ResponseResult getProvCityDist(HttpServletRequest request);
 }

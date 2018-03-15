@@ -28,14 +28,17 @@
                                     <a id="btn_delete_tsDistrict" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="false">删除</a>
                                     <a id="btn_import_tsDistrict" href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="false">导入</a>
                                     <a id="btn_export_tsDistrict" href="#" class="easyui-linkbutton" iconCls="icon-redo" plain="false">导出</a>
+                                    <a id="btn_sync_map_tsDistrict" href="#" class="easyui-linkbutton" iconCls="icon-redo" plain="false">同步地图省市</a>
                                 </td>
 
                             </tr>
                         </table>
                         <table>
                             <tr>
-                                <td><input id="form_tscKey" class="easyui-textbox" label ="控制键：" labelWidth="65" labelAlign="right" type="text" style="width: 99%;" name="tscKey" /></td>
-                                <td><input id="form_tscValue" class="easyui-textbox" label ="控制值：" labelWidth="65" labelAlign="right" type="text" style="width: 99%;" name="tscValue"  /></td>
+                                <td><input id="form_distCode" class="easyui-textbox" label ="区域编码：" labelWidth="65" labelAlign="right" type="text" style="width: 99%;" name="distCode" /></td>
+                                <td><input id="form_distName" class="easyui-textbox" label ="区域名称：" labelWidth="65" labelAlign="right" type="text" style="width: 99%;" name="distName"  /></td>
+                                <td><input id="form_distParentCode" class="easyui-textbox" label ="父级编码：" labelWidth="65" labelAlign="right" type="text" style="width: 99%;" name="distParentCode" /></td>
+                                <td><input id="form_distParentName" class="easyui-textbox" label ="父级名称：" labelWidth="65" labelAlign="right" type="text" style="width: 99%;" name="distParentName"  /></td>
                                 <td>
                                     <a id="btn_search_tsDistrict" href="#" class="easyui-linkbutton" iconCls="icon-search" plain="false">查询</a>
                                     <a id="btn_reset_tsDistrict" href="#" class="easyui-linkbutton" iconCls="icon-undo" plain="false">重置</a>
@@ -52,12 +55,17 @@
     <form id="window_form_tsDistrict" style="margin: 0 auto;">
         <table>
             <tr style="text-align: right;">
-                <td style="display: none;"><label form="tscId">主键:</label><input id="text_tscId" name="tscId"/></td>
-                <td><label form="text_tscKey">控制键:</label><input id="text_tscKey" class="easyui-validatebox" name="tscKey" data-options="required:true"></td>
-                <td><label form="text_tscValue">控制值:</label><input id="text_tscValue" class="easyui-validatebox" name="tscValue"  data-options="required:true"/></td>
+                <td style="display: none"><label form="text_Id">区域编码:</label><input id="text_distId" class="easyui-validatebox" name="distId"></td>
+                <td><label form="text_distCode">区域编码:</label><input id="text_distCode" class="easyui-validatebox" name="distCode" data-options="required:true"></td>
+                <td><label form="text_distName">区域名称:</label><input id="text_distName" class="easyui-validatebox" name="distName"  data-options="required:true"/></td>
             </tr>
             <tr style="text-align: right;">
-                <td colspan=2 form="text_tscRemark"><label >描述:</label><input id="text_tscRemark" class="easyui-validatebox" name="tscRemark"  style="width: 89%;"/></td>
+                <td><label form="text_distParentCode">父级编码:</label><input id="text_distParentCode" class="easyui-validatebox" name="distParentCode"></td>
+                <td><label form="text_distParentName">父级名称:</label><input id="text_distParentName" class="easyui-validatebox" name="distParentName"/></td>
+            </tr>
+            <tr style="text-align: right;">
+                <td><label form="text_distLonlat">区域经纬:</label><input id="text_distLonlat" class="easyui-validatebox" name="distLonlat"></td>
+                <td><label form="text_distLevel">父级名称:</label><input id="text_distLevel" class="easyui-validatebox" name="distLevel"/></td>
             </tr>
         </table>
     </form>

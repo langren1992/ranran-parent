@@ -31,7 +31,8 @@ var url_dg_tsDistrict = './tsDistrict/selectTsDistrict.html',
     url_delete_tsDistrict = './tsDistrict/deleteTsDistricts.html',
     url_import_tsDistrict = './tsDistrict/importTsDistricts.html',
     url_export_tsDistrict = './tsDistrict/exportTsDistricts.html',
-    url_download_tsDistrict = './tsDistrict/downloadTsDistrict.html';
+    url_download_tsDistrict = './tsDistrict/downloadTsDistrict.html',
+    url_sync_map_tsDistrict = './tsDistrict/syncMapTsDistrict.html';
 
 /**
 * **********************************
@@ -43,8 +44,8 @@ var btn_add_tsDistrict = '#btn_add_tsDistrict',
     btn_search_tsDistrict = '#btn_search_tsDistrict',
     btn_reset_tsDistrict = '#btn_reset_tsDistrict',
     btn_import_tsDistrict = '#btn_import_tsDistrict',
-    btn_export_tsDistrict = '#btn_export_tsDistrict';
-
+    btn_export_tsDistrict = '#btn_export_tsDistrict',
+    btn_sync_map_tsDistrict = '#btn_sync_map_tsDistrict';
 
 function initComponent(){
     /**
@@ -53,16 +54,21 @@ function initComponent(){
     $(dg_tsDistrict).datagrid({
         fit:true,
         rownumbers: true,
-        idField: 'tscId',
+        idField: 'distId',
         singleSelect:true,
         pagination:true,
         toolbar:toolbar_dg_tsDistrict,
+        pageList:[50,100,250,500],
+        pageSize:50,
         columns: [[
             { field:'ck',checkbox:true },
-            { field: 'distId', width: 120, sortable: true,hidden:true },
-            { field: 'distAdcode', title: '控制键', width: 120, sortable: true,editor:'textbox' },
-            { field: 'distName', title: '控制值', width: 120, sortable: true,editor:'textbox' },
-            { field: 'tscRemark', title: '描述', width: 160, sortable: true,editor:'textbox' }
+            { field: 'distId',title: '区域id', width: 120, sortable: true ,hidden:true},
+            { field: 'distCode',title: '区域编码', width: 120, sortable: true },
+            { field: 'distName', title: '区域名称', width: 120, sortable: true,editor:'textbox' },
+            { field: 'distParentCode', title: '父级编码', width: 120, sortable: true,editor:'textbox' },
+            { field: 'distParentName', title: '父级名称', width: 120, sortable: true,editor:'textbox' },
+            { field: 'distLonlat', title: '区域经纬', width: 120, sortable: true,editor:'textbox' },
+            { field: 'distLevel', title: '区域等级', width: 160, sortable: true,editor:'textbox' }
         ]],
         queryParams:{
             tscKey: '',
@@ -285,6 +291,30 @@ function btnExportTsDistrict() {
     $.messager.progress('close');	// 如果提交成功则隐藏进度条
 };
 
+/**
+ * 通过地图应用同步省市区县数据
+ */
+function btnSyncMapTsDistrict() {
+    $.ajax({
+        type: "POST",
+        url: url_sync_map_tsDistrict,
+        contentType:"application/json",
+        dataType: "json",
+        success: function(data){
+            if (data.error){
+                parent.$.messager.alert("提示信息",data.message);
+            }
+            if(data.success){
+                parent.$.messager.alert("提示信息",data.message);
+            }
+            reloadComponent();
+        }
+    });
+};
+
+/**
+ * 初始化按钮功能
+ */
 function initBtnBindFun() {
     //新增控制参数
     $(btn_add_tsDistrict).bind('click', function () {
@@ -309,6 +339,10 @@ function initBtnBindFun() {
     //导出数据
     $(btn_export_tsDistrict).bind('click',function () {
         btnExportTsDistrict();
+    });
+    //同步第三方数据
+    $(btn_sync_map_tsDistrict).bind('click',function () {
+        btnSyncMapTsDistrict();
     });
 };
 

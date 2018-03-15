@@ -6,14 +6,17 @@
           WARNING - @mbggenerated
         -->
         <result column="dist_id" jdbcType="BIGINT" property="distId" />
-        <result column="dist_code" jdbcType="BIGINT" property="distCode" />
+        <result column="dist_code" jdbcType="VARCHAR" property="distCode" />
         <result column="dist_name" jdbcType="VARCHAR" property="distName" />
-        <result column="dist_parent_code" jdbcType="BIGINT" property="distParentCode" />
+        <result column="dist_parent_code" jdbcType="VARCHAR" property="distParentCode" />
+        <result column="dist_parent_name" jdbcType="VARCHAR" property="distParentName" />
         <result column="dist_citycode" jdbcType="VARCHAR" property="distCitycode" />
-        <result column="dist_adcode" jdbcType="VARCHAR" property="distAdcode" />
-        <result column="dist_lon" jdbcType="DECIMAL" property="distLon" />
-        <result column="dist_lat" jdbcType="DECIMAL" property="distLat" />
+        <result column="dist_lonlat" jdbcType="VARCHAR" property="distLonlat" />
         <result column="dist_level" jdbcType="VARCHAR" property="distLevel" />
+        <result column="create_time" jdbcType="DATE" property="createTime" />
+        <result column="creator" jdbcType="VARCHAR" property="creator" />
+        <result column="modify_time" jdbcType="DATE" property="modifyTime" />
+        <result column="modifier" jdbcType="VARCHAR" property="modifier" />
     </resultMap>
 
 </mapper>

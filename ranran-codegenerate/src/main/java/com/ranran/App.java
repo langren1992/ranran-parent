@@ -33,8 +33,8 @@ public class App {
 //        templateInfoList.add(new HControllerLocalTemplate());
 //        templateInfoList.add(new HControllerTemplate());
 //        templateInfoList.add(new HMapperTemplate());
-//        templateInfoList.add(new HMapperXmlTemplate());
-//        templateInfoList.add(new HModelTemplate());
+        templateInfoList.add(new HMapperXmlTemplate());
+        templateInfoList.add(new HModelTemplate());
 //        templateInfoList.add(new HServiceImplTemplate());
 //        templateInfoList.add(new HServiceTemplate());
 //        templateInfoList.add(new HVoDeleteTemplate());
@@ -43,7 +43,7 @@ public class App {
 //        templateInfoList.add(new HVoSelectTemplate());
 //        templateInfoList.add(new HVoUpdateTemplate());
 //        templateInfoList.add(new QHtmlTemplate());
-        templateInfoList.add(new QJsTemplate());
+//        templateInfoList.add(new QJsTemplate());
         Coder coder = new Coder();
         coder.generate(generateInfo,templateInfoList);
 //        整个库生成

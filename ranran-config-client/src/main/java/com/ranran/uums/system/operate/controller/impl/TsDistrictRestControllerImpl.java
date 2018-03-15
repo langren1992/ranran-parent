@@ -97,4 +97,28 @@ public class TsDistrictRestControllerImpl extends RestBaseController implements 
     public void downloadTsDistrict(HttpServletResponse response) {
         tsDistrictRestController.downloadTsDistrict(response);
     }
+
+    /**
+     * 通过第三方获取省市区县信息 高德（IMAP）
+     *
+     * @param request 请求参数
+     * @return ResponseResult 响应结果
+     */
+    @Override
+    @PostMapping("/syncMapTsDistrict.html")
+    public ResponseResult syncMapTsDistrict(HttpServletRequest request) {
+        return tsDistrictRestController.syncMapTsDistrict(request);
+    }
+
+    /**
+     * 省市区县级联查询
+     *
+     * @param request 请求参数
+     * @return ResponseResult 响应结果
+     */
+    @Override
+    @PostMapping("/getProvCityDist.html")
+    public ResponseResult getProvCityDist(HttpServletRequest request) {
+        return tsDistrictRestController.getProvCityDist(request);
+    }
 }
