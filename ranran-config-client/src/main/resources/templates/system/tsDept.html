@@ -8,8 +8,10 @@
     <link rel="stylesheet" type="text/css" href="./static/easyui/themes/metro/easyui.css">
     <link rel="stylesheet" type="text/css" href="./static/easyui/themes/icon.css">
     <script type="text/javascript" src="./static/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="./static/easyui/locale/easyui-lang-zh_CN.js"></script>
     <script type="text/javascript" src="./static/easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="./static/plugins-me/jQuery.ddic.js"></script>
+    <script type="text/javascript" src="./static/plugins-me/jQuery.drop.list.js"></script>
     <script type="text/javascript" src="./static/js/system/tsDept.js"></script>
 </head>
 <body>
@@ -45,33 +47,33 @@
                                 <tr style="text-align: right">
                                     <td style="width:25%"><input id="combo_deptLevel" class="easyui-combobox" label ="部门级别：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="deptLevel"/></td>
                                     <td style="width:25%"><input class="easyui-searchbox" label ="负责人：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="deptLeadName" /></td>
-                                    <td style="width:25%"><input class="easyui-textbox" label ="服务电话：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="resStatus" /></td>
+                                    <td style="width:25%"><input id="ddddddd" class="easyui-droplist" label ="服务电话：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="resStatus" data-options="queryParams:{distLevel:'province'}"/></td>
                                     <td></td>
                                 </tr>
                                 <tr style="text-align: right">
-                                    <td style="width:25%"><input id="comb_deptProvince" class="easyui-combobox" label ="所在省：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="deptProvince" /></td>
-                                    <td style="width:25%"><input id="comb_deptCity" class="easyui-combobox" label ="所在市：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" style="" name="deptCity"     /></td>
-                                    <td style="width:25%"><input id="comb_deptDistrict" class="easyui-combobox" label ="所在区/县：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="deptDistrict"  /></td>
-                                    <td style="width:25%"><input id="combo_deptStatus" class="easyui-combobox" label ="部门状态：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" style="" name="deptStatus"   /></td>
-                                    <td></td>
+                                    <!--<td style="width:25%"><input id="comb_deptProvince" class="easyui-combobox" label ="所在省：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="deptProvince" /></td>-->
+                                    <!--<td style="width:25%"><input id="comb_deptCity" class="easyui-combobox" label ="所在市：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" style="" name="deptCity"     /></td>-->
+                                    <!--<td style="width:25%"><input id="comb_deptDistrict" class="easyui-combobox" label ="所在区/县：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="deptDistrict"  /></td>-->
+                                    <!--<td style="width:25%"><input id="combo_deptStatus" class="easyui-combobox" label ="部门状态：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" style="" name="deptStatus"   /></td>-->
+                                    <!--<td></td>-->
                                 </tr>
                                 <tr style="text-align: right">
                                     <td colspan=2><input id="form_deptAddress" class="easyui-textbox" label ="详细地址：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" name="deptAddress"  /></td>
                                     <td style="width:20%"><input class="easyui-textbox" label ="经纬度：" labelWidth="91" labelAlign="right" type="text" style="width: 100%;" style="" name="deptLon"/></td>
                                     <td></td>
                                 </tr>
-                                <tr class="easyui-ddicPCD" data-options="province:'recv_prov_code',city:'recv_city_code',district:'recv_area_code',buttonId:'recv_btn_reset'">
-                                    <td>
-                                        <input id='recv_prov_code' name='recv_prov_code' class='easyui-combobox'/>
-                                    </td>
-                                    <td>
-                                        <input id='recv_city_code' name='recv_city_code' class='easyui-combobox'/>
-                                    </td>
-                                    <td>
-                                        <input id='recv_area_code' name='recv_area_code' class='easyui-combobox' />
-                                    </td>
-                                    <td><a href="#" id='recv_btn_reset' class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true"></a></td>
-                                </tr>
+                                <!--<tr class="easyui-ddicPCD" data-options="province:'recv_prov_code',city:'recv_city_code',district:'recv_area_code',buttonId:'recv_btn_reset'">-->
+                                    <!--<td>-->
+                                        <!--<input id='recv_prov_code' name='recv_prov_code' class='easyui-combobox'/>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input id='recv_city_code' name='recv_city_code' class='easyui-combobox'/>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input id='recv_area_code' name='recv_area_code' class='easyui-combobox' />-->
+                                    <!--</td>-->
+                                    <!--<td><a href="#" id='recv_btn_reset' class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true"></a></td>-->
+                                <!--</tr>-->
                             </table>
                         </form>
                     </div>

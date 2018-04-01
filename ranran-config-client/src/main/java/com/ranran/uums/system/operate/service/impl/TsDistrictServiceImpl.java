@@ -257,10 +257,10 @@ public class TsDistrictServiceImpl implements TsDistrictService {
         Example example = new Example(TsDistrict.class);
         Example.Criteria criteria = example.createCriteria();
         if(StringUtils.isNotBlank(tsDistrictProvCityDistVo.getDistCode())){
-            criteria.andEqualTo("distCode",tsDistrictProvCityDistVo.getDistCode());
+            criteria.andLike("distCode",tsDistrictProvCityDistVo.getDistCode()+"%");
         }
         if(StringUtils.isNotBlank(tsDistrictProvCityDistVo.getDistName())){
-            criteria.andEqualTo("distName",tsDistrictProvCityDistVo.getDistName());
+            criteria.andLike("distName",tsDistrictProvCityDistVo.getDistName()+"%");
         }
         if(StringUtils.isNotBlank(tsDistrictProvCityDistVo.getDistParentCode())){
             criteria.andEqualTo("distParentCode",tsDistrictProvCityDistVo.getDistParentCode());

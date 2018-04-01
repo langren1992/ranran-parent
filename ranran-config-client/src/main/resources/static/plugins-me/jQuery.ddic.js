@@ -11,76 +11,57 @@
         var comb_deptCity = '#'+opt.city;
         var comb_deptDistrict = '#'+opt.district;
         var btn_buttonId = '#'+opt.buttonId;
-        var dv;
-        var city;
+
+        function nav(_16,dir){
+            var _17=$.data(_16,"combogrid");
+            var _18=_17.options;
+            var _19=_17.grid;
+            var _1a=_19.datagrid("getRows").length;
+            if(!_1a){
+                return;
+            }
+            var tr=_18.finder.getTr(_19[0],null,"highlight");
+            if(!tr.length){
+                tr=_18.finder.getTr(_19[0],null,"selected");
+            }
+            var _1b;
+            if(!tr.length){
+                _1b=(dir=="next"?0:_1a-1);
+            }else{
+                var _1b=parseInt(tr.attr("datagrid-row-index"));
+                _1b+=(dir=="next"?1:-1);
+                if(_1b<0){
+                    _1b=_1a-1;
+                }
+                if(_1b>=_1a){
+                    _1b=0;
+                }
+            }
+            _19.datagrid("highlightRow",_1b);
+            if(_18.selectOnNavigation){
+                _17.remainText=false;
+                _19.datagrid("selectRow",_1b);
+            }
+        };
+        var flag = true;
         $(comb_deptProvince).combogrid({
-            valueField: 'distCode',
+            panelWidth:480,
+            idField: 'distCode',
             textField: 'distName',
             queryParams:{
                 distLevel:'province'
             },
-            onSelect:function (record) {
-                $(comb_deptCity).combobox({queryParams:{distLevel:'city',distParentCode:record.distCode}});
-                $(comb_deptDistrict).combobox('setValue','');
-
-            },
-            loader: function(param, success, error) {
-                $.ajax({
-                    type : 'POST',
-                    url : './tsDistrict/getProvCityDist.html',
-                    dataType : 'json',
-                    contentType : 'application/json;charset=utf-8', // 设置请求头信息
-                    data : JSON.stringify(param),
-                    success : function(result) {
-                        success(result.data);
-                    }
-                });
-            }
-        });
-
-        var flag = true;
-        $(comb_deptCity).combogrid({
-            valueField: 'distCode',
-            textField: 'distName',
-            queryParams:{
-                distLevel:'city'
-            },
-            onSelect:function (record) {
-                var dv = $(comb_deptDistrict).combobox('getValue');
-                if(dv == ""){
-                    $(comb_deptDistrict).combobox({queryParams:{distLevel:'district',distParentCode:record.distCode}});
+            pagination:true,
+            columns:[[
+                {field:'distCode',title:'省编码',width:120},
+                {field:'distName',title:'省名称',width:120}
+            ]],
+            onChange:function (newValue, oldValue) {
+                $(comb_deptCity).combogrid({queryParams:{distParentCode:newValue,distLevel:'city'}});
+                if(flag){
+                    $(comb_deptDistrict).combogrid({queryParams:{distLevel:'district'}});
                 }
-                $(comb_deptProvince).combobox('setValue',record.distParentCode);
-            },
-            loader: function(param, success, error) {
-                $.ajax({
-                    type : 'POST',
-                    url : './tsDistrict/getProvCityDist.html',
-                    dataType : 'json',
-                    contentType : 'application/json;charset=utf-8', // 设置请求头信息
-                    data : JSON.stringify(param),
-                    success : function(result) {
-                        city = result.data;
-                        success(result.data);
-                    }
-                });
-            },
-            onChange:function (newValue,oldValue) {
-                //区县
-                var dv = $(comb_deptDistrict).combobox('getValue');
-                $(comb_deptDistrict).combobox({queryParams:{distLevel:'district',distParentCode:newValue}});
-                $(comb_deptDistrict).combobox('setValue',dv);
-            }
-        });
 
-        $(comb_deptDistrict).combogrid({
-            valueField: 'distCode',
-            textField: 'distName',
-            queryParams:{
-                distLevel:'district'
-            },
-            onSelect:function (record) {
-                $(comb_deptCity).combobox('setValue',record.distParentCode);
             },
             loader: function(param, success, error) {
                 $.ajax({
@@ -95,26 +76,215 @@
                 });
             }
             ,
-            onLoadSuccess:function () {
-                var dates = $(comb_deptDistrict).combobox('getData');
-                //区县编码
-                var dv = $(comb_deptDistrict).combobox('getValue');
-                var flag = true;
-                for (var i = 0; i < dates.length; i++){
-                    if (dates[i].distCode == dv){
-                        flag = false;
-                    }
+            keyHandler:{
+                up:function(e){
+                    nav(this,"prev");
+                    e.preventDefault();
+                },
+                down:function(e){
+                    nav(this,"next");
+                    e.preventDefault();
+                },
+                enter: function(e){
+                    $(this).combogrid("hidePanel");
+                },
+                query: function(q,e){
+                    var combogrid = $.data(this,"combogrid");
+                    var gridOpt = combogrid.grid;
+                    gridOpt.datagrid("highlightRow",0);
+                    gridOpt.datagrid({
+                        queryParams:{
+                            distLevel:'province',
+                            distName:q
+                        },
+                        onLoadSuccess:function (data){
+                            var opt = $(this).datagrid('options');
+                            var text = opt.queryParams[opt.textField];
+                            if(text != '' && text != undefined){
+                                $(this).datagrid('highlightRow',0);
+                                if(data.rows.length!=0){
+                                    $(this).datagrid('selectRecord',data.rows[0][opt.idField]);
+                                }
+                            }
+                        }
+                    });
                 }
-                if(flag){
-                    $(comb_deptDistrict).combobox('setValue','');
+            }
+        });
+
+        $(comb_deptCity).combogrid({
+            panelWidth:480,
+            idField: 'distCode',
+            textField: 'distName',
+            queryParams:{
+                distLevel:'city'
+            },
+            pagination:true,
+            columns:[[
+                {field:'distCode',title:'市编码',width:120},
+                {field:'distName',title:'市名称',width:120},
+                {field:'distParentCode',title:'省编码',width:120},
+                {field:'distParentName',title:'省名称',width:120}
+            ]],
+            onChange:function (newValue, oldValue) {
+                //根据newValue 找出 parentCode
+                var dates = $(this).combogrid('grid').datagrid('getData');
+                var idField = $(this).combogrid('grid').datagrid('options').idField;
+                var record = queryParentCode(dates.rows,idField,newValue);
+                flag = false;
+                $(comb_deptProvince).combogrid('setValue',record.distParentCode);
+                flag = true;
+                var dist = $(comb_deptDistrict).combogrid('getValue');
+                $(comb_deptDistrict).combogrid('grid').datagrid({queryParams:{distParentCode:newValue,distLevel:'district'}});
+                $(this).combogrid('setValue',newValue);
+                //通过数据查询选中的记录
+                function queryParentCode(array,idField,newValue){
+                    var result, len=array.length, pos=0;
+                    while(pos<len){
+                        if(array[pos][idField] == newValue){//未找到就退出循环完成搜索
+                            result = array[pos];//找到就存储索引
+                            return result;
+                        }
+                        pos+=1;//并从下个位置开始搜索
+                    }
+                    return result;
+                }
+
+            },
+            loader: function(param, success, error) {
+                $.ajax({
+                    type : 'POST',
+                    url : './tsDistrict/getProvCityDist.html',
+                    dataType : 'json',
+                    contentType : 'application/json;charset=utf-8', // 设置请求头信息
+                    data : JSON.stringify(param),
+                    success : function(result) {
+                        success(result.data);
+                    }
+                });
+            },
+            keyHandler:{
+                up:function(e){
+                    nav(this,"prev");
+                    e.preventDefault();
+                },
+                down:function(e){
+                    nav(this,"next");
+                    e.preventDefault();
+                },
+                enter: function(e){
+                    $(this).combogrid("hidePanel");
+                },
+                query: function(q,e){
+                    var combogrid = $.data(this,"combogrid");
+                    var grid = combogrid.grid;
+                    var gridOpt = grid.datagrid('options');
+                    gridOpt.queryParams['distLevel'] = 'city';
+                    gridOpt.queryParams['distName'] = q;
+                    var province = $(comb_deptProvince).combogrid('getValue');
+                    if(province != ''){
+                        gridOpt.queryParams['distParentCode'] = province;
+                    }
+                    grid.datagrid({
+                        onLoadSuccess:function (data){
+                            var opt = $(this).datagrid('options');
+                            var text = opt.queryParams[opt.textField];
+                            if(text != '' && text != undefined){
+                                $(this).datagrid('highlightRow',0);
+                                if(data.rows.length!=0){
+                                    $(this).datagrid('selectRecord',data.rows[0][opt.idField]);
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        $(comb_deptDistrict).combogrid({
+            panelWidth:480,
+            idField: 'distCode',
+            textField: 'distName',
+            queryParams:{
+                distLevel:'district'
+            },
+            pagination:true,
+            columns:[[
+                {field:'distCode',title:'区县编码',width:120},
+                {field:'distName',title:'区县名称',width:120},
+                {field:'distParentCode',title:'市编码',width:120},
+                {field:'distParentName',title:'市名称',width:120}
+            ]],
+            onChange:function (newValue, oldValue) {
+                $(this).combogrid("grid").datagrid('selectRecord',newValue);
+                var row = $(this).combogrid("grid").datagrid('getSelected');
+                if(row != null){
+                    $(comb_deptCity).combogrid('setValue',row.distParentCode);
+                }else {
+                    $(comb_deptProvince).combogrid({queryParams:{distLevel:'province'}});
+                    $(comb_deptCity).combogrid({queryParams:{distLevel:'city'}});
+                    $(this).combogrid({queryParams:{distLevel:'district'}});
+                }
+            },
+            loader: function(param, success, error) {
+                $.ajax({
+                    type : 'POST',
+                        url : './tsDistrict/getProvCityDist.html',
+                    dataType : 'json',
+                    contentType : 'application/json;charset=utf-8', // 设置请求头信息
+                    data : JSON.stringify(param),
+                    success : function(result) {
+                        success(result.data);
+                    }
+                });
+            },
+            keyHandler:{
+                up:function(e){
+                    nav(this,"prev");
+                    e.preventDefault();
+                },
+                down:function(e){
+                    nav(this,"next");
+                    e.preventDefault();
+                },
+                enter: function(e){
+                    $(this).combogrid("hidePanel");
+                },
+                query: function(q,e){
+                    var combogrid = $.data(this,"combogrid");
+                    var grid = combogrid.grid;
+                    var gridOpt = grid.datagrid('options');
+                    gridOpt.queryParams['distLevel'] = 'district';
+                    gridOpt.queryParams['distName'] = q;
+                    var city = $(comb_deptCity).combogrid('getValue');
+                    if(city != ''){
+                        gridOpt.queryParams['distParentCode'] = city;
+                    }
+                    grid.datagrid({
+                        queryParams:{
+                            distLevel:'district',
+                            distName:q
+                        },
+                        onLoadSuccess:function (data){
+                            var opt = $(this).datagrid('options');
+                            var text = opt.queryParams[opt.textField];
+                            if(text != '' && text != undefined){
+                                $(this).datagrid('highlightRow',0);
+                                if(data.rows.length!=0){
+                                    $(this).datagrid('selectRecord',data.rows[0][opt.idField]);
+                                }
+                            }
+                        }
+                    });
+                    $(this).combogrid("hidePanel");
                 }
             }
         });
         $(btn_buttonId).linkbutton({
             onClick:function () {
-                $(comb_deptProvince).combobox({queryParams:{type:'province'}});
-                $(comb_deptCity).combobox({queryParams:{type:'city'}});
-                $(comb_deptDistrict).combobox({queryParams:{type:'area'}});
+                $(comb_deptProvince).combogrid({queryParams:{type:'province'}});
+                $(comb_deptCity).combogrid({queryParams:{type:'city'}});
+                $(comb_deptDistrict).combogrid({queryParams:{type:'district'}});
             }
         });
     }

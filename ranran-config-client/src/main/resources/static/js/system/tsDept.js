@@ -269,8 +269,6 @@ function initComponent(){
         }
     });
 
-
-
 	$(tree_dept).tree({
         url:url_tree_dept,
         method:'post',
@@ -284,6 +282,7 @@ function initComponent(){
 				return convertsoTree(rows.data);
 		}
 	});
+
 };
 
 /**

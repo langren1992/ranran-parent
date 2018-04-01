@@ -110,11 +110,6 @@
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>1.0.25</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.37</version>
         </dependency>
@@ -192,6 +187,11 @@
             <groupId>cn.afterturn</groupId>
             <artifactId>easypoi-annotation</artifactId>
             <version>3.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.0</version>
         </dependency>
     </dependencies>
 </project>
