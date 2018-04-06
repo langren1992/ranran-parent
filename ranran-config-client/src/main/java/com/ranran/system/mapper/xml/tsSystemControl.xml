@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ranran.system.mapper.TsSystemControlMapper">
+    <resultMap id="TsSystemControlMap" type="com.ranran.system.model.TsSystemControl">
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <result column="tsc_id" jdbcType="BIGINT" property="tscId" />
+        <result column="tsc_key" jdbcType="VARCHAR" property="tscKey" />
+        <result column="tsc_value" jdbcType="VARCHAR" property="tscValue" />
+        <result column="tsc_remark" jdbcType="VARCHAR" property="tscRemark" />
+        <result column="creator" jdbcType="VARCHAR" property="creator" />
+        <result column="create_time" jdbcType="DATE" property="createTime" />
+        <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+        <result column="modify_time" jdbcType="DATE" property="modifyTime" />
+        <result column="org_code" jdbcType="VARCHAR" property="orgCode" />
+    </resultMap>
+
+</mapper>

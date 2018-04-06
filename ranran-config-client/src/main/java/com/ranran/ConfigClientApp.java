@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 //@RefreshScope           //自动刷新作用域的值
 //@EnableCircuitBreaker   //激化熔断器监控
 @ComponentScan(basePackages = "com.ranran")
-@MapperScan(basePackages = {"com.ranran.uums.**.mapper","com.ranran.sql.**.mapper"})
+@MapperScan(basePackages = {"com.ranran.system.**.mapper","com.ranran.base.**.mapper","com.ranran.uidevelop.**.mapper"})
 @EnableTransactionManagement //开启事务管理
 public class ConfigClientApp {
 

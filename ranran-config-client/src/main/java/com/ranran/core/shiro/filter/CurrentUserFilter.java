@@ -1,8 +1,8 @@
 package com.ranran.core.shiro.filter;
 
 import com.ranran.core.shiro.util.Constants;
-import com.ranran.uums.base.mapper.LoginUserMapper;
-import com.ranran.uums.system.model.TsUser;
+import com.ranran.base.mapper.LoginUserMapper;
+import com.ranran.system.model.TsUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.web.filter.PathMatchingFilter;
 import org.springframework.beans.factory.annotation.Autowired;

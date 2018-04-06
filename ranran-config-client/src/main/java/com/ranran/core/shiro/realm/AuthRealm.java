@@ -1,8 +1,8 @@
 package com.ranran.core.shiro.realm;
 
 
-import com.ranran.uums.base.mapper.LoginUserMapper;
-import com.ranran.uums.system.model.TsUser;
+import com.ranran.base.mapper.LoginUserMapper;
+import com.ranran.system.model.TsUser;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;

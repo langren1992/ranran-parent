@@ -1,6 +1,6 @@
 package com.ranran.core.shiro.util;
 
-import com.ranran.uums.system.model.TsUser;
+import com.ranran.system.model.TsUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;

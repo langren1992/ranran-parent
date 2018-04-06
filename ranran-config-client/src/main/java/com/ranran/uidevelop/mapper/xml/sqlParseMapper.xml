@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ranran.uidevelop.mapper.SqlParseMapper">
+
+    <select id="selectTables" resultType="com.ranran.uidevelop.model.TableModel" parameterType="com.ranran.uidevelop.model.TableModel">
+        select
+            table_schema tableSchema,
+            table_name tableName,
+            table_comment tableComment
+        from information_schema.tables
+        <where>
+            <if test="tableSchema != null and tableSchema != ''" >
+              and  table_schema = #{tableSchema}
+            </if>
+            <if test="tableName != null and tableName != ''" >
+              and  table_name = #{tableName}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectTableColumns" resultType="com.ranran.uidevelop.model.ColumnModel" parameterType="com.ranran.uidevelop.model.ColumnModel">
+        select
+            table_schema tableSchema,
+            table_name tableName,
+            column_name columnName,
+            column_comment columnComment
+        from information_schema.columns
+        <where>
+            <if test="tableSchema != null and tableSchema != ''" >
+              and table_schema = #{tableSchema}
+            </if>
+            <if test="tableName != null and tableName != ''" >
+              and table_name = #{tableName}
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -1,4 +1,25 @@
 /**
+ * 初始化系统名称
+ * @type {string}
+ */
+appName = "/config-client";
+/**
+ * ddic数据字典组件请求url
+ * @type {string}
+ */
+ddicUrl = appName + "/tsDict/selectTsDict.html";
+/**
+ * 初始化省市区县组件请求url
+ * @type {string}
+ */
+ddicPCDUrl = appName + "/tsDistrict/selectTsDistrict.html";
+/**
+ * 下拉选通用组件请求url
+ * @type {string}
+ */
+ddicDroplistUrl = appName + "/droplist/queryDropListData.html" ;
+
+/**
  * 对Date的扩展，将 Date 转化为指定格式的String
  * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q) 可以用 1-2 个占位符
  * 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)

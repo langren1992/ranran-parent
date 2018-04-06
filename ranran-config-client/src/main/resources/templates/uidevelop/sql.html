@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>界面开发</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="./static/easyui/themes/metro/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./static/easyui/themes/icon.css">
+    <script type="text/javascript" src="./static/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="./static/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="./static/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="./static/jeasyui-extension/jQuery.ddic.js"></script>
+    <script type="text/javascript" src="./static/jeasyui-extension/jQuery.drop.list.js"></script>
+    <script type="text/javascript" src="./static/js/common.js"></script>
+    <script type="text/javascript" src="./static/js/uidevelop/sql.js"></script>
+</head>
+<body>
+    <div class="easyui-layout" data-options="fit: true">
+        <div data-options="region:'north'" style="height:100px">
+            <table style="width:100%">
+                <tr>
+                    <td style="width: 33%"><input id="form_roleNo" label ="编码：" labelWidth="65" labelAlign="right" type="text" style="width: 99%;" name="roleNo"  /></td>
+                    <td style="width: 33%"><input id="form_roleName" class="easyui-textbox" label ="名称：" labelWidth="65" labelAlign="right" type="text" style="width: 99%;" name="roleName" /></td>
+                    <td style="width: 33%"><input id="form_roleStatus" class="easyui-ddic" label ="状态：" labelWidth="65" labelAlign="right" type="text" style="width: 99%;" name="roleStatus" data-options="queryParams:{tdKey:'ROLE_STATUS',tdType:2}" /></td>
+                </tr>
+            </table>
+        </div>
+        <div data-options="region:'center'">
+            <div class="easyui-layout" data-options="fit:true">
+                <div data-options="region:'west',collapsed:true" style="width:180px"></div>
+                <div data-options="region:'center'"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
